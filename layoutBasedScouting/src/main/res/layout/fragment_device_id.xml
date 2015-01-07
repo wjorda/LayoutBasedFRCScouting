@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+    
+	<RadioGroup
+	    android:id="@+id/idgroup"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:gravity="center_horizontal"
+	    android:orientation="vertical" >
+	
+	    <RadioButton
+	        android:id="@+id/red1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Red 1" 
+	        />
+	
+	    <RadioButton
+	        android:id="@+id/red2"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Red 2"
+	        />
+	
+	    <RadioButton
+	        android:id="@+id/red3"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Red 3" 
+			/>	
+	    <RadioButton
+	        android:id="@+id/blue1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Blue 1" 
+			/>	
+	    <RadioButton
+	        android:id="@+id/blue2"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Blue 2" 
+	        />
+	
+	    <RadioButton
+	        android:id="@+id/blue3"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Blue 3" />
+	
+	    <RadioButton
+	        android:id="@+id/otherRadio"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Other" />
+
+	    <Button
+	        android:id="@+id/buttonId"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="@dimen/activity_horizontal_margin"
+	        android:text="Confirm" />
+	
+	</RadioGroup>
+
+</LinearLayout>

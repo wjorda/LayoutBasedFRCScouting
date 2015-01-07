@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/wes/android-sdk-linux/extras/android/m2repository/com/android/support/support-annotations/21.0.0/support-annotations-21.0.0.jar"
+        jumboMode="false"
+        revision="21.0.0"
+        sha1="1a578b9607b36266c63d43a4fa0ab5664dbe911e">
+        <dex dex="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/support-annotations-21.0.0-d920f493a28ef5f4df99cecb16eb9554bf9e185a.jar" />
+    </item>
+    <item
+        jar="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/libs/internal_impl-21.0.0.jar"
+        jumboMode="false"
+        revision="21.0.0"
+        sha1="1609e6d42d0480b0f4188e2c29f75388fa12a8f0">
+        <dex dex="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/internal_impl-21.0.0-e2bfdaaba8420308eb3e0882b1e47b4a0ec3693d.jar" />
+    </item>
+    <item
+        jar="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/exploded-aar/LayoutBasedScouting/ActionBarSherlock/unspecified/classes.jar"
+        jumboMode="false"
+        revision="21.0.0"
+        sha1="717c9611def1657f2ca76a8296a5d1098fceaa26">
+        <dex dex="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-0b1f981640855ef484cfa172ef538517cbf8aa1e.jar" />
+    </item>
+    <item
+        jar="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/classes.jar"
+        jumboMode="false"
+        revision="21.0.0"
+        sha1="686344a780033e4ba22b926cd225f8d4941247e6">
+        <dex dex="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-b67d9a553e553baa5d996ddb01da1d3de86dcb4c.jar" />
+    </item>
+    <item
+        jar="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/exploded-aar/LayoutBasedScouting/aFileDialog/unspecified/classes.jar"
+        jumboMode="false"
+        revision="21.0.0"
+        sha1="662676a8fa6516bed8e783e6ce7497c67b168ae9">
+        <dex dex="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-d9bc1ed0265eca640a07a135eebbad7897d8fe44.jar" />
+    </item>
+    <item
+        jar="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/libs/javacsv.jar"
+        jumboMode="false"
+        revision="21.0.0"
+        sha1="afed46cadd463453bbf007625ecfa3afac097f37">
+        <dex dex="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/javacsv-1c6e47bc7ec1b3ce934f753506810d1526ef50aa.jar" />
+    </item>
+
+</items>

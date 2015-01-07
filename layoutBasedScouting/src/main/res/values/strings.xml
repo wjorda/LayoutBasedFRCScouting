@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FRC Scouting</string>
+    <string name="action_settings">Settings</string>
+    <string name="team_num">"Team "</string>
+    <string name="offensive_rating">"Offensive: "</string>
+    <string name="defensive_rating">"Defensive: "</string>
+    <string name="add_team">Add Team</string>
+    <string name="match_num">"Match "</string>
+    <string name="title_activity_match_editor">MatchEditorActivity</string>
+    <string name="action_save">Save Match</string>
+    <string name="title_activity_team_viewer">TeamViewerActivity</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="title_activity_team_search">TeamSearchActivity</string>
+    <string name="title_activity_first_launch">FirstLaunchActivity</string>
+
+    <string-array name="device_ids_names">
+        <item>Red 1</item>
+        <item>Red 2</item>
+        <item>Red 3</item>
+        <item>Blue 1</item>
+        <item>Blue 2</item>
+        <item>Blue 3</item>
+        <item>Other/No ID</item>
+    </string-array>
+
+    <string-array name="device_ids">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>0</item>
+    </string-array>
+
+    <string name="title_activity_file_dialog_helper">FileDialogHelperActivity</string>
+
+</resources>

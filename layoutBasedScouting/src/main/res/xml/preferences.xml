@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+	<ListPreference
+	  	android:title="Device ID"
+	  	android:summary="Set device ID for tablet."
+	  	android:dialogTitle="Device ID"
+	  	android:entries="@array/device_ids_names"
+	  	android:key="deviceid"
+	  	android:entryValues="@array/device_ids"
+	  	android:defaultValue="0"  
+	  	android:icon="@drawable/ic_action_phone"
+	    />
+	<Preference android:title="Import Schedule From CSV" 
+	    android:summary="Create teams and matches based off of a CSV file." 
+	    android:icon="@drawable/ic_action_storage">
+	    <intent android:targetPackage="com.thing342.layoutbasedscouting" 
+	        android:targetClass="com.thing342.layoutbasedscouting.PreferenceHelperActivity"
+	        android:mimeType="text/csv"  />
+	</Preference>
+	<Preference android:title="Import Layout from XML" 
+	    android:summary="Select which XML scoresheet to use."
+	    android:icon="@drawable/ic_action_add_to_queue">
+		<intent android:targetPackage="com.thing342.layoutbasedscouting" 
+	        android:targetClass="com.thing342.layoutbasedscouting.PreferenceHelperActivity"
+	        android:mimeType="application/xml"  />
+	</Preference>
+	<CheckBoxPreference 
+	    android:title="Display Matches First"
+	    android:summaryOn="Select a match, and get a list of teams."
+	    android:summaryOff="Select a team, and get a list of matches."
+	    android:key="matchesFirst"
+	    android:defaultValue="true"/>
+	<Preference android:title="Reset All Match Data"
+	    android:summary="Delete all teams and matches."
+	    android:icon="@drawable/ic_action_refresh" >
+	    <intent android:targetPackage="com.thing342.layoutbasedscouting" 
+	        android:targetClass="com.thing342.layoutbasedscouting.PreferenceHelperActivity"
+	        android:mimeType="text/h323"  />
+	</Preference>
+	
+</PreferenceScreen>

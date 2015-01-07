@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.thing342.layoutbasedscouting"
+    android:versionCode="1"
+    android:versionName="1.0.3" >
+
+    <uses-sdk
+        tools:overrideLibrary="ar.com.daidalos.afiledialog"
+        android:minSdkVersion="10"
+        android:targetSdkVersion="14" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        tools:replace="android:icon,android:theme"
+        android:name="com.thing342.layoutbasedscouting.AerialAssaultApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:theme="@style/Theme.Sherlock.Light.DarkActionBar">
+        <activity
+            android:name="com.thing342.layoutbasedscouting.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".TeamSearchActivity" />
+        </activity>
+        <activity
+            android:name="com.thing342.layoutbasedscouting.MatchEditorActivity"
+            android:label="@string/title_activity_match_editor"
+            android:parentActivityName="com.thing342.layoutbasedscouting.TeamViewerActivity" android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.thing342.layoutbasedscouting.TeamViewerActivity"
+            android:label="@string/title_activity_team_viewer"
+            android:parentActivityName="com.thing342.layoutbasedscouting.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.thing342.layoutbasedscouting.MainActivity" />
+        </activity>
+        <activity android:name="ar.com.daidalos.afiledialog.FileChooserActivity" />
+        <activity
+            android:name="com.thing342.layoutbasedscouting.TeamSearchActivity"
+            android:label="@string/title_activity_team_search"
+            android:parentActivityName="com.thing342.layoutbasedscouting.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.thing342.layoutbasedscouting.MainActivity" />
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.thing342.layoutbasedscouting.PreferenceHelperActivity"
+            android:label="@string/title_activity_file_dialog_helper" >
+        </activity>
+        <activity
+            android:name="com.thing342.layoutbasedscouting.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName="com.thing342.layoutbasedscouting.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.thing342.layoutbasedscouting.MainActivity" />
+        </activity>
+    </application>
+
+</manifest>
