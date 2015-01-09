@@ -8,16 +8,23 @@ import android.widget.TextView;
 
 import com.thing342.layoutbasedscouting.R;
 
-public class RatingStars extends Field<InstantiableTypes.InstantiableRating>
+import org.w3c.dom.Element;
+
+public class RatingStars extends Field<Instantiable.InstantiableRating>
 {
 
     private int resId = R.layout.ratings;
     private String name;
     private int stars;
 
+    public RatingStars()
+    {
+        super(new Instantiable.InstantiableRating());
+    }
+
     public RatingStars(String name, int stars)
     {
-        super(new InstantiableTypes.InstantiableRating());
+        super(new Instantiable.InstantiableRating());
         this.name = name;
         this.stars = stars;
     }
@@ -28,13 +35,20 @@ public class RatingStars extends Field<InstantiableTypes.InstantiableRating>
     }
 
     @Override
-    public View getView(Context context, InstantiableTypes.InstantiableRating initValue)
+    public View getView(Context context, Instantiable.InstantiableRating initValue)
     {
         View v = LayoutInflater.from(context).inflate(resId, null);
         ((TextView) v.findViewById(R.id.field_name)).setText(name);
         ((RatingBar) v.findViewById(R.id.field_value)).setNumStars(stars);
         ((RatingBar) v.findViewById(R.id.field_value)).setRating(initValue.value.value);
         return v;
+    }
+
+    @Override
+    public void setUp(Element e)
+    {
+        name = e.getAttribute("name");
+        stars = Integer.parseInt(e.getAttribute("scale"));
     }
 
 }

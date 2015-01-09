@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import com.thing342.layoutbasedscouting.R;
 
+import org.w3c.dom.Element;
+
 /**
  * A simple divider field used for separating different groups of fields. Does not return any data.
  */
@@ -15,6 +17,11 @@ public class Divider extends Field<String>
 
     private final int resId = R.layout.divider;
     private String name;
+
+    public Divider()
+    {
+        super("null");
+    }
 
     /**
      * @param name The text of the name displayed on this divider.
@@ -38,6 +45,13 @@ public class Divider extends Field<String>
         TextView fieldname = (TextView) v.findViewById(R.id.field_name);
         fieldname.setText(name);
         return v;
+    }
+
+    @Override
+    public void setUp(Element e)
+    {
+        name = new String();
+        name = e.getAttribute("name");
     }
 
 

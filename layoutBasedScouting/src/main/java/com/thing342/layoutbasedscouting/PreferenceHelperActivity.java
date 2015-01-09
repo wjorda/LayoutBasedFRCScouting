@@ -25,14 +25,14 @@ public class PreferenceHelperActivity extends FragmentActivity
      * Used to handle intents sent by SettingsActivity
 	 */
 
-    AerialAssaultApplication app;
+    ScoutingApplication app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        app = ((AerialAssaultApplication) getApplication());
+        app = ((ScoutingApplication) getApplication());
         Intent i = getIntent();
         Log.d("AerialAssault", "PHelper");
         setupActionBar();

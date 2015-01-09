@@ -125,7 +125,7 @@ public class SettingsActivity extends SherlockPreferenceActivity
             @Override
             public void onFileSelected(File file)
             {
-                ((AerialAssaultApplication) getApplication()).createFromFile(file);
+                ((ScoutingApplication) getApplication()).createFromFile(file);
 
             }
         });
@@ -135,8 +135,8 @@ public class SettingsActivity extends SherlockPreferenceActivity
         xmlImport.setTitle("Import Scoresheet from XML");
         xmlImport.setSummary("Import scoring widgets from a local XML file.");
 
-        SharedPreferences prefs = getSharedPreferences(AerialAssaultApplication.PREFS, Context.MODE_PRIVATE);
-        String xmlFilePath = prefs.getString(AerialAssaultApplication.XMLPATH_PREF, null);
+        SharedPreferences prefs = getSharedPreferences(ScoutingApplication.PREFS, Context.MODE_PRIVATE);
+        String xmlFilePath = prefs.getString(ScoutingApplication.XMLPATH_PREF, null);
         if (xmlFilePath != null) xmlImport.setDialogTitle("Currently using " + xmlFilePath);
         else xmlImport.setDialogTitle("Select Scoresheet...");
 
@@ -148,7 +148,7 @@ public class SettingsActivity extends SherlockPreferenceActivity
             @Override
             public void onFileSelected(File file)
             {
-                ((AerialAssaultApplication) getApplication()).changeLayout(file);
+                ((ScoutingApplication) getApplication()).changeLayout(file);
 
             }
         });
@@ -168,7 +168,7 @@ public class SettingsActivity extends SherlockPreferenceActivity
             @Override
             public void onConfirm()
             {
-                ((AerialAssaultApplication) getApplication()).clearAll();
+                ((ScoutingApplication) getApplication()).clearAll();
 
             }
         });

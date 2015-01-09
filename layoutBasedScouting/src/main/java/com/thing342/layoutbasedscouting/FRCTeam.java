@@ -3,7 +3,7 @@ package com.thing342.layoutbasedscouting;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * An object representing an FRC Team at a competition event. This object contains references to all
@@ -26,18 +26,17 @@ public class FRCTeam implements Parcelable, Comparable<FRCTeam>
     public int number;
 
 	/*public Rating offensiveRating;
-	public Rating defensiveRating;*/
-	
-	
-	
-	/*public FRCTeam(int number, Rating offensiveRating, Rating defensiveRating, String name) {
-		this.number = number;
-		this.offensiveRating = offensiveRating;
-		this.defensiveRating = defensiveRating;
-		this.name = name;
-	}*/
+    public Rating defensiveRating;*/
+
+
+    /*public FRCTeam(int number, Rating offensiveRating, Rating defensiveRating, String name) {
+        this.number = number;
+        this.offensiveRating = offensiveRating;
+        this.defensiveRating = defensiveRating;
+        this.name = name;
+    }*/
     //public String name;
-    public ArrayList<Match> matches = new ArrayList<Match>();
+    public IterableHashMap<Integer, Match> matches = new IterableHashMap<Integer, Match>();
 
     public FRCTeam()
     {
@@ -52,7 +51,10 @@ public class FRCTeam implements Parcelable, Comparable<FRCTeam>
     FRCTeam(Parcel in)
     {
         number = in.readInt();
-        matches = in.readArrayList(Match.class.getClassLoader());
+        for (Object o : in.readArrayList(Match.class.getClassLoader())) {
+            Match m = (Match) o;
+            matches.put(m.matchNum, m);
+        }
     }
 
     public String toString()
@@ -67,7 +69,7 @@ public class FRCTeam implements Parcelable, Comparable<FRCTeam>
      */
     public void createMatch(int num)
     {
-        matches.add(new Match(num, this));
+        matches.put(num, new Match(num, this));
     }
 
     /**
@@ -79,7 +81,7 @@ public class FRCTeam implements Parcelable, Comparable<FRCTeam>
     public void writeToParcel(Parcel out, int flags)
     {
         out.writeInt(number);
-        out.writeList(matches);
+        out.writeMap(matches);
     }
 
     public int describeContents()
@@ -95,23 +97,7 @@ public class FRCTeam implements Parcelable, Comparable<FRCTeam>
      */
     public Match getMatch(int matchNum)
     {
-        for (Match m : matches) {
-            if (m.matchNum == matchNum) return m;
-        }
-
-        return null;
-    }
-
-    /**
-     * Get the array index a match is stored in.
-     *
-     * @param matchNum The match number to search for.
-     * @return
-     */
-    public int getMatchPos(int matchNum)
-    {
-        for (int i = 0; i < matches.size(); i++) if (matches.get(i).matchNum == matchNum) return i;
-        return 0;
+        return matches.get(matchNum);
     }
 
     /**
@@ -121,8 +107,8 @@ public class FRCTeam implements Parcelable, Comparable<FRCTeam>
      */
     public boolean isComplete()
     {
-        for (Match m : matches) {
-            if (!m.isEdited()) return false;
+        for (Map.Entry<Integer, Match> e : matches) {
+            if (!e.getValue().isEdited()) return false;
         }
 
         return true;
@@ -130,8 +116,8 @@ public class FRCTeam implements Parcelable, Comparable<FRCTeam>
 
     public boolean isEdited()
     {
-        for (Match m : matches) {
-            if (m.isEdited()) return true;
+        for (Map.Entry<Integer, Match> e : matches) {
+            if (e.getValue().isEdited()) return true;
         }
 
         return false;

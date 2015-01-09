@@ -47,7 +47,8 @@ public class MatchAddFragment extends DialogFragment
         }
 
         //ArrayAdapter<FRCTeam> arrayAdapter = new ArrayAdapter<FRCTeam>(getActivity(), android.R.layout.simple_selectable_list_item, app.teamsList);
-        ArrayAdapter<FRCTeam> arrayAdapter = new ArrayAdapter<FRCTeam>(getActivity(), android.R.layout.simple_selectable_list_item, ((AerialAssaultApplication) getActivity().getApplication()).teamsList);
+        ArrayAdapter<FRCTeam> arrayAdapter = new ArrayAdapter<FRCTeam>(getActivity(),
+                android.R.layout.simple_selectable_list_item, ((ScoutingApplication) getActivity().getApplication()).teamsList.getValues());
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         for (Spinner s : spinners) s.setAdapter(arrayAdapter);
 
@@ -71,19 +72,19 @@ public class MatchAddFragment extends DialogFragment
 
     private void confirmMatch()
     {
-        /*Log.d("AerialAssault", "matches: " + (((AerialAssaultApplication) getActivity().getApplication()).matches));
-        ((AerialAssaultApplication) getActivity().getApplication()).matches+=6;
+        /*Log.d("AerialAssault", "matches: " + (((ScoutingApplication) getActivity().getApplication()).matches));
+        ((ScoutingApplication) getActivity().getApplication()).matches+=6;
 		for(Spinner s : spinners) {
-			((FRCTeam) s.getSelectedItem()).createMatch(((AerialAssaultApplication) getActivity().getApplication()).matches/6);
+			((FRCTeam) s.getSelectedItem()).createMatch(((ScoutingApplication) getActivity().getApplication()).matches/6);
 		}
-		Log.d("AerialAssault", "matches: " + (((AerialAssaultApplication) getActivity().getApplication()).matches));
-		((AerialAssaultApplication) getActivity().getApplication()).saveAll();
+		Log.d("AerialAssault", "matches: " + (((ScoutingApplication) getActivity().getApplication()).matches));
+		((ScoutingApplication) getActivity().getApplication()).saveAll();
 		dismiss();*/
 
         int teams[] = new int[spinners.length];
         for (int i = 0; i < spinners.length; i++)
             teams[i] = ((FRCTeam) spinners[i].getSelectedItem()).number;
-        ((AerialAssaultApplication) getActivity().getApplication()).addExtraMatch(teams);
+        ((ScoutingApplication) getActivity().getApplication()).addExtraMatch(teams);
         listener.onFinish();
 
         dismiss();

@@ -25,6 +25,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 import java.io.IOException;
+import java.util.Map;
 
 //import android.view.Menu;
 //import android.view.MenuItem;
@@ -32,7 +33,7 @@ import java.io.IOException;
 public class MainActivity extends SherlockFragmentActivity
 {
 
-    private AerialAssaultApplication app;
+    private ScoutingApplication app;
     private ListView listView;
     private int currentPos = 0;
 
@@ -45,9 +46,8 @@ public class MainActivity extends SherlockFragmentActivity
     {
         super.onCreate(savedInstanceState);
 
-        app = ((AerialAssaultApplication) getApplication());
+        app = ((ScoutingApplication) getApplication());
         app.resumeAll();
-        app.sort();
 
         setContentView(R.layout.activity_main);
         updateTitle();
@@ -73,7 +73,7 @@ public class MainActivity extends SherlockFragmentActivity
 
         if (matchesFirst) {
             ArrayAdapter<MatchGroup> arrayAdapter = new ArrayAdapter<MatchGroup>(
-                    this, android.R.layout.simple_list_item_1, app.groups);
+                    this, android.R.layout.simple_list_item_1, app.groups.getValues());
             //MatchAdapter arrayAdapter = new MatchAdapter (this, app.groups);
             listView = (ListView) findViewById(R.id.teamListView);
             TextView emptyText = new TextView(getBaseContext());
@@ -99,7 +99,7 @@ public class MainActivity extends SherlockFragmentActivity
         } else {
             ArrayAdapter<FRCTeam> arrayAdapter = new ArrayAdapter<FRCTeam>(
                     this, android.R.layout.simple_list_item_1,
-                    app.teamsList);
+                    app.teamsList.getValues());
             //TeamAdapter arrayAdapter = new TeamAdapter(this, app.teamsList);
             listView = (ListView) findViewById(R.id.teamListView);
             TextView emptyText = new TextView(getBaseContext());
@@ -110,11 +110,16 @@ public class MainActivity extends SherlockFragmentActivity
             listView.setClickable(true);
             listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
             listView.setLongClickable(true);
-            for (int i = 0; i < app.teamsList.size(); i++) {
-                if (app.teamsList.get(i).isComplete())
+
+            int i = 0;
+            for (Map.Entry<Integer, FRCTeam> entry : app.teamsList) {
+                if (entry.getValue().isComplete())
                     listView.setItemChecked(i, true);
                 ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
+
+                i++;
             }
+
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
             {
 
@@ -156,28 +161,6 @@ public class MainActivity extends SherlockFragmentActivity
                 ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
                 return true;
 
-            case R.id.search:
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MainActivity.this);
-                final EditText field = new EditText(getBaseContext());
-                field.setRawInputType(InputType.TYPE_CLASS_NUMBER);
-                field.setHint("Team Number");
-                field.setTextColor(Color.BLACK);
-                //field.setBackgroundColor(Color.BLACK);
-
-                alertBuilder
-                        .setTitle("Search Team:")
-                        .setView(field)
-                        .setPositiveButton("Search", new DialogInterface.OnClickListener()
-                        {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which)
-                            {
-                                searchDialog(field.getText().toString());
-                            }
-                        })
-                        .show();
-                return true;
             case R.id.action_settings:
                 Intent i = new Intent(this, SettingsActivity.class);
                 startActivity(i);
@@ -218,7 +201,11 @@ public class MainActivity extends SherlockFragmentActivity
     {
         SharedPreferences prefs = getSharedPreferences(app.PREFS, Context.MODE_PRIVATE);
         DeviceId restoredId = DeviceId.getFromValue(prefs.getString(app.DEVICEID_PREF, "0"));
-        setTitle("Scouting (v1.0.2) - Device ID: " + restoredId.toString());
+
+        String title = getString(R.string.app_name) + "(" + getString(R.string.version_name) +
+                ") - Device ID: " + restoredId.toString();
+
+        setTitle(title);
 
         if (android.os.Build.VERSION.SDK_INT >= 5) {
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(restoredId.hexColor));
@@ -227,13 +214,6 @@ public class MainActivity extends SherlockFragmentActivity
     }
 
     ///////////////////////--PRIVATE METHODS--/////////////////////////////////
-
-    private void searchDialog(String query)
-    {
-        Intent searchIntent = new Intent(this, TeamSearchActivity.class);
-        searchIntent.putExtra("AERIALASSAULT_QUERY", query);
-        startActivity(searchIntent);
-    }
 
     private void addTeamDialog()
     {
@@ -278,19 +258,14 @@ public class MainActivity extends SherlockFragmentActivity
                 Log.d("AerialAssault", Integer.toString(pos));
 
                 Intent i = new Intent(this, MatchEditorActivity.class);
-                i.putExtra("AERIALASSAULT_TEST_FRCMATCH", thisTeam.getMatchPos(mGroup.num));
-                i.putExtra("AERIALASSAULT_TEST_FRCTEAMMATCH", app.getTeamPos(thisTeam.number));
+                i.putExtra("AERIALASSAULT_TEST_FRCMATCH", mGroup.num);
+                i.putExtra("AERIALASSAULT_TEST_FRCTEAMMATCH", thisTeam.number);
                 startActivity(i);
                 return;
             }
 
         }
 
-        Intent i = new Intent(this, TeamViewerActivity.class);
-        i.putExtra("AERIALASSAULT_TEST_FRCTEAM", pos);
-        i.putExtra("AERIALASSAULT_TEST_MATCHESFIRST", matchesFirst);
-        i.putExtra("AERIALASSAULT_TEST_MAINACTIVITY", true);
-        startActivity(i);
         return;
     }
 

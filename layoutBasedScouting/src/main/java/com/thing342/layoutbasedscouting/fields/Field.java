@@ -3,6 +3,8 @@ package com.thing342.layoutbasedscouting.fields;
 import android.content.Context;
 import android.view.View;
 
+import org.w3c.dom.Element;
+
 /**
  * Base class for data fields.
  *
@@ -56,5 +58,7 @@ public abstract class Field<T>
      * @return View to be displayed in the scouting screen.
      */
     public abstract View getView(Context context, T initValue);
+
+    public abstract void setUp(Element e);
 
 }

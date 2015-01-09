@@ -1,23 +1,29 @@
 package com.thing342.layoutbasedscouting.fields;
 
 import android.content.Context;
-import android.content.SharedPreferences.Editor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.thing342.layoutbasedscouting.R;
+import com.thing342.layoutbasedscouting.fields.Instantiable.InstantiableBoolean;
+
+import org.w3c.dom.Element;
 
 /**
  * A basic checkbox field for scouting boolean data.
  */
-public class Checkbox extends Field<InstantiableTypes.InstantiableBoolean>
+public class Checkbox extends Field<InstantiableBoolean>
 {
-
-    private boolean value = false;
     private String name;
     private int resId = R.layout.checkbox;
+    private CheckBox checkBox;
+
+    public Checkbox()
+    {
+        super(new InstantiableBoolean());
+    }
 
     /**
      * Constructor for a <code>Checkbox</code> with text.
@@ -26,7 +32,7 @@ public class Checkbox extends Field<InstantiableTypes.InstantiableBoolean>
      */
     public Checkbox(String name)
     {
-        super(new InstantiableTypes.InstantiableBoolean());
+        super(new InstantiableBoolean());
         this.name = name;
     }
 
@@ -39,18 +45,20 @@ public class Checkbox extends Field<InstantiableTypes.InstantiableBoolean>
     }
 
     @Override
-    public View getView(Context context, InstantiableTypes.InstantiableBoolean initValue)
+    public View getView(Context context, InstantiableBoolean initValue)
     {
         View v = LayoutInflater.from(context).inflate(resId, null);
         ((TextView) v.findViewById(R.id.field_name)).setText(name);
-        ((CheckBox) v.findViewById(R.id.field_value)).setChecked(initValue.value);
+        checkBox = ((CheckBox) v.findViewById(R.id.field_value));
+        checkBox.setChecked(initValue.value);
         return v;
     }
 
-
-    public void putValue(String key, Editor prefs)
+    @Override
+    public void setUp(Element e)
     {
-        prefs.putBoolean(key, value);
+        name = new String();
+        name = e.getAttribute("name");
     }
 
 }

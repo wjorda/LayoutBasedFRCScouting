@@ -7,16 +7,23 @@ import android.widget.TextView;
 
 import com.thing342.layoutbasedscouting.R;
 
-public class Counter extends Field<InstantiableTypes.InstantiableInteger>
+import org.w3c.dom.Element;
+
+public class Counter extends Field<Instantiable.InstantiableInteger>
 {
 
     private int value = 0;
     private int resId = R.layout.counter;
     private String name;
 
+    public Counter()
+    {
+        super(new Instantiable.InstantiableInteger());
+    }
+
     public Counter(int initValue, String name)
     {
-        super(new InstantiableTypes.InstantiableInteger());
+        super(new Instantiable.InstantiableInteger());
         this.value = initValue;
         this.name = name;
     }
@@ -27,11 +34,18 @@ public class Counter extends Field<InstantiableTypes.InstantiableInteger>
     }
 
     @Override
-    public View getView(Context context, InstantiableTypes.InstantiableInteger initValue)
+    public View getView(Context context, Instantiable.InstantiableInteger initValue)
     {
         View v = LayoutInflater.from(context).inflate(resId, null);
         ((TextView) v.findViewById(R.id.field_name)).setText(name);
         ((TextView) v.findViewById(R.id.field_value)).setText(Integer.toString(initValue.value));
         return v;
+    }
+
+    @Override
+    public void setUp(Element e)
+    {
+        this.value = Integer.parseInt(e.getAttribute("initValue"));
+        this.name = e.getAttribute("name");
     }
 }

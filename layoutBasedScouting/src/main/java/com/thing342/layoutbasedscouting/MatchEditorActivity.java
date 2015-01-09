@@ -1,14 +1,12 @@
 package com.thing342.layoutbasedscouting;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +21,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.thing342.layoutbasedscouting.fields.Field;
+import com.thing342.layoutbasedscouting.fields.Instantiable;
 
 import java.util.ArrayList;
 //import android.app.ActionBar;
@@ -36,7 +35,7 @@ public class MatchEditorActivity extends SherlockActivity
     public ArrayList<Field> dataset;
     public ArrayList<Object> data;
     LinearLayout layout;
-    private AerialAssaultApplication app;
+    private ScoutingApplication app;
     private Match mMatch;
     private FRCTeam mTeam;
 
@@ -44,25 +43,27 @@ public class MatchEditorActivity extends SherlockActivity
     private boolean autoMobility=false;
     private int teleTopGoal=0, teleBottomGoal=0, teleShotsMissed=0, teleAssists=0, teleTrussShots=0, teleTrussCatches=0;
     private Rating offensiveRating=Rating.NA, defensiveRating=Rating.NA, driveTeamRating=Rating.NA;*/
-    private int teamPos = 0;
-    private int matchPos = 0;
+    private int team = 0;
+    private int match = 0;
+
+    private IterableHashMap<Integer, Field> fieldLookup = new IterableHashMap<Integer, Field>();
 
     @SuppressWarnings("rawtypes")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        app = ((AerialAssaultApplication) getApplication());
+        app = ((ScoutingApplication) getApplication());
         setContentView(R.layout.activity_match_editor);
         //setupSlidingMenu();
 
         Bundle b = getIntent().getExtras();
         //mMatch = b.getParcelable("AERIALASSAULT_TEST_FRCTEAMMATCH");
-        teamPos = b.getInt("AERIALASSAULT_TEST_FRCTEAMMATCH");
-        matchPos = b.getInt("AERIALASSAULT_TEST_FRCMATCH");
+        team = b.getInt("AERIALASSAULT_TEST_FRCTEAMMATCH");
+        match = b.getInt("AERIALASSAULT_TEST_FRCMATCH");
 
-        mTeam = app.teamsList.get(teamPos);
-        mMatch = mTeam.matches.get(matchPos);
+        mTeam = app.teamsList.get(team);
+        mMatch = mTeam.matches.get(match);
         data = new ArrayList<Object>();
         //fillSavedData();
 
@@ -87,6 +88,8 @@ public class MatchEditorActivity extends SherlockActivity
 
                 else try {
                     newEntry = f.getType().newInstance();
+                    if (newEntry instanceof Instantiable)
+                        newEntry = ((Instantiable) newEntry).getEntry();
                 } catch (InstantiationException e) { //if default constructor DNE
 
                     String classname = f.getType().toString();
@@ -110,7 +113,7 @@ public class MatchEditorActivity extends SherlockActivity
                     newEntry = new Integer(0);
                 }
 
-                data.add((Object) newEntry);
+                data.add(newEntry);
                 try {
                     thisView = f.getView(getBaseContext(), f.getType().cast(newEntry));
                 } catch (ClassCastException e) {
@@ -120,7 +123,10 @@ public class MatchEditorActivity extends SherlockActivity
                     if (newEntry instanceof Integer)
                         thisView = f.getView(getBaseContext(), ((Integer) newEntry > 0)); //Manual boolean casting
                 }
-                if (thisView != null) thisView.setTag(pos);
+                if (thisView != null) {
+                    thisView.setTag(pos);
+                    fieldLookup.put(pos, f);
+                }
                 pos++;
             }
 
@@ -130,8 +136,8 @@ public class MatchEditorActivity extends SherlockActivity
         }
 
         if (android.os.Build.VERSION.SDK_INT >= 5) {
-            SharedPreferences prefs = getSharedPreferences(AerialAssaultApplication.PREFS, Context.MODE_PRIVATE);
-            DeviceId restoredId = DeviceId.getFromValue(prefs.getString(AerialAssaultApplication.DEVICEID_PREF, "0"));
+            SharedPreferences prefs = getSharedPreferences(ScoutingApplication.PREFS, Context.MODE_PRIVATE);
+            DeviceId restoredId = DeviceId.getFromValue(prefs.getString(ScoutingApplication.DEVICEID_PREF, "0"));
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(restoredId.hexColor));
         }
     }
@@ -168,19 +174,6 @@ public class MatchEditorActivity extends SherlockActivity
             /*case R.id.action_settings:
                 openSettings();
                 return true;*/
-            case android.R.id.home:
-                Intent i = new Intent(this, TeamViewerActivity.class);
-
-                if (getSharedPreferences(AerialAssaultApplication.PREFS, Context.MODE_PRIVATE).getBoolean(AerialAssaultApplication.MATCHESFIST_PREF, true)) {
-                    i.putExtra("AERIALASSAULT_TEST_FRCTEAM", mMatch.matchNum);
-                    i.putExtra("AERIALASSAULT_TEST_MATCHESFIRST", true);
-                } else {
-                    i.putExtra("AERIALASSAULT_TEST_FRCTEAM", app.getTeamPos(mTeam.number));
-                    i.putExtra("AERIALASSAULT_TEST_MATCHESFIRST", false);
-                }
-
-                NavUtils.navigateUpTo(this, i);
-                return false;
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -229,8 +222,9 @@ public class MatchEditorActivity extends SherlockActivity
             }
         }
 
-        ((AerialAssaultApplication) getApplication()).teamsList.get(teamPos).matches.get(matchPos).data = data; //direct Reference to mMatch
-        ((AerialAssaultApplication) getApplication()).saveAll();
+        ((ScoutingApplication) getApplication()).teamsList.get(team).matches.get(match).data = data; //direct Reference to mMatch
+        ((ScoutingApplication) getApplication()).saveAll();
+
         Toast.makeText(getBaseContext(), "Match Saved!", Toast.LENGTH_SHORT).show();
 
     }
