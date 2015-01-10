@@ -250,7 +250,7 @@ public class MainActivity extends SherlockFragmentActivity
         currentPos = pos;
 
         if (matchesFirst) {
-            MatchGroup mGroup = app.groups.get(pos);
+            MatchGroup mGroup = app.groups.getValues().get(pos);
             FRCTeam[] teams = app.getTeamsWithMatch(mGroup.num);
 
             if (teams.length == 1) {

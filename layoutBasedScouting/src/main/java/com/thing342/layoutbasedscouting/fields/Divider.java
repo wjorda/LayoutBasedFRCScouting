@@ -54,5 +54,11 @@ public class Divider extends Field<String>
         name = e.getAttribute("name");
     }
 
+    @Override
+    public String getValue()
+    {
+        return null;
+    }
+
 
 }

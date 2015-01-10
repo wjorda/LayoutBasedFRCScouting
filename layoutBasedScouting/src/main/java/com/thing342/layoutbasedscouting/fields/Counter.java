@@ -1,11 +1,15 @@
 package com.thing342.layoutbasedscouting.fields;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.thing342.layoutbasedscouting.R;
+import com.thing342.layoutbasedscouting.fields.Instantiable.InstantiableInteger;
 
 import org.w3c.dom.Element;
 
@@ -15,6 +19,7 @@ public class Counter extends Field<Instantiable.InstantiableInteger>
     private int value = 0;
     private int resId = R.layout.counter;
     private String name;
+    private TextView countText;
 
     public Counter()
     {
@@ -28,9 +33,26 @@ public class Counter extends Field<Instantiable.InstantiableInteger>
         this.name = name;
     }
 
-    public Integer getValue()
+    public InstantiableInteger getValue()
     {
-        return new Integer(value);
+        InstantiableInteger i = new InstantiableInteger();
+        i.value = this.value;
+        return i;
+    }
+
+    private void add()
+    {
+        value++;
+    }
+
+    private void minus()
+    {
+        value--;
+    }
+
+    private TextView getCountText()
+    {
+        return countText;
     }
 
     @Override
@@ -38,7 +60,33 @@ public class Counter extends Field<Instantiable.InstantiableInteger>
     {
         View v = LayoutInflater.from(context).inflate(resId, null);
         ((TextView) v.findViewById(R.id.field_name)).setText(name);
-        ((TextView) v.findViewById(R.id.field_value)).setText(Integer.toString(initValue.value));
+
+        countText = (TextView) v.findViewById(R.id.field_value);
+        countText.setText(Integer.toString(getValue().value));
+
+        Button plusButton = (Button) v.findViewById(R.id.counterbuttonplus);
+        Button minusButton = (Button) v.findViewById(R.id.counterbuttonminus);
+
+        plusButton.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                add();
+                getCountText().setText(Integer.toString(getValue().value));
+                Log.d("Button", "plus");
+            }
+        });
+        minusButton.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                minus();
+                getCountText().setText(Integer.toString(getValue().value));
+                Log.d("Button", "minus");
+            }
+        });
         return v;
     }
 

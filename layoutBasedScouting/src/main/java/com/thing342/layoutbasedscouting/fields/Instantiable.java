@@ -14,7 +14,9 @@ public interface Instantiable<T>
      * This
      * @return A 'default' version of the enclosed type.
      */
-    public T getEntry();
+    public abstract T getEntry();
+
+    public abstract void setValue(Object value);
 
     /**
      * A wrapper for <code>Integer</code> with a default constructor.
@@ -27,6 +29,18 @@ public interface Instantiable<T>
         public Integer getEntry()
         {
             return value;
+        }
+
+        @Override
+        public void setValue(Object i)
+        {
+            value = (int) i;
+        }
+
+        @Override
+        public String toString()
+        {
+            return Integer.toString(value);
         }
     }
 
@@ -42,6 +56,21 @@ public interface Instantiable<T>
         {
             return value;
         }
+
+        @Override
+        public void setValue(Object b)
+        {
+            if (b instanceof Integer)
+                value = ((Integer) b == 1);
+            else
+                value = (Boolean) b;
+        }
+
+        @Override
+        public String toString()
+        {
+            return Integer.toString(value ? 1 : 0);
+        }
     }
 
     /**
@@ -55,6 +84,18 @@ public interface Instantiable<T>
         public Rating getEntry()
         {
             return value;
+        }
+
+        @Override
+        public void setValue(Object r)
+        {
+            value = (Rating) r;
+        }
+
+        @Override
+        public String toString()
+        {
+            return value.toString();
         }
     }
 

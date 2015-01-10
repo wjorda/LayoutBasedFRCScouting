@@ -17,6 +17,7 @@ public class Notes extends Field<String>
 
     private String hint;
     private int resId = R.layout.note;
+    private EditText textBox;
 
     public Notes()
     {
@@ -36,8 +37,9 @@ public class Notes extends Field<String>
     public View getView(Context context, String initValue)
     {
         View v = LayoutInflater.from(context).inflate(resId, null);
-        ((EditText) v.findViewById(R.id.value)).setHint(hint);
-        ((EditText) v.findViewById(R.id.value)).setText(initValue);
+        textBox = ((EditText) v.findViewById(R.id.value));
+        textBox.setHint(hint);
+        textBox.setText(initValue);
         return v;
     }
 
@@ -45,6 +47,17 @@ public class Notes extends Field<String>
     public void setUp(Element e)
     {
         hint = e.getAttribute("hint");
+    }
+
+    @Override
+    public String getValue()
+    {
+        String text = textBox.getText().toString();
+        text = text.replace(",", "_");
+        text = text.replace(";", "_");
+        text = text.replace("\"", "_");
+        text = text.replace("\n", "_");
+        return text;
     }
 
     /**

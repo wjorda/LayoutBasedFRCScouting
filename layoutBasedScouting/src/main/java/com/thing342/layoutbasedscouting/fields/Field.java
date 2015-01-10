@@ -61,4 +61,6 @@ public abstract class Field<T>
 
     public abstract void setUp(Element e);
 
+    public abstract T getValue();
+
 }

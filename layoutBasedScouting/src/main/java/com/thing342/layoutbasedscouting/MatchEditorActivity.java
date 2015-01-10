@@ -3,18 +3,10 @@ package com.thing342.layoutbasedscouting;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
-import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -81,15 +73,14 @@ public class MatchEditorActivity extends SherlockActivity
             View thisView = null;
 
             if (f.getType() == null) {
-                thisView = f.getView(getBaseContext(), null);
+                thisView = f.getView(this, null);
             } else {
                 if (!(mMatch.data == null || mMatch.data.size() == 0))
                     newEntry = mMatch.data.get(pos);
 
                 else try {
                     newEntry = f.getType().newInstance();
-                    if (newEntry instanceof Instantiable)
-                        newEntry = ((Instantiable) newEntry).getEntry();
+
                 } catch (InstantiationException e) { //if default constructor DNE
 
                     String classname = f.getType().toString();
@@ -113,15 +104,28 @@ public class MatchEditorActivity extends SherlockActivity
                     newEntry = new Integer(0);
                 }
 
-                data.add(newEntry);
-                try {
-                    thisView = f.getView(getBaseContext(), f.getType().cast(newEntry));
-                } catch (ClassCastException e) {
-                    Log.e("Scouting", "Error generating field " + i);
-                    Log.e("Scouting", "Stack: " + e.getLocalizedMessage());
+                if (newEntry instanceof Instantiable)
+                    newEntry = ((Instantiable) newEntry).getEntry();
 
-                    if (newEntry instanceof Integer)
-                        thisView = f.getView(getBaseContext(), ((Integer) newEntry > 0)); //Manual boolean casting
+                data.add(newEntry);
+                Log.d("newEntry Class", newEntry.getClass().getCanonicalName());
+
+
+                try {
+                    if (f.getType().newInstance() instanceof Instantiable) {
+                        Log.d("Scouting", "Instantiable type " + i);
+                        Instantiable instance = (Instantiable) f.getType().newInstance();
+                        instance.setValue(newEntry);
+                        thisView = f.getView(this, instance);
+                    } else thisView = f.getView(this, f.getType().cast(newEntry));
+                } /*catch (ClassCastException e) {
+                    Log.e("Scouting", "Error generating field " + i);
+                    Log.e("Scouting", "Stack: " + Arrays.toString(e.getStackTrace()));
+
+                } */ catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                 }
                 if (thisView != null) {
                     thisView.setTag(pos);
@@ -186,8 +190,15 @@ public class MatchEditorActivity extends SherlockActivity
         checkDataFields:
         for (int i = 0; i < layout.getChildCount(); i++) {
             View v = layout.getChildAt(i);
+            if (v.getTag() == null) {
+                Log.d("AerialAssault", "Field is null!!!!!");
+                continue checkDataFields;
+            }
 
-            try {
+            int pos = (Integer) v.getTag();
+            data.set(pos, fieldLookup.get(pos).getValue());
+
+            /*try {
                 EditText et = (EditText) v.findViewById(R.id.value);
                 Log.d("AerialAssault", "EditText found at pos " + i);
 
@@ -219,7 +230,7 @@ public class MatchEditorActivity extends SherlockActivity
                 }
 
             } catch (ClassCastException cce) {
-            }
+            }*/
         }
 
         ((ScoutingApplication) getApplication()).teamsList.get(team).matches.get(match).data = data; //direct Reference to mMatch
@@ -227,65 +238,6 @@ public class MatchEditorActivity extends SherlockActivity
 
         Toast.makeText(getBaseContext(), "Match Saved!", Toast.LENGTH_SHORT).show();
 
-    }
-
-    public void incrementCounter(View v)
-    {
-        ViewGroup row = (ViewGroup) v.getParent();
-        int pos = (Integer) row.getTag();
-        if ((Integer) data.get(pos) < Integer.MAX_VALUE) data.set(pos, (Integer) data.get(pos) + 1);
-        ((TextView) row.getChildAt(2)).setText((data.get(pos)).toString());
-        ((Vibrator) this.getBaseContext().getSystemService(VIBRATOR_SERVICE)).vibrate(vibLength);
-
-        Log.d("AerialAssault", Build.MANUFACTURER + " - " + Build.MODEL);
-
-        if (Build.MODEL.contains("Kindle")) {
-            MediaPlayer mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.data_select);
-            mediaPlayer.start();
-        }
-    }
-
-    public void decrementCounter(View v)
-    {
-        ViewGroup row = (ViewGroup) v.getParent();
-        int pos = (Integer) row.getTag();
-        if ((Integer) data.get(pos) > 0) data.set(pos, (Integer) data.get(pos) - 1);
-        ((TextView) row.getChildAt(2)).setText((data.get(pos)).toString());
-        ((Vibrator) this.getBaseContext().getSystemService(VIBRATOR_SERVICE)).vibrate(vibLength);
-
-        if (Build.MODEL.contains("Kindle")) {
-            MediaPlayer mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.data_select);
-            mediaPlayer.start();
-        }
-    }
-
-    public void getStars(View v)
-    {
-        ViewGroup row = (ViewGroup) v.getParent();
-        int pos = (Integer) row.getTag();
-        data.set(pos, Rating.parseValue(((RatingBar) v).getRating()));
-        Log.d("AerialAssault", Double.toString(((RatingBar) v).getRating()));
-        ((Vibrator) this.getBaseContext().getSystemService(VIBRATOR_SERVICE)).vibrate(vibLength);
-
-        if (Build.MODEL.contains("Kindle")) {
-            MediaPlayer mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.data_select);
-            mediaPlayer.start();
-        }
-    }
-
-    public void toggle(View v)
-    {
-        ViewGroup row = (ViewGroup) v.getParent();
-        int pos = (Integer) row.getTag();
-        boolean checked = ((CheckBox) row.getChildAt(1)).isChecked();
-        Log.d("AerialAssault", Boolean.toString(((CheckBox) row.getChildAt(1)).isChecked()));
-        data.set(pos, checked);
-        ((Vibrator) this.getBaseContext().getSystemService(VIBRATOR_SERVICE)).vibrate(vibLength);
-
-        if (Build.MODEL.contains("Kindle")) {
-            MediaPlayer mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.data_select);
-            mediaPlayer.start();
-        }
     }
 
 	/*private void setupSlidingMenu() { //Add a mini version of MainActivity to a SlidingMen

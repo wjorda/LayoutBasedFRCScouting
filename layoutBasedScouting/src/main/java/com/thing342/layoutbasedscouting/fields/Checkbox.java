@@ -61,4 +61,12 @@ public class Checkbox extends Field<InstantiableBoolean>
         name = e.getAttribute("name");
     }
 
+    @Override
+    public InstantiableBoolean getValue()
+    {
+        InstantiableBoolean b = new InstantiableBoolean();
+        b.value = checkBox.isChecked();
+        return b;
+    }
+
 }

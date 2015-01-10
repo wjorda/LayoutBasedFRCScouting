@@ -832,12 +832,12 @@ containing a value of this type.
         public static final int abs__textButton=0x7f0a0013;
         public static final int abs__title=0x7f0a001b;
         public static final int abs__up=0x7f0a0005;
-        public static final int action_export=0x7f0a0065;
-        public static final int action_save=0x7f0a0068;
-        public static final int action_schedule_add=0x7f0a0066;
-        public static final int action_settings=0x7f0a0063;
-        public static final int action_stats=0x7f0a0069;
-        public static final int action_team_add=0x7f0a0067;
+        public static final int action_export=0x7f0a0068;
+        public static final int action_save=0x7f0a006b;
+        public static final int action_schedule_add=0x7f0a0069;
+        public static final int action_settings=0x7f0a0066;
+        public static final int action_stats=0x7f0a006c;
+        public static final int action_team_add=0x7f0a006a;
         public static final int blue1=0x7f0a004a;
         public static final int blue2=0x7f0a004b;
         public static final int blue3=0x7f0a004c;
@@ -851,6 +851,8 @@ containing a value of this type.
         public static final int counterbuttonplus=0x7f0a003e;
         public static final int disableHome=0x7f0a0009;
         public static final int edit_query=0x7f0a0026;
+        public static final int field_max_value=0x7f0a0065;
+        public static final int field_min_value=0x7f0a0063;
         public static final int field_name=0x7f0a003b;
         public static final int field_value=0x7f0a003c;
         public static final int homeAsUp=0x7f0a000a;
@@ -875,8 +877,9 @@ containing a value of this type.
         public static final int rowDesc=0x7f0a0039;
         public static final int rowHeader=0x7f0a0038;
         public static final int scrollView1=0x7f0a0034;
-        public static final int search=0x7f0a0064;
+        public static final int search=0x7f0a0067;
         public static final int searchListView=0x7f0a0036;
+        public static final int seekBar=0x7f0a0064;
         public static final int showCustom=0x7f0a000b;
         public static final int showHome=0x7f0a000c;
         public static final int showTitle=0x7f0a000d;
@@ -944,6 +947,7 @@ containing a value of this type.
         public static final int ratings=0x7f030025;
         public static final int sherlock_spinner_dropdown_item=0x7f030026;
         public static final int sherlock_spinner_item=0x7f030027;
+        public static final int slider=0x7f030028;
     }
     public static final class menu {
         public static final int file_dialog_helper=0x7f0e0000;
