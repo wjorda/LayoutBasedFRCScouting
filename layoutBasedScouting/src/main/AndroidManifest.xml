@@ -3,7 +3,7 @@
     package="com.thing342.layoutbasedscouting"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:versionCode="1"
+    android:versionCode="2"
     android:versionName="@string/version_name">
 
     <uses-sdk

@@ -202,7 +202,7 @@ public class MainActivity extends SherlockFragmentActivity
         SharedPreferences prefs = getSharedPreferences(app.PREFS, Context.MODE_PRIVATE);
         DeviceId restoredId = DeviceId.getFromValue(prefs.getString(app.DEVICEID_PREF, "0"));
 
-        String title = getString(R.string.app_name) + "(" + getString(R.string.version_name) +
+        String title = getString(R.string.app_name) + " (" + getString(R.string.version_name) +
                 ") - Device ID: " + restoredId.toString();
 
         setTitle(title);
