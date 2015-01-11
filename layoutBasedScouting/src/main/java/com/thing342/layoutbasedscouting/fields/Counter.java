@@ -8,13 +8,20 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.thing342.layoutbasedscouting.Field;
+import com.thing342.layoutbasedscouting.Instantiable;
+import com.thing342.layoutbasedscouting.Instantiable.InstantiableInteger;
 import com.thing342.layoutbasedscouting.R;
-import com.thing342.layoutbasedscouting.fields.Instantiable.InstantiableInteger;
+import com.thing342.layoutbasedscouting.ScoutingApplication;
 
 import org.w3c.dom.Element;
 
-public class Counter extends Field<Instantiable.InstantiableInteger>
+public class Counter extends Field<InstantiableInteger>
 {
+
+    static {
+        ScoutingApplication.addField("counter", Counter.class);
+    }
 
     private int value = 0;
     private int resId = R.layout.counter;
@@ -58,6 +65,8 @@ public class Counter extends Field<Instantiable.InstantiableInteger>
     @Override
     public View getView(Context context, Instantiable.InstantiableInteger initValue)
     {
+        value = initValue.value;
+        
         View v = LayoutInflater.from(context).inflate(resId, null);
         ((TextView) v.findViewById(R.id.field_name)).setText(name);
 
@@ -96,4 +105,6 @@ public class Counter extends Field<Instantiable.InstantiableInteger>
         this.value = Integer.parseInt(e.getAttribute("initValue"));
         this.name = e.getAttribute("name");
     }
+
+
 }

@@ -6,9 +6,11 @@ import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.thing342.layoutbasedscouting.Field;
+import com.thing342.layoutbasedscouting.Instantiable.InstantiableRating;
 import com.thing342.layoutbasedscouting.R;
 import com.thing342.layoutbasedscouting.Rating;
-import com.thing342.layoutbasedscouting.fields.Instantiable.InstantiableRating;
+import com.thing342.layoutbasedscouting.ScoutingApplication;
 
 import org.w3c.dom.Element;
 
@@ -30,6 +32,10 @@ public class RatingStars extends Field<InstantiableRating>
         super(new InstantiableRating());
         this.name = name;
         this.stars = stars;
+    }
+
+    static {
+        ScoutingApplication.addField("rating", RatingStars.class);
     }
 
     public String getName()

@@ -6,8 +6,10 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.thing342.layoutbasedscouting.Field;
+import com.thing342.layoutbasedscouting.Instantiable.InstantiableBoolean;
 import com.thing342.layoutbasedscouting.R;
-import com.thing342.layoutbasedscouting.fields.Instantiable.InstantiableBoolean;
+import com.thing342.layoutbasedscouting.ScoutingApplication;
 
 import org.w3c.dom.Element;
 
@@ -19,6 +21,10 @@ public class Checkbox extends Field<InstantiableBoolean>
     private String name;
     private int resId = R.layout.checkbox;
     private CheckBox checkBox;
+
+    static {
+        ScoutingApplication.addField("checkbox", Checkbox.class);
+    }
 
     public Checkbox()
     {
@@ -68,5 +74,4 @@ public class Checkbox extends Field<InstantiableBoolean>
         b.value = checkBox.isChecked();
         return b;
     }
-
 }

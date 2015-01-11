@@ -2,6 +2,30 @@
 <items version="2">
 
     <item
+        jar="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/exploded-aar/com.actionbarsherlock/actionbarsherlock/4.4.0/classes.jar"
+        jumboMode="false"
+        revision="21.0.0"
+        sha1="af64527b748983a75de9c0756e9768b56b240a49">
+        <dex
+            dex="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-5457fe553481cce8b3b8f565a9ab724f90e8b590.jar"/>
+    </item>
+    <item
+        jar="/home/wes/.gradle/caches/modules-2/files-2.1/org.reflections/reflections/0.9.9/296d8adb2f22a38025f44b45cac89835ff0bbaf/reflections-0.9.9.jar"
+        jumboMode="false"
+        revision="21.0.0"
+        sha1="0296d8adb2f22a38025f44b45cac89835ff0bbaf">
+        <dex
+            dex="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/reflections-0.9.9-0c8b08f29c61e5fc14f006452fb2920c26a8c0a7.jar"/>
+    </item>
+    <item
+        jar="/home/wes/.gradle/caches/modules-2/files-2.1/org.javassist/javassist/3.18.2-GA/1180a90fbad732b60fb728a6bbe8fcb3151423d7/javassist-3.18.2-GA.jar"
+        jumboMode="false"
+        revision="21.0.0"
+        sha1="1180a90fbad732b60fb728a6bbe8fcb3151423d7">
+        <dex
+            dex="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/javassist-3.18.2-GA-2f211aef84815cd1e271bc2a47dfe9fef5033eb2.jar"/>
+    </item>
+    <item
         jar="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/exploded-aar/LayoutBasedScouting/aFileDialog/unspecified/classes.jar"
         jumboMode="false"
         revision="21.0.0"
@@ -18,14 +42,6 @@
             dex="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/support-annotations-21.0.0-d920f493a28ef5f4df99cecb16eb9554bf9e185a.jar"/>
     </item>
     <item
-        jar="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/exploded-aar/LayoutBasedScouting/ActionBarSherlock/unspecified/classes.jar"
-        jumboMode="false"
-        revision="21.0.0"
-        sha1="1e50cd3d2ea25f9f55565621d350c55d89a0f2d6">
-        <dex
-            dex="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-0b1f981640855ef484cfa172ef538517cbf8aa1e.jar"/>
-    </item>
-    <item
         jar="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/libs/internal_impl-21.0.0.jar"
         jumboMode="false"
         revision="21.0.0"
@@ -34,12 +50,28 @@
             dex="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/internal_impl-21.0.0-e2bfdaaba8420308eb3e0882b1e47b4a0ec3693d.jar"/>
     </item>
     <item
+        jar="/home/wes/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/annotations/2.0.1/9ef6656259841cebfb9fb0697bb122ada4485498/annotations-2.0.1.jar"
+        jumboMode="false"
+        revision="21.0.0"
+        sha1="9ef6656259841cebfb9fb0697bb122ada4485498">
+        <dex
+            dex="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/annotations-2.0.1-53b97e15e6aeceb6fe63e9b646b0e0144460588b.jar"/>
+    </item>
+    <item
         jar="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/classes.jar"
         jumboMode="false"
         revision="21.0.0"
         sha1="686344a780033e4ba22b926cd225f8d4941247e6">
         <dex
             dex="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-b67d9a553e553baa5d996ddb01da1d3de86dcb4c.jar"/>
+    </item>
+    <item
+        jar="/home/wes/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/15.0/ed727a8d9f247e2050281cb083f1c77b09dcb5cd/guava-15.0.jar"
+        jumboMode="false"
+        revision="21.0.0"
+        sha1="ed727a8d9f247e2050281cb083f1c77b09dcb5cd">
+        <dex
+            dex="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/guava-15.0-d3f88de13c17f49f3c3759e10f9a5a1328b46a92.jar"/>
     </item>
     <item
         jar="/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/libs/javacsv.jar"

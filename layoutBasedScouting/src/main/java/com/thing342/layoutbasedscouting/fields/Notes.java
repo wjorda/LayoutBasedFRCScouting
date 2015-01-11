@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.thing342.layoutbasedscouting.Field;
 import com.thing342.layoutbasedscouting.R;
+import com.thing342.layoutbasedscouting.ScoutingApplication;
 
 import org.w3c.dom.Element;
 
@@ -18,6 +20,11 @@ public class Notes extends Field<String>
     private String hint;
     private int resId = R.layout.note;
     private EditText textBox;
+
+    static {
+        ScoutingApplication.addField("notes", Notes.class);
+    }
+
 
     public Notes()
     {

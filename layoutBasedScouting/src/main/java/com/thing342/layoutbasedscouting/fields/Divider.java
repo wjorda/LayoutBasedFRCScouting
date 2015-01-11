@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.thing342.layoutbasedscouting.Field;
 import com.thing342.layoutbasedscouting.R;
+import com.thing342.layoutbasedscouting.ScoutingApplication;
 
 import org.w3c.dom.Element;
 
@@ -17,6 +19,10 @@ public class Divider extends Field<String>
 
     private final int resId = R.layout.divider;
     private String name;
+
+    static {
+        ScoutingApplication.addField("divider", Divider.class);
+    }
 
     public Divider()
     {
@@ -59,6 +65,5 @@ public class Divider extends Field<String>
     {
         return null;
     }
-
 
 }

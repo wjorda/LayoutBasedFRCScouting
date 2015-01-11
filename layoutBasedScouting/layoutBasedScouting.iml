@@ -86,8 +86,8 @@
     <orderEntry type="library" exported="" name="support-annotations-21.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-21.0.0" level="project" />
     <orderEntry type="library" exported="" name="javacsv" level="project" />
+    <orderEntry type="library" exported="" name="actionbarsherlock-4.4.0" level="project" />
     <orderEntry type="module" module-name="aFileDialog" exported="" />
-    <orderEntry type="module" module-name="ActionBarSherlock" exported="" />
   </component>
 </module>
 

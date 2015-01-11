@@ -16,9 +16,9 @@ import com.csvreader.CsvWriter;
 import com.thing342.layoutbasedscouting.fields.Checkbox;
 import com.thing342.layoutbasedscouting.fields.Counter;
 import com.thing342.layoutbasedscouting.fields.Divider;
-import com.thing342.layoutbasedscouting.fields.Field;
 import com.thing342.layoutbasedscouting.fields.Notes;
 import com.thing342.layoutbasedscouting.fields.RatingStars;
+import com.thing342.layoutbasedscouting.fields.Slider;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -44,19 +44,52 @@ public class ScoutingApplication extends Application
     public static final String DEVICEID_PREF = "deviceid";
     public static final String FIRSTLAUNCH_PREF = "firstLaunch";
     public static final String MATCHESFIST_PREF = "matchesFirst";
-
+    private static HashMap<String, Class<? extends Field>> fieldDictionary =
+            new HashMap<String, Class<? extends Field>>();
     public IterableHashMap<Integer, FRCTeam> teamsList = new IterableHashMap<Integer, FRCTeam>();
     public IterableHashMap<Integer, MatchGroup> groups = new IterableHashMap<Integer, MatchGroup>();
     public ArrayList<Field> data = new ArrayList<Field>();
     public int matches = 0;
     private View scoreLayout;
 
-    private HashMap<String, Class<? extends Field>> fieldDictionary =
-            new HashMap<String, Class<? extends Field>>();
-
     ///////////////////--CONSTRUCTORS--/////////////////////////////
 
+    public ScoutingApplication()
+    {
+        /*
+         * Instantiate built-in fields to get them added to field dictionary.
+         */
+        try {
+            Counter.class.newInstance();
+            Checkbox.class.newInstance();
+            Divider.class.newInstance();
+            Notes.class.newInstance();
+            RatingStars.class.newInstance();
+            Slider.class.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     ///////////////////--OVERRIDEN METHODS--///////////////////////
+
+    /**
+     * Adds a new field for the layout loader to look for.
+     *
+     * @param key        The name of the XML tag for the loaded to look for. This must be unique.
+     * @param fieldClass Class object for the instance of <code>Field</code> to be added.
+     * @throws IllegalArgumentException If multiple fields share the same tag.
+     */
+    public static void addField(String key, Class<? extends Field> fieldClass)
+    {
+        if (!fieldDictionary.containsKey(key)) fieldDictionary.put(key, fieldClass);
+        else
+            throw new IllegalArgumentException("Multiple fields may not share the same nametag: " + key);
+    }
+
+    ///////////////////--PUBLIC METHODS--///////////////////////
 
     /**
      * Reloads XML layout from file.
@@ -77,14 +110,12 @@ public class ScoutingApplication extends Application
             }
         }
 
-        fieldDictionary.put("counter", Counter.class);
+        /*fieldDictionary.put("counter", Counter.class);
         fieldDictionary.put("checkbox", Checkbox.class);
         fieldDictionary.put("divider", Divider.class);
         fieldDictionary.put("rating", RatingStars.class);
-        fieldDictionary.put("notes", Notes.class);
+        fieldDictionary.put("notes", Notes.class);*/
     }
-
-    ///////////////////--PUBLIC METHODS--///////////////////////
 
     /**
      * Adds an extra match to the list of matches.
@@ -101,20 +132,6 @@ public class ScoutingApplication extends Application
 
         Toast.makeText(getApplicationContext(), "Added new match Q" + matches, Toast.LENGTH_SHORT);
         resetMatchGroups();
-    }
-
-    /**
-     * Adds a new field for the layout loader to look for.
-     *
-     * @param key        The name of the XML tag for the loaded to look for. This must be unique.
-     * @param fieldClass Class object for the instance of <code>Field</code> to be added.
-     * @throws IllegalArgumentException If multiple fields share the same tag.
-     */
-    public void addField(String key, Class<? extends Field> fieldClass)
-    {
-        if (!fieldDictionary.containsKey(key)) fieldDictionary.put(key, fieldClass);
-        else
-            throw new IllegalArgumentException("Multiple fields may not share the same nametag: " + key);
     }
 
     ///////////////////--FILE I/0 METHODS--////////////////////////
@@ -144,11 +161,11 @@ public class ScoutingApplication extends Application
                     continue;
                 }
 
+                Log.d("AerialAssault", e.getTagName() + " | " + fieldDictionary.size());
+
                 Field f = fieldDictionary.get(e.getTagName()).newInstance();
                 f.setUp(e);
                 data.add(f);
-
-                ////////Log.d("AerialAssault", e.getTagName())
                 /*
                 if (e.getTagName().contains("counter")) {
                     Counter c = new Counter(Integer.parseInt(e.getAttribute("initValue")), e.getAttribute("name"));
@@ -178,7 +195,7 @@ public class ScoutingApplication extends Application
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            ////////Log.e("AerialAssault", "Error", e);
+            Log.e("AerialAssault", "Error", e);
         }
 
         SharedPreferences.Editor prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit();
@@ -378,7 +395,7 @@ public class ScoutingApplication extends Application
 
         for (int i = 0; i < 314; i++) {
             m = new MatchGroup(i, getTeamsWithMatch(i));
-            Log.d("AerialAssault", "New Match Group " + i + " Size " + Integer.toString(m.teams.length));
+            //Log.d("AerialAssault", "New Match Group " + i + " Size " + Integer.toString(m.teams.length));
             if (m.teams.length > 0) groups.put(i, new MatchGroup(i, getTeamsWithMatch(i)));
 
         }
@@ -416,13 +433,24 @@ public class ScoutingApplication extends Application
     private class SaveTask extends AsyncTask<Object, Object, Object>
     {
 
+        ArrayList<FRCTeam> teamArrayList;
+
+        /**
+         * Show a progress wheel while loading time map.
+         */
+        @Override
+        protected void onPreExecute()
+        {
+            teamArrayList = teamsList.getValues();
+        }
+
         @Override
         protected Object doInBackground(Object... params)
         {
             matches = 0;
-            for (Map.Entry<Integer, FRCTeam> entry : teamsList) {
+            for (FRCTeam team : teamArrayList) {
                 try {
-                    FRCTeam team = entry.getValue();
+                    //FRCTeam team = entry.getValue();
                     String FILEPATH = getFilesDir().getAbsolutePath() + File.separator + Integer.toString(team.number);// + ".csv";
                     CsvWriter csvw = new CsvWriter(FILEPATH);
                     csvw.setDelimiter(',');
