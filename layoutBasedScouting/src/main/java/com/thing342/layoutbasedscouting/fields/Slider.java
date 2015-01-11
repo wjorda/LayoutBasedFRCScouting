@@ -110,7 +110,11 @@ public class Slider extends Field<Slider.InstantiableDouble>
         @Override
         public void setValue(Object value)
         {
-            this.value = Double.parseDouble((String) value);
+            try {
+                this.value = Double.parseDouble((String) value);
+            } catch (ClassCastException r) {
+                this.value = (Double) value;
+            }
             //this.value = (Double) value;
         }
 

@@ -4,21 +4,20 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 
 import java.util.ArrayList;
 //import android.app.ActionBar;
 //import android.view.Menu;
 //import android.view.MenuItem;
 
-public class MatchEditorActivity extends SherlockActivity
+public class MatchEditorActivity extends ActionBarActivity
 {
 
     private static final transient int vibLength = 500; //Time to vibrate when field is changed.
@@ -162,7 +161,7 @@ public class MatchEditorActivity extends SherlockActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getSupportMenuInflater().inflate(R.menu.match_editor, menu);
+        getMenuInflater().inflate(R.menu.match_editor, menu);
         return true;
     }
 

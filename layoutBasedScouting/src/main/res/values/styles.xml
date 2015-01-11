@@ -1,23 +1,16 @@
 <resources>
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
-    </style>
-    
-    <style name="OldTheme" parent="@android:style/Theme">
+    <style name="Theme.Application" parent="Theme.AppCompat.Light.DarkActionBar"/>
+
+    <style name="Theme.Settings" parent="@style/Theme.Application">
+        <item name="android:windowNoTitle">true</item>
+        <item name="toolbarStyle">@style/Widget.Toolbar</item>
     </style>
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    <style name="Widget.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:color">@android:color/white</item>
+        <item name="navigationIcon">?attr/homeAsUpIndicator</item>
     </style>
 
 </resources>

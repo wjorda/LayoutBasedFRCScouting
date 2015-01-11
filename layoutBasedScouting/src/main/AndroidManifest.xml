@@ -18,7 +18,7 @@
         android:name=".ScoutingApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:theme="@style/Theme.Sherlock.Light.DarkActionBar"
+        android:theme="@style/Theme.Application"
         tools:replace="android:icon,android:theme">
         <activity
             android:name="com.thing342.layoutbasedscouting.MainActivity"
@@ -41,14 +41,11 @@
         </activity>
         <activity android:name="ar.com.daidalos.afiledialog.FileChooserActivity"/>
         <activity
-            android:name="com.thing342.layoutbasedscouting.PreferenceHelperActivity"
-            android:label="@string/title_activity_file_dialog_helper">
-        </activity>
-        <activity
             android:name="com.thing342.layoutbasedscouting.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="com.thing342.layoutbasedscouting.MainActivity">
-            <meta-data
+            android:parentActivityName="com.thing342.layoutbasedscouting.MainActivity"
+            android:theme="@style/Theme.Settings">
+        <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.thing342.layoutbasedscouting.MainActivity"/>
         </activity>

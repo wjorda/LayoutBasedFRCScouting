@@ -12,11 +12,14 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.support.v4.app.NavUtils;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.actionbarsherlock.app.SherlockPreferenceActivity;
-import com.actionbarsherlock.view.MenuItem;
 
 import java.io.File;
 
@@ -33,9 +36,10 @@ import java.io.File;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends SherlockPreferenceActivity
+public class SettingsActivity extends PreferenceActivity
 {
 
+    private Toolbar mToolBar;
 
     //////////////--CONSTRUCTORS--////////////////////////
 
@@ -78,6 +82,28 @@ public class SettingsActivity extends SherlockPreferenceActivity
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void setContentView(int layoutResID)
+    {
+        ViewGroup contentView = (ViewGroup) LayoutInflater.from(this).inflate(
+                R.layout.activity_settings, new LinearLayout(this), false);
+
+        mToolBar = (Toolbar) contentView.findViewById(R.id.action_bar);
+        mToolBar.setNavigationOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                finish();
+            }
+        });
+
+        ViewGroup contentWrapper = (ViewGroup) contentView.findViewById(R.id.content_wrapper);
+        LayoutInflater.from(this).inflate(layoutResID, contentWrapper, true);
+
+        getWindow().setContentView(contentView);
     }
 
     /////////////////--PRIVATE METHODS--//////////////////
@@ -194,14 +220,13 @@ public class SettingsActivity extends SherlockPreferenceActivity
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
             // Show the Up button in the action bar.
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             SharedPreferences prefs = getSharedPreferences("com.thing342.layoutbasedscouting_preferences", Context.MODE_PRIVATE);
             DeviceId restoredId = DeviceId.getFromValue(prefs.getString("deviceid", "0"));
             Log.d("SettingsActivity", restoredId.toString());
-            setTitle("Scouting Settings");
+            mToolBar.setTitle("Scouting Settings");
 
             if (android.os.Build.VERSION.SDK_INT >= 5) {
-                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(restoredId.hexColor));
+                mToolBar.setBackgroundDrawable(new ColorDrawable(restoredId.hexColor));
             }
         }
     }
@@ -211,13 +236,12 @@ public class SettingsActivity extends SherlockPreferenceActivity
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
             // Show the Up button in the action bar.
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             DeviceId restoredId = DeviceId.getFromValue(newValue);
             Log.d("SettingsActivity", restoredId.toString());
-            setTitle("Scouting Settings");
+            mToolBar.setTitle("Scouting Settings");
 
             if (android.os.Build.VERSION.SDK_INT >= 5) {
-                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(restoredId.hexColor));
+                mToolBar.setBackgroundDrawable(new ColorDrawable(restoredId.hexColor));
             }
         }
     }

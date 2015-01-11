@@ -2,33 +2,33 @@
     	xmlns:app="http://schemas.android.com/apk/res-auto">
     
 	<item android:id="@+id/search"
-        android:title="Search Teams"
-		android:icon="@drawable/ic_action_search"
-        android:showAsAction="ifRoom" />
-	
-	<item android:id="@+id/action_export"
+          android:icon="@drawable/ic_action_search"
+          android:title="Search Teams"
+          app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_export"
         android:title="Export..."
-        android:showAsAction="ifRoom" />
-   
+        app:showAsAction="ifRoom"/>
+
     <item
         android:id="@+id/action_schedule_add"
-        android:orderInCategory="100"
-        android:showAsAction="never"
         android:icon="@drawable/ic_action_new"
-        android:title="Add Extra Match"/>
-    
+        android:orderInCategory="100"
+        android:title="Add Extra Match"
+        app:showAsAction="never"/>
+
     <item
         android:id="@+id/action_team_add"
+        android:icon="@drawable/ic_action_new"
         android:orderInCategory="100"
-        android:showAsAction="never"
         android:title="Add New Team"
-        android:icon="@drawable/ic_action_new" />
+        app:showAsAction="never"/>
 
-      <item
+    <item
         android:id="@+id/action_settings"
+        android:icon="@drawable/ic_action_settings"
         android:orderInCategory="100"
-        android:showAsAction="ifRoom"
         android:title="Settings..."
-        android:icon="@drawable/ic_action_settings" />
+        app:showAsAction="always"/>
 
 </menu>

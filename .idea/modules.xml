@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ActionBarSherlock/ActionBarSherlock.iml" filepath="$PROJECT_DIR$/ActionBarSherlock/ActionBarSherlock.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ActionBarSherlock/ActionBarSherlock.iml" filepath="$PROJECT_DIR$/ActionBarSherlock/ActionBarSherlock.iml" />
       <module fileurl="file://$PROJECT_DIR$/LayoutBasedScouting.iml" filepath="$PROJECT_DIR$/LayoutBasedScouting.iml" />
       <module fileurl="file://$PROJECT_DIR$/aFileDialog/aFileDialog.iml" filepath="$PROJECT_DIR$/aFileDialog/aFileDialog.iml" />
       <module fileurl="file://$PROJECT_DIR$/layoutBasedScouting/layoutBasedScouting.iml" filepath="$PROJECT_DIR$/layoutBasedScouting/layoutBasedScouting.iml" />

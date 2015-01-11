@@ -1,11 +1,9 @@
 /home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/classes/debug
 /home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/support-annotations-21.0.0-d920f493a28ef5f4df99cecb16eb9554bf9e185a.jar
+/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-4f14da7e05daa82a14856db8cf92c34f285f13a0.jar
 /home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/javacsv-1c6e47bc7ec1b3ce934f753506810d1526ef50aa.jar
 /home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-d9bc1ed0265eca640a07a135eebbad7897d8fe44.jar
-/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/annotations-2.0.1-53b97e15e6aeceb6fe63e9b646b0e0144460588b.jar
-/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/reflections-0.9.9-0c8b08f29c61e5fc14f006452fb2920c26a8c0a7.jar
 /home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/internal_impl-21.0.0-e2bfdaaba8420308eb3e0882b1e47b4a0ec3693d.jar
-/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-5457fe553481cce8b3b8f565a9ab724f90e8b590.jar
-/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/javassist-3.18.2-GA-2f211aef84815cd1e271bc2a47dfe9fef5033eb2.jar
+/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-ea806682f6ce2db668235b836dd75ce2118a7644.jar
+/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-ab5546ab7207a85ab70883f4dca878608c83f7d1.jar
 /home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-b67d9a553e553baa5d996ddb01da1d3de86dcb4c.jar
-/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/guava-15.0-d3f88de13c17f49f3c3759e10f9a5a1328b46a92.jar
