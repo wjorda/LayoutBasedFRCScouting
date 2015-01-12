@@ -3,6 +3,7 @@ package com.thing342.layoutbasedscouting;
 import android.app.Dialog;
 import android.content.Context;
 import android.preference.Preference;
+import android.view.ContextThemeWrapper;
 import android.widget.Toast;
 
 import java.io.File;
@@ -29,7 +30,9 @@ public class FileDialogPreference extends Preference
     {
         super.onClick();
 
-        FileChooserDialog dialog = new FileChooserDialog(getContext());
+        FileChooserDialog dialog =
+                new FileChooserDialog(new ContextThemeWrapper(getContext(),
+                        R.style.Theme_AppCompat_Light_Dialog));
         if (filter != null) dialog.setFilter(filter);
         if (dialogTitle != null) dialog.setTitle(dialogTitle);
         dialog.show();

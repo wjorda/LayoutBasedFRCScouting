@@ -16,7 +16,7 @@ android {
     defaultConfig {
         applicationId 'com.thing342.layoutbasedscouting'
         minSdkVersion 10
-        targetSdkVersion 19
+        targetSdkVersion 21
     }
     buildTypes {
         release {

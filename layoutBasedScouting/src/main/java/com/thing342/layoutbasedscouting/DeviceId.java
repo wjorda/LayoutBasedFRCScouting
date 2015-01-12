@@ -33,21 +33,28 @@ package com.thing342.layoutbasedscouting;
  */
 public enum DeviceId
 {
-    RED_1("red1", "Red 1", 1, 0xffD42828), RED_2("red2", "Red 2", 2, 0xFFD42828), RED_3("red3", "Red 3", 3, 0xFFD42828),
-    BLUE_1("blue1", "Blue 1", 4, 0xff456799), BLUE_2("blue2", "Blue 2", 5, 0xff456799), BLUE_3("blue3", "Blue 3", 6, 0xff456799),
-    OTHER("test", "Other", 0, 0xff2CAB2C);
+    RED_1("red1", "Red 1", 1, AppThemes.appThemes[0]),
+    RED_2("red2", "Red 2", 2, AppThemes.appThemes[0]),
+    RED_3("red3", "Red 3", 3, AppThemes.appThemes[0]),
+    BLUE_1("blue1", "Blue 1", 4, AppThemes.appThemes[1]),
+    BLUE_2("blue2", "Blue 2", 5, AppThemes.appThemes[1]),
+    BLUE_3("blue3", "Blue 3", 6, AppThemes.appThemes[1]),
+    OTHER("test", "Other", 0, AppThemes.appThemes[2]);
 
     public String filename;
     public String name;
     public int value;
-    public int hexColor;
+    public int styleId;
+    public int settingsStyleId;
 
-    private DeviceId(String filename, String name, int value, int hexColor)
+
+    private DeviceId(String filename, String name, int value, int[] styleIds)
     {
         this.filename = filename;
         this.name = name;
         this.value = value;
-        this.hexColor = hexColor;
+        this.styleId = styleIds[0];
+        this.settingsStyleId = styleIds[1];
     }
 
     /**
@@ -84,5 +91,14 @@ public enum DeviceId
     public String toString()
     {
         return name;
+    }
+
+    private static class AppThemes
+    {
+        private static int appThemes[][] = {
+                {R.style.Theme_Application_Red, R.style.Theme_Settings_Red},
+                {R.style.Theme_Application_Blue, R.style.Theme_Settings_Blue},
+                {R.style.Theme_Application, R.style.Theme_Settings}
+        };
     }
 }

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.preference.Preference;
+import android.view.ContextThemeWrapper;
 import android.widget.Toast;
 
 /**
@@ -69,7 +70,8 @@ public class DialogConfirmPreference extends Preference
     @Override
     public void onClick()
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                new ContextThemeWrapper(getContext(), R.style.Theme_AppCompat_Light_Dialog));
         builder
                 .setTitle(dialogTitle)
                 .setMessage(message)

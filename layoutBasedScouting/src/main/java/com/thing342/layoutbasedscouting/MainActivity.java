@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
@@ -24,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 
 //import android.view.Menu;
@@ -32,9 +33,12 @@ import java.util.Map;
 public class MainActivity extends ActionBarActivity
 {
 
+    public static final int APP_EXIT = 99;
+    public static final String DEVICE_ID_CHANGED = "device_id_changed";
     private ScoutingApplication app;
     private ListView listView;
     private int currentPos = 0;
+    private boolean onCreate;
 
     /////////////////////////--CONSTRUCTORS--/////////////////////////////////
 
@@ -44,23 +48,23 @@ public class MainActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
         app = ((ScoutingApplication) getApplication());
         app.resumeAll();
 
-        setContentView(R.layout.activity_main);
-        updateTitle();
-        setArrayAdapter();
+        setTheme();
 
+        onCreate = true;
     }
 
     @Override
     protected void onResume()
     {
         super.onResume();
-        ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
         updateTitle();
+        setTheme();
+        setContentView(R.layout.activity_main);
         setArrayAdapter();
+        ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
         getListView().setSelection(currentPos);
     }
 
@@ -71,8 +75,11 @@ public class MainActivity extends ActionBarActivity
         Log.d("AerialAssault", Boolean.toString(matchesFirst));
 
         if (matchesFirst) {
+            ArrayList<MatchGroup> matchGroups = app.groups.getValues();
+            Collections.sort(matchGroups);
+            
             ArrayAdapter<MatchGroup> arrayAdapter = new ArrayAdapter<MatchGroup>(
-                    this, android.R.layout.simple_list_item_1, app.groups.getValues());
+                    this, android.R.layout.simple_list_item_1, matchGroups);
             //MatchAdapter arrayAdapter = new MatchAdapter (this, app.groups);
             listView = (ListView) findViewById(R.id.teamListView);
             TextView emptyText = new TextView(getBaseContext());
@@ -162,7 +169,7 @@ public class MainActivity extends ActionBarActivity
 
             case R.id.action_settings:
                 Intent i = new Intent(this, SettingsActivity.class);
-                startActivity(i);
+                startActivityForResult(i, APP_EXIT);
                 return true;
 
             case R.id.action_export:
@@ -189,6 +196,16 @@ public class MainActivity extends ActionBarActivity
         return true;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == APP_EXIT) {
+            if (resultCode == RESULT_OK) {
+                if (data.getBooleanExtra(DEVICE_ID_CHANGED, false)) finish();
+            }
+        }
+    }
+
     ////////////////////////--PUBLIC METHODS--////////////////////////////////
 
     public ListView getListView()
@@ -201,15 +218,21 @@ public class MainActivity extends ActionBarActivity
         SharedPreferences prefs = getSharedPreferences(app.PREFS, Context.MODE_PRIVATE);
         DeviceId restoredId = DeviceId.getFromValue(prefs.getString(app.DEVICEID_PREF, "0"));
 
-        String title = getString(R.string.app_name) + " (" + getString(R.string.version_name) +
-                ") - Device ID: " + restoredId.toString();
+        String appHeader = getString(R.string.app_header);
+        appHeader = appHeader.replace("$v", getString(R.string.version_name));
+        appHeader = appHeader.replace("$d", restoredId.toString());
 
-        setTitle(title);
+        setTitle(appHeader);
 
-        if (android.os.Build.VERSION.SDK_INT >= 5) {
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(restoredId.hexColor));
-        }
+    }
 
+    private void setTheme()
+    {
+        SharedPreferences prefs = getSharedPreferences(app.PREFS, Context.MODE_PRIVATE);
+        DeviceId restoredId = DeviceId.getFromValue(prefs.getString(app.DEVICEID_PREF, "0"));
+
+        Log.d("User Id", restoredId.name);
+        setTheme(restoredId.styleId);
     }
 
     ///////////////////////--PRIVATE METHODS--/////////////////////////////////
@@ -249,7 +272,9 @@ public class MainActivity extends ActionBarActivity
         currentPos = pos;
 
         if (matchesFirst) {
-            MatchGroup mGroup = app.groups.getValues().get(pos);
+            ArrayList<MatchGroup> groups = app.groups.getValues();
+            Collections.sort(groups);
+            MatchGroup mGroup = groups.get(pos);
             FRCTeam[] teams = app.getTeamsWithMatch(mGroup.num);
 
             if (teams.length == 1) {

@@ -2,8 +2,8 @@ package com.thing342.layoutbasedscouting;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -41,10 +41,14 @@ public class MatchEditorActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
         app = ((ScoutingApplication) getApplication());
+        setTheme();
+
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_editor);
         //setupSlidingMenu();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle b = getIntent().getExtras();
         //mMatch = b.getParcelable("AERIALASSAULT_TEST_FRCTEAMMATCH");
@@ -136,11 +140,11 @@ public class MatchEditorActivity extends ActionBarActivity
             //Log.d("AerialAssault", "I SEE YOU VIEWER");
         }
 
-        if (android.os.Build.VERSION.SDK_INT >= 5) {
+        /*if (android.os.Build.VERSION.SDK_INT >= 5) {
             SharedPreferences prefs = getSharedPreferences(ScoutingApplication.PREFS, Context.MODE_PRIVATE);
             DeviceId restoredId = DeviceId.getFromValue(prefs.getString(ScoutingApplication.DEVICEID_PREF, "0"));
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(restoredId.hexColor));
-        }
+            //getSupportActionBar().setBackgroundDrawable(new ColorDrawable(restoredId.styleId));
+        }*/
     }
 
     @Override
@@ -175,10 +179,20 @@ public class MatchEditorActivity extends ActionBarActivity
             /*case R.id.action_settings:
                 openSettings();
                 return true;*/
-
+            case R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void setTheme()
+    {
+        SharedPreferences prefs = getSharedPreferences(app.PREFS, Context.MODE_PRIVATE);
+        DeviceId restoredId = DeviceId.getFromValue(prefs.getString(app.DEVICEID_PREF, "0"));
+
+        Log.d(getLocalClassName(), restoredId.name);
+        setTheme(restoredId.styleId);
     }
 
     private void saveMatch()

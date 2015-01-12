@@ -1,16 +1,63 @@
 <resources>
 
-    <style name="Theme.Application" parent="Theme.AppCompat.Light.DarkActionBar"/>
+    <style name="Theme.Application" parent="Theme.AppCompat.Light.DarkActionBar">
+
+    </style>
+
+    <style name="Widget.Toolbar.Red" parent="Widget.AppCompat.Toolbar">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="navigationIcon">?attr/homeAsUpIndicator</item>
+
+        <item name="android:textColorPrimary">@color/abc_primary_text_material_dark</item>
+        <item name="actionMenuTextColor">@color/abc_primary_text_material_dark</item>
+        <item name="android:textColorSecondary">@color/abc_primary_text_material_dark</item>
+        <item name="android:background">@color/redPrimary</item>
+    </style>
+
+    <style name="Widget.Toolbar.Blue" parent="Widget.AppCompat.Toolbar">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="navigationIcon">?attr/homeAsUpIndicator</item>
+
+        <item name="android:textColorPrimary">@color/abc_primary_text_material_dark</item>
+        <item name="actionMenuTextColor">@color/abc_primary_text_material_dark</item>
+        <item name="android:textColorSecondary">@color/abc_primary_text_material_dark</item>
+        <item name="android:background">@color/bluePrimary</item>
+    </style>
+
+    <style name="Widget.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="navigationIcon">?attr/homeAsUpIndicator</item>
+
+        <item name="android:textColorPrimary">@color/abc_primary_text_material_dark</item>
+        <item name="actionMenuTextColor">@color/abc_primary_text_material_dark</item>
+        <item name="android:textColorSecondary">@color/abc_primary_text_material_dark</item>
+    </style>
+
+    <style name="Theme.Application.Red" parent="Theme.Application">
+        <item name="colorPrimary">@color/redPrimary</item>
+        <item name="colorPrimaryDark">@color/redPrimaryDark</item>
+        <item name="colorAccent">@color/redAccent</item>
+    </style>
+
+    <style name="Theme.Application.Blue" parent="Theme.Application">
+        <item name="colorPrimary">@color/bluePrimary</item>
+        <item name="colorPrimaryDark">@color/bluePrimaryDark</item>
+        <item name="colorAccent">@color/blueAccent</item>
+    </style>
+
+    <style name="Theme.Settings.Red" parent="@style/Theme.Application.Red">
+        <item name="android:windowNoTitle">true</item>
+        <item name="toolbarStyle">@style/Widget.Toolbar.Red</item>
+    </style>
+
+    <style name="Theme.Settings.Blue" parent="@style/Theme.Application.Blue">
+        <item name="android:windowNoTitle">true</item>
+        <item name="toolbarStyle">@style/Widget.Toolbar.Blue</item>
+    </style>
 
     <style name="Theme.Settings" parent="@style/Theme.Application">
         <item name="android:windowNoTitle">true</item>
         <item name="toolbarStyle">@style/Widget.Toolbar</item>
-    </style>
-
-    <style name="Widget.Toolbar" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">?attr/colorPrimary</item>
-        <item name="android:color">@android:color/white</item>
-        <item name="navigationIcon">?attr/homeAsUpIndicator</item>
     </style>
 
 </resources>

@@ -1,9 +1,11 @@
 package com.thing342.layoutbasedscouting;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -14,6 +16,7 @@ import android.preference.PreferenceScreen;
 import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +54,7 @@ public class SettingsActivity extends PreferenceActivity
     {
         super.onCreate(savedInstanceState);
         setupActionBar();
+        setTheme();
         Log.d("AerialAssault", "setupActionBar()");
         //addPreferencesFromResource(R.xml.preferences);
         setPreferenceScreen(makePreferences());
@@ -133,7 +137,8 @@ public class SettingsActivity extends PreferenceActivity
             {
                 Log.d("SettinActivity", preference.toString() + " : " + newValue.toString());
                 getPreferenceManager().getSharedPreferences().edit().putString("deviceid", (String) newValue).commit();
-                setupActionBar((String) newValue);
+                setTheme((String) newValue);
+                restartOnTheme();
                 return false;
             }
         });
@@ -212,6 +217,37 @@ public class SettingsActivity extends PreferenceActivity
         return root;
     }
 
+    private void restartOnTheme()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_AppCompat_Light_Dialog));
+        builder.setTitle("Relaunch App")
+                .setMessage("This change requires reloading the application.")
+                .setCancelable(true)
+                .setPositiveButton("Close", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        Intent data = new Intent();
+                        //---set the data to pass back---
+                        data.putExtra(MainActivity.DEVICE_ID_CHANGED, true);
+                        setResult(RESULT_OK, data);
+                        //---close the activity---
+                        dialog.dismiss();
+                        finish();
+                    }
+                })
+                .setOnCancelListener(new DialogInterface.OnCancelListener()
+                {
+                    @Override
+                    public void onCancel(DialogInterface dialog)
+                    {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
     /**
      * Set up the {@link android.app.ActionBar}, if the API is available.
      */
@@ -220,30 +256,25 @@ public class SettingsActivity extends PreferenceActivity
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
             // Show the Up button in the action bar.
-            SharedPreferences prefs = getSharedPreferences("com.thing342.layoutbasedscouting_preferences", Context.MODE_PRIVATE);
-            DeviceId restoredId = DeviceId.getFromValue(prefs.getString("deviceid", "0"));
-            Log.d("SettingsActivity", restoredId.toString());
-            mToolBar.setTitle("Scouting Settings");
-
-            if (android.os.Build.VERSION.SDK_INT >= 5) {
-                mToolBar.setBackgroundDrawable(new ColorDrawable(restoredId.hexColor));
-            }
+            mToolBar.setTitle("Settings");
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.FROYO)
-    private void setupActionBar(String newValue)
+    private void setTheme()
     {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-            // Show the Up button in the action bar.
-            DeviceId restoredId = DeviceId.getFromValue(newValue);
-            Log.d("SettingsActivity", restoredId.toString());
-            mToolBar.setTitle("Scouting Settings");
+        SharedPreferences prefs = getSharedPreferences(ScoutingApplication.PREFS, Context.MODE_PRIVATE);
+        DeviceId restoredId = DeviceId.getFromValue(prefs.getString("deviceid", "0"));
+        setTheme(restoredId.styleId);
+    }
 
-            if (android.os.Build.VERSION.SDK_INT >= 5) {
-                mToolBar.setBackgroundDrawable(new ColorDrawable(restoredId.hexColor));
-            }
-        }
+    private void setTheme(String newValue)
+    {
+        DeviceId restoredId = DeviceId.getFromValue(newValue);
+        setTheme(restoredId.settingsStyleId);
+
+        if (Build.VERSION.SDK_INT >= 11) {
+            recreate();
+        } else setPreferenceScreen(makePreferences());
     }
 
 }

@@ -1,6 +1,6 @@
 package com.thing342.layoutbasedscouting;
 
-public class MatchGroup
+public class MatchGroup implements Comparable<MatchGroup>
 {
     public final int num;
     public int teams[];
@@ -40,5 +40,11 @@ public class MatchGroup
         }
 
         return true;
+    }
+
+    @Override
+    public int compareTo(MatchGroup another)
+    {
+        return num - another.num;
     }
 }

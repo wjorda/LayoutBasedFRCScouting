@@ -1,2 +1,2 @@
-include ':aFileDialog', 'ActionBarSherlock'
+include ':aFileDialog', 'ActionBarSherlock', ':ActionBarSherlock'
 include ':layoutBasedScouting'
