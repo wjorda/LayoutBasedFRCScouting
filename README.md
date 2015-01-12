@@ -69,6 +69,5 @@ Match, Red1, Red2, Red3, Blue1, Blue2, Blue3
 ```
 
 ### Libraries Used
-[ActionBarSherlock](http://actionbarsherlock.com/) by Jake Wharton
-[Java CSV](http://www.csvreader.com/java_csv.php) by Bruce Dunwiddie
-[aFileDialog](https://code.google.com/p/afiledialog/) by Jose Maldonado
+######[Java CSV](http://www.csvreader.com/java_csv.php) by Bruce Dunwiddie
+######[aFileDialog](https://code.google.com/p/afiledialog/) by Jose Maldonado
