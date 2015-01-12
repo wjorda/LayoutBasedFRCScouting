@@ -146,6 +146,7 @@ public class MatchEditorActivity extends ActionBarActivity
                         fieldLookup.put(pos, f);
                     }
                     pos++;
+                    Log.d("pos", pos + "");
                 }
 
                 if (thisView != null) content.addView(thisView);
@@ -214,16 +215,20 @@ public class MatchEditorActivity extends ActionBarActivity
     private void saveMatch()
     {
 
-        checkDataFields:
-        for (int i = 0; i < layout.getChildCount(); i++) {
-            View v = layout.getChildAt(i);
-            if (v.getTag() == null) {
-                Log.d("AerialAssault", "Field is null!!!!!");
-                continue checkDataFields;
-            }
+        for (int j = 0; j < layout.getChildCount(); j++) {
+            LinearLayout cardContent = (LinearLayout) layout.getChildAt(j).findViewById(R.id.group_content);
 
-            int pos = (Integer) v.getTag();
-            data.set(pos, fieldLookup.get(pos).getValue());
+            checkDataFields:
+            for (int i = 0; i < cardContent.getChildCount(); i++) {
+                View v = cardContent.getChildAt(i);
+                if (v.getTag() == null) {
+                    Log.d("AerialAssault", v.getClass().toString());
+                    continue checkDataFields;
+                }
+
+                int pos = (Integer) v.getTag();
+                data.set(pos, fieldLookup.get(pos).getValue());
+            }
         }
 
         ((ScoutingApplication) getApplication()).teamsList.get(team).matches.get(match).data = data; //direct Reference to mMatch

@@ -9,6 +9,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="left"
         android:text="-"/>
 
     <TextView
@@ -34,6 +35,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="right"
         android:text="+"/>
 
 </LinearLayout>
