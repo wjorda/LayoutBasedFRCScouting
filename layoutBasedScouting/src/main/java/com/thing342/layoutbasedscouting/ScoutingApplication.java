@@ -48,6 +48,7 @@ public class ScoutingApplication extends Application
             new HashMap<String, Class<? extends Field>>();
     public IterableHashMap<Integer, FRCTeam> teamsList = new IterableHashMap<Integer, FRCTeam>();
     public IterableHashMap<Integer, MatchGroup> groups = new IterableHashMap<Integer, MatchGroup>();
+    public IterableHashMap<String, ArrayList<Field>> groupedData = new IterableHashMap<String, ArrayList<Field>>();
     public ArrayList<Field> data = new ArrayList<Field>();
     public int matches = 0;
     private View scoreLayout;
@@ -150,48 +151,40 @@ public class ScoutingApplication extends Application
         try {
             Document file = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(loc);
             NodeList nodes = file.getChildNodes().item(0).getChildNodes();
-            //printNodeNames(nodes);
+            ArrayList<Field> groupData = new ArrayList<Field>();
+            boolean flag = true;
+            String groupName = "";
+            //for(int q = 0; q < nodes.getLength(); q++) Log.d("Nodes", nodes.item(q).getLocalName());
 
+            Node n;
             Element e;
             for (int i = 0; i < nodes.getLength(); i++) {
 
-                if (nodes.item(i).getNodeType() == Node.ELEMENT_NODE) e = (Element) nodes.item(i);
-                else {
+                n = nodes.item(i);
 
-                    continue;
-                }
-
+                if (n.getNodeType() == Node.ELEMENT_NODE) e = (Element) n;
+                else continue;
+                
                 Log.d("AerialAssault", e.getTagName() + " | " + fieldDictionary.size());
 
-                Field f = fieldDictionary.get(e.getTagName()).newInstance();
-                f.setUp(e);
-                data.add(f);
-                /*
-                if (e.getTagName().contains("counter")) {
-                    Counter c = new Counter(Integer.parseInt(e.getAttribute("initValue")), e.getAttribute("name"));
-                    data.add(new Counter(
-                            Integer.parseInt(e.getAttribute("initValue")),
-                            e.getAttribute("name")));
-                    ////////Log.d("AerialAssault", "I SEE YOU HUMAN");
-                } else if (e.getTagName().contains("checkbox")) {
-                    data.add(new Checkbox(e.getAttribute("name")));
-                    ////////Log.d("AerialAssault", "I SEE YOU HUMANHUMAN");
-                } else if (e.getTagName().contains("rating")) {
-                    data.add(new RatingStars(e.getAttribute("name"), Integer.parseInt(e.getAttribute("scale"))));
-                    ////////Log.d("AerialAssault", "I SEE YOU HUMANHUMANHUMAN");
-                } else if (e.getTagName().contains("notes")) {
-                    data.add(new Notes(e.getAttribute("hint")));
-                    ////////Log.d("AerialAssault", "I SEE YOU VIEWER");
-                } else if (e.getTagName().contains("divider")) {
-                    data.add(new Divider(e.getAttribute("name")));
-                    ////////Log.d("AerialAssault", "I SEE YOU VIEWER");
-                }*/
+                if (e.getTagName().contains("group")) {
+                    if (!flag) {
+                        groupedData.put(groupName, groupData);
+                        groupData = new ArrayList<Field>();
+                    }
+                    groupName = e.getAttribute("name");
+                    flag = false;
 
+                } else {
+                    Field f = fieldDictionary.get(e.getTagName()).newInstance();
+                    f.setUp(e);
+                    groupData.add(f);
+                }
+                
                 Log.d("AerialAssist", e.getAttribute("id"));
-
-
-                ////////Log.d("AerialAssault", e.getTagName());
             }
+
+            groupedData.put(groupName, groupData);
 
         } catch (Exception e) {
             // TODO Auto-generated catch block

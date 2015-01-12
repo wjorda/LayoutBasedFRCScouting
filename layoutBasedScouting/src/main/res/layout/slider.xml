@@ -18,7 +18,7 @@
             android:layout_gravity="center"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:text="0"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="bold"/>
 
     </LinearLayout>
@@ -37,7 +37,7 @@
             android:layout_weight="0"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:text="0"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="bold"/>
 
         <SeekBar
@@ -54,7 +54,7 @@
             android:layout_weight="0"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:text="100"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="bold"/>
     </LinearLayout>
 

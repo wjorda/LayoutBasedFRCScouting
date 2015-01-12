@@ -10,17 +10,17 @@ This application uses XML-based config files to build different scoring panels. 
 ```
   <?xml version="1.0" encoding="UTF-8"?>
   <scouting>
-    <divider name="Counters"/>
+    <group name="Counters"/>
     <counter id="counter1" name= "Counter 1" initValue = "0"/>
     <counter id="counter2" name= "Counter 2" initValue = "50"/>
-    <divider name="Checkboxes"/>
+    <group name="Checkboxes"/>
     <checkbox id="checkbox1" name= "Checkbox 1" />
     <checkbox id="checkbox2" name= "Checkbox 2" />
-    <divider name="Ratings"/>
+    <group name="Ratings"/>
     <rating id="rating1" name="3-Star Rating" scale = "3" />
     <rating id="rating2" name="6-Star Rating" scale = "6" />
     <rating id="rating2" name="10-Star Rating" scale = "10" />
-    <divider name="Notes"/>
+    <group name="Notes"/>
     <notes id="notes" hint="Enter notes about things here!" />
   </scouting>
 ```

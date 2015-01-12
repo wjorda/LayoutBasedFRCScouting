@@ -18,7 +18,7 @@
         android:gravity="center_horizontal"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:text="Text: "
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
     <TextView
         android:id="@+id/field_value"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:text="0"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textStyle="bold"/>
 
     <Button
