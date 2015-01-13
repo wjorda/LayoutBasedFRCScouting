@@ -2,6 +2,7 @@ package com.thing342.layoutbasedscouting;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.util.Map;
 
@@ -124,7 +125,7 @@ public class FRCTeam implements Parcelable, Comparable<FRCTeam>
     }
 
     @Override
-    public int compareTo(FRCTeam another)
+    public int compareTo(@NonNull FRCTeam another)
     {
         return this.number - another.number;
     }

@@ -8,7 +8,7 @@
 
     <uses-sdk
         android:minSdkVersion="10"
-        android:targetSdkVersion="14"
+        android:targetSdkVersion="21"
         tools:overrideLibrary="ar.com.daidalos.afiledialog"/>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -45,7 +45,7 @@
             android:label="@string/title_activity_settings"
             android:parentActivityName="com.thing342.layoutbasedscouting.MainActivity"
             android:theme="@style/Theme.Settings">
-        <meta-data
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.thing342.layoutbasedscouting.MainActivity"/>
         </activity>

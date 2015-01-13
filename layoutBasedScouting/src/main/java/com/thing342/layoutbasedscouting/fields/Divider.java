@@ -56,7 +56,7 @@ public class Divider extends Field<String>
     @Override
     public void setUp(Element e)
     {
-        name = new String();
+        name = "";
         name = e.getAttribute("name");
     }
 

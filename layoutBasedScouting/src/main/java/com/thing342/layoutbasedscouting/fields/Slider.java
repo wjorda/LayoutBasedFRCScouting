@@ -19,10 +19,10 @@ import org.w3c.dom.Element;
 public class Slider extends Field<Slider.InstantiableDouble>
 {
 
+    private final int resId = R.layout.slider;
     private double min = 0, max = 100, value = 50, step = 1;
     private SeekBar seekBar;
     private TextView fieldValue;
-    private int resId = R.layout.slider;
     private String name = "";
 
     static {

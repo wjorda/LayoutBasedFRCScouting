@@ -23,8 +23,8 @@ public class Counter extends Field<InstantiableInteger>
         ScoutingApplication.addField("counter", Counter.class);
     }
 
+    private final int resId = R.layout.counter;
     private int value = 0;
-    private int resId = R.layout.counter;
     private String name;
     private TextView countText;
 
@@ -66,7 +66,7 @@ public class Counter extends Field<InstantiableInteger>
     public View getView(Context context, Instantiable.InstantiableInteger initValue)
     {
         value = initValue.value;
-        
+
         View v = LayoutInflater.from(context).inflate(resId, null);
         ((TextView) v.findViewById(R.id.field_name)).setText(name);
 

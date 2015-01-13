@@ -14,9 +14,9 @@ import android.widget.Spinner;
 public class MatchAddFragment extends DialogFragment
 {
 
-    private int spinnerNum = 1;
+    private final int spinnerNum = 1;
 
-    private Spinner spinners[] = new Spinner[spinnerNum];
+    private final Spinner spinners[] = new Spinner[spinnerNum];
     private OnFinishListener listener;
 
     public MatchAddFragment()

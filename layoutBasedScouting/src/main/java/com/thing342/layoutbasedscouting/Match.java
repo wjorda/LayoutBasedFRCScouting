@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Match
 {
 
-    public int matchNum;
-    public FRCTeam team;
+    public final int matchNum;
+    private final FRCTeam team;
 
 	/*
     public int autoTopGoal=0, autoBottomGoal=0, autoShotsMissed=0, autoHotGoal=0;

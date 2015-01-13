@@ -17,8 +17,8 @@ import org.w3c.dom.Element;
 public class Notes extends Field<String>
 {
 
+    private final int resId = R.layout.note;
     private String hint;
-    private int resId = R.layout.note;
     private EditText textBox;
 
     static {

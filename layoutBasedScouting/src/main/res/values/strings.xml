@@ -39,5 +39,27 @@
     </string-array>
 
     <string name="title_activity_file_dialog_helper">FileDialogHelperActivity</string>
+    <string name="export">Export...</string>
+    <string name="search_teams">Search Teams</string>
+    <string name="add_extra_match">Add Extra Match</string>
+    <string name="add_new_team">Add New Team</string>
+    <string name="settings">Settings...</string>
+    <string name="minus">-</string>
+    <string name="field_name">Field Name:</string>
+    <string name="red1">Red 1</string>
+    <string name="red2">Red 2:</string>
+    <string name="red3">Red 3:</string>
+    <string name="blue1">Blue 1:</string>
+    <string name="blue2">Blue 2:</string>
+    <string name="blue3">Blue 3:</string>
+    <string name="add_match">Add Match</string>
+    <string name="red_2">Red 2</string>
+    <string name="red_3">Red 3</string>
+    <string name="blue_1">Blue 1</string>
+    <string name="blue_2">Blue 2</string>
+    <string name="blue_3">Blue 3</string>
+    <string name="other">Other</string>
+    <string name="confirm">Confirm</string>
+    <string name="plus">+</string>
 
 </resources>

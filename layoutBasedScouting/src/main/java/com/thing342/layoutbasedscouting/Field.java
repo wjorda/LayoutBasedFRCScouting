@@ -14,7 +14,7 @@ import org.w3c.dom.Element;
 public abstract class Field<T>
 {
 
-    private T t;
+    private final T t;
     private String name;
 
     /**
@@ -50,6 +50,11 @@ public abstract class Field<T>
         return name;
     }
 
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
     /**
      * Abstract method for retrieving the <code>View</code> displayed by this field.
      *
@@ -62,5 +67,4 @@ public abstract class Field<T>
     public abstract void setUp(Element e);
 
     public abstract T getValue();
-
 }

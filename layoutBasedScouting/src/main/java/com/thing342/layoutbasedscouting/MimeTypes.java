@@ -463,7 +463,7 @@ public enum MimeTypes
     xyz("chemical/x-xyz"),
     zip("application/zip"),
     zmt("chemical/x-mopac-input"),;
-    public String contentType;
+    public final String contentType;
 
     MimeTypes(String contentType
     )

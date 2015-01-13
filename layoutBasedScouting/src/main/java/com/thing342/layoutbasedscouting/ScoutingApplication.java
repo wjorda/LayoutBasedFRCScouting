@@ -42,15 +42,13 @@ public class ScoutingApplication extends Application
     public static final String PREFS = "com.thing342.layoutbasedscouting_preferences";
     public static final String XMLPATH_PREF = "xmlPath";
     public static final String DEVICEID_PREF = "deviceid";
-    public static final String FIRSTLAUNCH_PREF = "firstLaunch";
     public static final String MATCHESFIST_PREF = "matchesFirst";
-    private static HashMap<String, Class<? extends Field>> fieldDictionary =
+    private static final HashMap<String, Class<? extends Field>> fieldDictionary =
             new HashMap<String, Class<? extends Field>>();
-    public IterableHashMap<Integer, FRCTeam> teamsList = new IterableHashMap<Integer, FRCTeam>();
-    public IterableHashMap<Integer, MatchGroup> groups = new IterableHashMap<Integer, MatchGroup>();
-    public IterableHashMap<String, ArrayList<Field>> groupedData = new IterableHashMap<String, ArrayList<Field>>();
-    public ArrayList<Field> data = new ArrayList<Field>();
-    public int matches = 0;
+    public final IterableHashMap<Integer, FRCTeam> teamsList = new IterableHashMap<Integer, FRCTeam>();
+    public final IterableHashMap<Integer, MatchGroup> groups = new IterableHashMap<Integer, MatchGroup>();
+    public final IterableHashMap<String, ArrayList<Field>> groupedData = new IterableHashMap<String, ArrayList<Field>>();
+    private final ArrayList<Field> data = new ArrayList<Field>();
     private View scoreLayout;
 
     ///////////////////--CONSTRUCTORS--/////////////////////////////
@@ -67,9 +65,7 @@ public class ScoutingApplication extends Application
             Notes.class.newInstance();
             RatingStars.class.newInstance();
             Slider.class.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }
@@ -131,7 +127,7 @@ public class ScoutingApplication extends Application
             this.getTeam(teamNum).createMatch(matches);
         }
 
-        Toast.makeText(getApplicationContext(), "Added new match Q" + matches, Toast.LENGTH_SHORT);
+        Toast.makeText(getApplicationContext(), "Added new match Q" + matches, Toast.LENGTH_SHORT).show();
         resetMatchGroups();
     }
 
@@ -196,7 +192,7 @@ public class ScoutingApplication extends Application
 
         ////////Log.d("AerialAssault", loc.getAbsolutePath() + " into sharedprefs");
 
-        prefs.commit();
+        prefs.apply();
 
     }
 
@@ -209,8 +205,8 @@ public class ScoutingApplication extends Application
 
         if (getFilesDir().isDirectory()) {
             String[] children = getFilesDir().list();
-            for (int i = 0; i < children.length; i++) {
-                new File(getFilesDir(), children[i]).delete();
+            for (String aChildren : children) {
+                new File(getFilesDir(), aChildren).delete();
             }
         }
     }
@@ -224,8 +220,8 @@ public class ScoutingApplication extends Application
     public void createFromFile(File file)
     {
 
-        int teamNum = 0;
-        int matchNum = 0;
+        int teamNum;
+        int matchNum;
 
         teamsList.clear();
         CsvReader csvr;
@@ -258,9 +254,8 @@ public class ScoutingApplication extends Application
      * Exports all collected match data to a TXT file.
      *
      * @param exportName The name (without file extensions) to write the data to.
-     * @throws IOException
      */
-    public void exportAll(String exportName) throws IOException
+    public void exportAll(String exportName)
     {
         ExportTask et = new ExportTask();
         et.execute(exportName);
@@ -279,7 +274,6 @@ public class ScoutingApplication extends Application
         }
 
         teamsList.clear();
-        matches = 0;
         FRCTeam thisTeam;
         CsvReader csvr;
 
@@ -295,9 +289,8 @@ public class ScoutingApplication extends Application
                 //csvr.setHeaders(Match.RECORD_HEAD);
 
                 while (csvr.readRecord()) {
-                    thisTeam.matches.put(new Integer(csvr.getValues()[0]), new Match(thisTeam, csvr.getValues()));
+                    thisTeam.matches.put(Integer.valueOf(csvr.getValues()[0]), new Match(thisTeam, csvr.getValues()));
                     //////////Log.d("AerialAssault", "Read " + csvr.getRawRecord());
-                    matches++;
                 }
                 teamsList.put(thisTeam.number, thisTeam);
             }
@@ -349,7 +342,7 @@ public class ScoutingApplication extends Application
      *
      * @deprecated Only used for dummy data.
      */
-    public void initAll()
+    void initAll()
     {
         FRCTeam team1 = new FRCTeam(1001, "PotatoBots");
         team1.createMatch(1);
@@ -375,7 +368,7 @@ public class ScoutingApplication extends Application
      * @param num Numbe rof the team to search for.
      * @return true if the team exists in the database.
      */
-    public boolean teamExists(int num)
+    boolean teamExists(int num)
     {
         return (getTeam(num) != null);
     }
@@ -400,7 +393,7 @@ public class ScoutingApplication extends Application
      * @param teamNum The number of the team.
      * @return The <code>FRCTeam</code> using the number if it exists, <code>null</code> otherwise.
      */
-    public FRCTeam getTeam(int teamNum)
+    FRCTeam getTeam(int teamNum)
     {
         return teamsList.get(teamNum);
     }
@@ -440,7 +433,6 @@ public class ScoutingApplication extends Application
         @Override
         protected Object doInBackground(Object... params)
         {
-            matches = 0;
             for (FRCTeam team : teamArrayList) {
                 try {
                     //FRCTeam team = entry.getValue();
@@ -474,11 +466,7 @@ public class ScoutingApplication extends Application
         {
             SharedPreferences prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE);
             DeviceId restoredId = DeviceId.getFromValue(prefs.getString(DEVICEID_PREF, "0"));
-            try {
-                exportAll(restoredId.filename + ".txt");
-            } catch (IOException ioe) {
-                Toast.makeText(getApplicationContext(), "Unable to export matches: " + ioe.getMessage(), Toast.LENGTH_LONG).show();
-            }
+            exportAll(restoredId.filename + ".txt");
         }
 
     }

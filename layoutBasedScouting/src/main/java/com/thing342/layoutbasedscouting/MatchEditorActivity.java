@@ -21,22 +21,18 @@ import java.util.ArrayList;
 public class MatchEditorActivity extends ActionBarActivity
 {
 
-    private static final transient int vibLength = 500; //Time to vibrate when field is changed.
-    public ArrayList<Field> dataset;
-    public ArrayList<Object> data;
-    LinearLayout layout;
+    private final IterableHashMap<Integer, Field> fieldLookup = new IterableHashMap<Integer, Field>();
+    private ArrayList<Object> data;
+    private LinearLayout layout;
     private ScoutingApplication app;
     private Match mMatch;
     private FRCTeam mTeam;
-
     /*private int autoTopGoal=0, autoBottomGoal=0, autoShotsMissed=0, autoHotGoal=0;
     private boolean autoMobility=false;
     private int teleTopGoal=0, teleBottomGoal=0, teleShotsMissed=0, teleAssists=0, teleTrussShots=0, teleTrussCatches=0;
     private Rating offensiveRating=Rating.NA, defensiveRating=Rating.NA, driveTeamRating=Rating.NA;*/
     private int team = 0;
     private int match = 0;
-
-    private IterableHashMap<Integer, Field> fieldLookup = new IterableHashMap<Integer, Field>();
 
     @SuppressWarnings("rawtypes")
     @Override
@@ -71,9 +67,9 @@ public class MatchEditorActivity extends ActionBarActivity
         ArrayList<ArrayList<Field>> datas = app.groupedData.getValues();
         ArrayList<String> groupNames = app.groupedData.getKeys();
 
-        for (int j = datas.size() - 1; j >= 0; j--) {
+        for (int j = 0; j < datas.size(); j++) {
 
-            View group = getLayoutInflater().inflate(R.layout.group, null);
+            View group = getLayoutInflater().inflate(R.layout.group, layout);
             LinearLayout content = (LinearLayout) group.findViewById(R.id.group_content);
             TextView groupTitle = (TextView) group.findViewById(R.id.group_title);
             groupTitle.setText(groupNames.get(j));
@@ -101,21 +97,21 @@ public class MatchEditorActivity extends ActionBarActivity
                         Log.d("AerialAssault", classname);
 
                         if (classname.contains("class java.lang.Integer")) { //Counter
-                            newEntry = new Integer(0);
+                            newEntry = 0;
                             Log.d("AerialAssault", "New Int");
                         } else if (classname.contains("class java.lang.Boolean")) { //Checkbox
-                            newEntry = new Boolean(false);
+                            newEntry = false;
                             Log.d("AerialAssault", "New Bool");
                         } else if (classname.contains("Rating")) { //RatingBar
                             newEntry = Rating.NA;
                             Log.d("AerialAssault", "New Rating");
                         } else {
-                            newEntry = new Integer(0);
+                            newEntry = 0;
                         }
                     } catch (IllegalAccessException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
-                        newEntry = new Integer(0);
+                        newEntry = 0;
                     }
 
                     if (newEntry instanceof Instantiable)
@@ -136,9 +132,7 @@ public class MatchEditorActivity extends ActionBarActivity
                         Log.e("Scouting", "Error generating field " + i);
                         Log.e("Scouting", "Stack: " + Arrays.toString(e.getStackTrace()));
     
-                    } */ catch (InstantiationException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
+                    } */ catch (InstantiationException | IllegalAccessException e) {
                         e.printStackTrace();
                     }
                     if (thisView != null) {
@@ -205,8 +199,8 @@ public class MatchEditorActivity extends ActionBarActivity
 
     private void setTheme()
     {
-        SharedPreferences prefs = getSharedPreferences(app.PREFS, Context.MODE_PRIVATE);
-        DeviceId restoredId = DeviceId.getFromValue(prefs.getString(app.DEVICEID_PREF, "0"));
+        SharedPreferences prefs = getSharedPreferences(ScoutingApplication.PREFS, Context.MODE_PRIVATE);
+        DeviceId restoredId = DeviceId.getFromValue(prefs.getString(ScoutingApplication.DEVICEID_PREF, "0"));
 
         Log.d(getLocalClassName(), restoredId.name);
         setTheme(restoredId.styleId);
@@ -218,12 +212,11 @@ public class MatchEditorActivity extends ActionBarActivity
         for (int j = 0; j < layout.getChildCount(); j++) {
             LinearLayout cardContent = (LinearLayout) layout.getChildAt(j).findViewById(R.id.group_content);
 
-            checkDataFields:
             for (int i = 0; i < cardContent.getChildCount(); i++) {
                 View v = cardContent.getChildAt(i);
                 if (v.getTag() == null) {
                     Log.d("AerialAssault", v.getClass().toString());
-                    continue checkDataFields;
+                    continue;
                 }
 
                 int pos = (Integer) v.getTag();

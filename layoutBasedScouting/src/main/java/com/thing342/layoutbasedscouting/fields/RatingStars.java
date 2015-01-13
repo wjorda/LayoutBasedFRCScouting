@@ -17,7 +17,7 @@ import org.w3c.dom.Element;
 public class RatingStars extends Field<InstantiableRating>
 {
 
-    private int resId = R.layout.ratings;
+    private final int resId = R.layout.ratings;
     private String name;
     private int stars;
     private RatingBar ratingBar;

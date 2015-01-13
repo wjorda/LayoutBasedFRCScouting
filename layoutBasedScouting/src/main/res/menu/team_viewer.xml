@@ -1,9 +1,11 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/action_stats"
+        android:icon="@drawable/ic_action_storage"
         android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="View Team Stats" android:icon="@drawable/ic_action_storage"/>
+        android:title="View Team Stats"
+        app:showAsAction="never"/>
 
 </menu>

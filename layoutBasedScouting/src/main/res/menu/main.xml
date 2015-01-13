@@ -1,34 +1,36 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" 
-    	xmlns:app="http://schemas.android.com/apk/res-auto">
-    
-	<item android:id="@+id/search"
-          android:icon="@drawable/ic_action_search"
-          android:title="Search Teams"
-          app:showAsAction="never"/>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_export"
-        android:title="Export..."
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_action_search"
+        android:title="@string/search_teams"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_export"
+        android:title="@string/export"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_schedule_add"
         android:icon="@drawable/ic_action_new"
         android:orderInCategory="100"
-        android:title="Add Extra Match"
+        android:title="@string/add_extra_match"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_team_add"
         android:icon="@drawable/ic_action_new"
         android:orderInCategory="100"
-        android:title="Add New Team"
+        android:title="@string/add_new_team"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings_white_48dp"
         android:orderInCategory="100"
-        android:title="Settings..."
+        android:title="@string/settings"
         app:showAsAction="ifRoom"/>
 
 </menu>

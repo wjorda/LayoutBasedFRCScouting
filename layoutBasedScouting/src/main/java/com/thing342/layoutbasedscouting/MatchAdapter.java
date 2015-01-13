@@ -17,8 +17,8 @@ public class MatchAdapter extends BaseAdapter
 {
 
     private static LayoutInflater inflater = null;
-    Context context;
-    MatchGroup groups[];
+    private final Context context;
+    private final MatchGroup groups[];
 
     public MatchAdapter(Context context, MatchGroup groups[])
     {
@@ -57,7 +57,7 @@ public class MatchAdapter extends BaseAdapter
     {
         View vi;
         if (convertView == null) {
-            vi = inflater.inflate(R.layout.adapter_row, null);
+            vi = inflater.inflate(R.layout.adapter_row, parent);
             Log.d("AerialAssault", "convertView is null");
         } else vi = convertView;
 

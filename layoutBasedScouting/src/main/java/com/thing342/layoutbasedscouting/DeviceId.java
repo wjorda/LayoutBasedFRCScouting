@@ -41,11 +41,11 @@ public enum DeviceId
     BLUE_3("blue3", "Blue 3", 6, AppThemes.appThemes[1]),
     OTHER("test", "Other", 0, AppThemes.appThemes[2]);
 
-    public String filename;
-    public String name;
-    public int value;
-    public int styleId;
-    public int settingsStyleId;
+    public final String filename;
+    public final String name;
+    public final int value;
+    public final int styleId;
+    public final int settingsStyleId;
 
 
     private DeviceId(String filename, String name, int value, int[] styleIds)

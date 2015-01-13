@@ -4,7 +4,7 @@ public enum Rating
 {
     NA(0), POOR(1), MEDIOCRE(2), GOOD(3), GREAT(4);
 
-    public int value;
+    public final int value;
 
     private Rating(int value)
     {
@@ -45,7 +45,7 @@ public enum Rating
         return null;
     }
 
-    public static boolean parsable(String s)
+    private static boolean parsable(String s)
     {
         boolean parsable = true;
         try {

@@ -15,19 +15,16 @@ public class TeamAdapter extends BaseAdapter
 {
 
     private static LayoutInflater inflater = null;
-    Context context;
-    FRCTeam teams[];
+    private final FRCTeam teams[];
 
     public TeamAdapter(Context context, FRCTeam teams[])
     {
-        this.context = context;
         this.teams = teams;
         inflater = ((Activity) context).getLayoutInflater();
     }
 
     public TeamAdapter(Context context, ArrayList<FRCTeam> teamList)
     {
-        this.context = context;
         this.teams = teamList.toArray(new FRCTeam[teamList.size()]);
         inflater = ((Activity) context).getLayoutInflater();
     }
@@ -54,7 +51,7 @@ public class TeamAdapter extends BaseAdapter
     public View getView(int position, View convertView, ViewGroup parent)
     {
         View vi = convertView;
-        if (vi == null) vi = inflater.inflate(R.layout.adapter_row, null);
+        if (vi == null) vi = inflater.inflate(R.layout.adapter_row, parent);
         FRCTeam thisTeam = teams[position];
 
         TextView header = (TextView) vi.findViewById(R.id.rowHeader);

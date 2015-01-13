@@ -18,8 +18,8 @@ import org.w3c.dom.Element;
  */
 public class Checkbox extends Field<InstantiableBoolean>
 {
+    private final int resId = R.layout.checkbox;
     private String name;
-    private int resId = R.layout.checkbox;
     private CheckBox checkBox;
 
     static {
@@ -63,7 +63,7 @@ public class Checkbox extends Field<InstantiableBoolean>
     @Override
     public void setUp(Element e)
     {
-        name = new String();
+        name = "";
         name = e.getAttribute("name");
     }
 

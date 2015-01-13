@@ -1,10 +1,12 @@
 package com.thing342.layoutbasedscouting;
 
+import android.support.annotation.NonNull;
+
 public class MatchGroup implements Comparable<MatchGroup>
 {
     public final int num;
-    public int teams[];
-    private FRCTeam rTeams[];
+    public final int teams[];
+    private final FRCTeam rTeams[];
 
     public MatchGroup(int num, FRCTeam teams[])
     {
@@ -43,7 +45,7 @@ public class MatchGroup implements Comparable<MatchGroup>
     }
 
     @Override
-    public int compareTo(MatchGroup another)
+    public int compareTo(@NonNull MatchGroup another)
     {
         return num - another.num;
     }

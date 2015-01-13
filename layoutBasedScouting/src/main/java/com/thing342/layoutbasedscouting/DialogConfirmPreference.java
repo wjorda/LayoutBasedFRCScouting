@@ -81,7 +81,7 @@ public class DialogConfirmPreference extends Preference
                     public void onClick(DialogInterface dialog, int which)
                     {
                         //Yes button clicked, do something
-                        Toast.makeText(getContext(), toastText, toastLength);
+                        Toast.makeText(getContext(), toastText, toastLength).show();
                         listener.onConfirm();
                     }
                 })

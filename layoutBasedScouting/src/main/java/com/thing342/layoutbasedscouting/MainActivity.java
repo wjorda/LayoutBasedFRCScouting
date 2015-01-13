@@ -22,7 +22,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
@@ -33,12 +32,11 @@ import java.util.Map;
 public class MainActivity extends ActionBarActivity
 {
 
-    public static final int APP_EXIT = 99;
     public static final String DEVICE_ID_CHANGED = "device_id_changed";
+    private static final int APP_EXIT = 99;
     private ScoutingApplication app;
     private ListView listView;
     private int currentPos = 0;
-    private boolean onCreate;
 
     /////////////////////////--CONSTRUCTORS--/////////////////////////////////
 
@@ -53,7 +51,6 @@ public class MainActivity extends ActionBarActivity
 
         setTheme();
 
-        onCreate = true;
     }
 
     @Override
@@ -70,14 +67,14 @@ public class MainActivity extends ActionBarActivity
 
     private void setArrayAdapter()
     {
-        SharedPreferences prefs = getSharedPreferences(app.PREFS, Context.MODE_PRIVATE);
-        boolean matchesFirst = prefs.getBoolean(app.MATCHESFIST_PREF, true);
+        SharedPreferences prefs = getSharedPreferences(ScoutingApplication.PREFS, Context.MODE_PRIVATE);
+        boolean matchesFirst = prefs.getBoolean(ScoutingApplication.MATCHESFIST_PREF, true);
         Log.d("AerialAssault", Boolean.toString(matchesFirst));
 
         if (matchesFirst) {
             ArrayList<MatchGroup> matchGroups = app.groups.getValues();
             Collections.sort(matchGroups);
-            
+
             ArrayAdapter<MatchGroup> arrayAdapter = new ArrayAdapter<MatchGroup>(
                     this, android.R.layout.simple_list_item_1, matchGroups);
             //MatchAdapter arrayAdapter = new MatchAdapter (this, app.groups);
@@ -173,14 +170,10 @@ public class MainActivity extends ActionBarActivity
                 return true;
 
             case R.id.action_export:
-                SharedPreferences prefs = getSharedPreferences(app.PREFS, Context.MODE_PRIVATE);
-                DeviceId restoredId = DeviceId.getFromValue(prefs.getString(app.DEVICEID_PREF, "0"));
-                try {
-                    app.exportAll(restoredId.filename + ".txt");
-                    Toast.makeText(getApplicationContext(), "Match Data exported to /sdcard/Scouting/" + restoredId.filename + ".txt", Toast.LENGTH_SHORT).show();
-                } catch (IOException ioe) {
-                    Toast.makeText(getApplicationContext(), "Unable to export matches: " + ioe.getMessage(), Toast.LENGTH_LONG).show();
-                }
+                SharedPreferences prefs = getSharedPreferences(ScoutingApplication.PREFS, Context.MODE_PRIVATE);
+                DeviceId restoredId = DeviceId.getFromValue(prefs.getString(ScoutingApplication.DEVICEID_PREF, "0"));
+                app.exportAll(restoredId.filename + ".txt");
+                Toast.makeText(getApplicationContext(), "Match Data exported to /sdcard/Scouting/" + restoredId.filename + ".txt", Toast.LENGTH_SHORT).show();
                 return true;
 
             default:
@@ -208,15 +201,15 @@ public class MainActivity extends ActionBarActivity
 
     ////////////////////////--PUBLIC METHODS--////////////////////////////////
 
-    public ListView getListView()
+    ListView getListView()
     {
         return listView;
     }
 
     public void updateTitle()
     {
-        SharedPreferences prefs = getSharedPreferences(app.PREFS, Context.MODE_PRIVATE);
-        DeviceId restoredId = DeviceId.getFromValue(prefs.getString(app.DEVICEID_PREF, "0"));
+        SharedPreferences prefs = getSharedPreferences(ScoutingApplication.PREFS, Context.MODE_PRIVATE);
+        DeviceId restoredId = DeviceId.getFromValue(prefs.getString(ScoutingApplication.DEVICEID_PREF, "0"));
 
         String appHeader = getString(R.string.app_header);
         appHeader = appHeader.replace("$v", getString(R.string.version_name));
@@ -228,8 +221,8 @@ public class MainActivity extends ActionBarActivity
 
     private void setTheme()
     {
-        SharedPreferences prefs = getSharedPreferences(app.PREFS, Context.MODE_PRIVATE);
-        DeviceId restoredId = DeviceId.getFromValue(prefs.getString(app.DEVICEID_PREF, "0"));
+        SharedPreferences prefs = getSharedPreferences(ScoutingApplication.PREFS, Context.MODE_PRIVATE);
+        DeviceId restoredId = DeviceId.getFromValue(prefs.getString(ScoutingApplication.DEVICEID_PREF, "0"));
 
         Log.d("User Id", restoredId.name);
         setTheme(restoredId.styleId);
@@ -285,12 +278,10 @@ public class MainActivity extends ActionBarActivity
                 i.putExtra("AERIALASSAULT_TEST_FRCMATCH", mGroup.num);
                 i.putExtra("AERIALASSAULT_TEST_FRCTEAMMATCH", thisTeam.number);
                 startActivity(i);
-                return;
             }
 
         }
 
-        return;
     }
 
 }
