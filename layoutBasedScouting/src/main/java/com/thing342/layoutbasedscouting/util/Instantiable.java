@@ -1,4 +1,6 @@
-package com.thing342.layoutbasedscouting;
+package com.thing342.layoutbasedscouting.util;
+
+import com.thing342.layoutbasedscouting.Rating;
 
 /**
  * An interface for creating wrapper classes for types that do not have a default have a default

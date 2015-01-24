@@ -1,4 +1,4 @@
-package com.thing342.layoutbasedscouting;
+package com.thing342.layoutbasedscouting.util;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.preference.Preference;
 import android.view.ContextThemeWrapper;
 import android.widget.Toast;
+
+import com.thing342.layoutbasedscouting.R;
 
 /**
  * A <code>Preference</code> in which the user has to confirm the operation after selecting it.

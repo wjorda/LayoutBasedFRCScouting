@@ -18,9 +18,9 @@ public final class R {
 		public static final int document = 0x7f020037;
 		public static final int document_gray = 0x7f020038;
 		public static final int folder = 0x7f02003a;
-		public static final int ic_launcher = 0x7f020047;
-		public static final int no = 0x7f020049;
-		public static final int tick = 0x7f02004a;
+		public static final int ic_launcher = 0x7f020048;
+		public static final int no = 0x7f02004b;
+		public static final int tick = 0x7f020050;
 	}
 	public static final class id {
 		public static final int buttonAdd = 0x7f0b0050;

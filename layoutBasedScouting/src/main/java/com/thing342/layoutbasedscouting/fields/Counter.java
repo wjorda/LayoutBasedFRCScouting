@@ -9,10 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.thing342.layoutbasedscouting.Field;
-import com.thing342.layoutbasedscouting.Instantiable;
-import com.thing342.layoutbasedscouting.Instantiable.InstantiableInteger;
 import com.thing342.layoutbasedscouting.R;
 import com.thing342.layoutbasedscouting.ScoutingApplication;
+import com.thing342.layoutbasedscouting.util.Instantiable;
+import com.thing342.layoutbasedscouting.util.Instantiable.InstantiableInteger;
 
 import org.w3c.dom.Element;
 
@@ -45,6 +45,14 @@ public class Counter extends Field<InstantiableInteger>
         InstantiableInteger i = new InstantiableInteger();
         i.value = this.value;
         return i;
+    }
+
+    @Override
+    public InstantiableInteger parse(String value)
+    {
+        InstantiableInteger instantiableInteger = new InstantiableInteger();
+        instantiableInteger.value = Integer.parseInt(value);
+        return instantiableInteger;
     }
 
     private void add()

@@ -7,10 +7,10 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.thing342.layoutbasedscouting.Field;
-import com.thing342.layoutbasedscouting.Instantiable.InstantiableRating;
 import com.thing342.layoutbasedscouting.R;
 import com.thing342.layoutbasedscouting.Rating;
 import com.thing342.layoutbasedscouting.ScoutingApplication;
+import com.thing342.layoutbasedscouting.util.Instantiable.InstantiableRating;
 
 import org.w3c.dom.Element;
 
@@ -67,6 +67,14 @@ public class RatingStars extends Field<InstantiableRating>
     {
         InstantiableRating instantiableRating = new InstantiableRating();
         instantiableRating.value = Rating.parseValue(ratingBar.getRating());
+        return instantiableRating;
+    }
+
+    @Override
+    public InstantiableRating parse(String value)
+    {
+        InstantiableRating instantiableRating = new InstantiableRating();
+        instantiableRating.value = Rating.parse(value);
         return instantiableRating;
     }
 

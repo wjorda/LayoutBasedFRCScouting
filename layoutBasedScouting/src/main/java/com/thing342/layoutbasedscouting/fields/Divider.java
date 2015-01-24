@@ -66,4 +66,10 @@ public class Divider extends Field<String>
         return null;
     }
 
+    @Override
+    public String parse(String value)
+    {
+        return null;
+    }
+
 }

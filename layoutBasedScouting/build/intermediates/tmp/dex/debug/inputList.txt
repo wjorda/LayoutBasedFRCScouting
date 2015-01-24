@@ -1,9 +1,9 @@
 /home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/classes/debug
-/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/support-annotations-21.0.0-d920f493a28ef5f4df99cecb16eb9554bf9e185a.jar
+/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-37b384583c419b99619d4c53314d54c70939ee89.jar
 /home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-4f14da7e05daa82a14856db8cf92c34f285f13a0.jar
 /home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/javacsv-1c6e47bc7ec1b3ce934f753506810d1526ef50aa.jar
 /home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-d9bc1ed0265eca640a07a135eebbad7897d8fe44.jar
-/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/internal_impl-21.0.0-e2bfdaaba8420308eb3e0882b1e47b4a0ec3693d.jar
+/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-3bcb3fde87ba02d5e190b465541c27917241b1cd.jar
 /home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-ea806682f6ce2db668235b836dd75ce2118a7644.jar
-/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-ab5546ab7207a85ab70883f4dca878608c83f7d1.jar
-/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-b67d9a553e553baa5d996ddb01da1d3de86dcb4c.jar
+/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-aa716811c3f2a9c3566d298c8543d30b1b196074.jar
+/home/wes/AndroidStudioProjects/LayoutBasedScouting/layoutBasedScouting/build/intermediates/pre-dexed/debug/classes-ffc979266ffb29ef8508905d213318a06a188ff7.jar

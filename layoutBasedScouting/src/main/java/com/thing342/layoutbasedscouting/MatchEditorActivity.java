@@ -13,6 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.thing342.layoutbasedscouting.util.Instantiable;
+import com.thing342.layoutbasedscouting.util.IterableHashMap;
+
 import java.util.ArrayList;
 //import android.app.ActionBar;
 //import android.view.Menu;
@@ -67,13 +70,16 @@ public class MatchEditorActivity extends ActionBarActivity
         ArrayList<ArrayList<Field>> datas = app.groupedData.getValues();
         ArrayList<String> groupNames = app.groupedData.getKeys();
 
+        Log.d("datas size", datas.size() + "");
+
         for (int j = 0; j < datas.size(); j++) {
 
-            View group = getLayoutInflater().inflate(R.layout.group, layout);
+            View group = getLayoutInflater().inflate(R.layout.group, null);
             LinearLayout content = (LinearLayout) group.findViewById(R.id.group_content);
             TextView groupTitle = (TextView) group.findViewById(R.id.group_title);
             groupTitle.setText(groupNames.get(j));
             ArrayList<Field> groupData = datas.get(j);
+            Log.d("group datas size", groupData.size() + "");
 
             for (int i = 0; i < groupData.size(); i++) {
 
@@ -85,8 +91,8 @@ public class MatchEditorActivity extends ActionBarActivity
                 if (f.getType() == null) {
                     thisView = f.getView(this, null);
                 } else {
-                    if (!(mMatch.data == null || mMatch.data.size() == 0))
-                        newEntry = mMatch.data.get(pos);
+                    if (mMatch.data != null && mMatch.data.size() > 0)
+                        newEntry = f.parse(mMatch.data.get(pos));
 
                     else try {
                         newEntry = f.getType().newInstance();
@@ -114,11 +120,12 @@ public class MatchEditorActivity extends ActionBarActivity
                         newEntry = 0;
                     }
 
+                    Log.d("newEntry Class", newEntry.getClass().getCanonicalName());
+
                     if (newEntry instanceof Instantiable)
                         newEntry = ((Instantiable) newEntry).getEntry();
 
                     data.add(newEntry);
-                    Log.d("newEntry Class", newEntry.getClass().getCanonicalName());
 
 
                     try {
@@ -224,7 +231,10 @@ public class MatchEditorActivity extends ActionBarActivity
             }
         }
 
-        ((ScoutingApplication) getApplication()).teamsList.get(team).matches.get(match).data = data; //direct Reference to mMatch
+        ArrayList<String> strings = new ArrayList<>();
+        for (Object o : data) strings.add(o.toString());
+
+        ((ScoutingApplication) getApplication()).teamsList.get(team).matches.get(match).data = strings; //direct Reference to mMatch
         ((ScoutingApplication) getApplication()).saveAll();
 
         Toast.makeText(getBaseContext(), "Match Saved!", Toast.LENGTH_SHORT).show();

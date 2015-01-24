@@ -24,6 +24,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.thing342.layoutbasedscouting.util.DialogConfirmPreference;
+
 import java.io.File;
 
 //import android.view.MenuItem;

@@ -1449,11 +1449,17 @@ containing a value of this type.
         public static final int ic_action_search=0x7f020043;
         public static final int ic_action_settings=0x7f020044;
         public static final int ic_action_storage=0x7f020045;
-        public static final int ic_drawer=0x7f020046;
-        public static final int ic_launcher=0x7f020047;
-        public static final int ic_settings_white_48dp=0x7f020048;
-        public static final int no=0x7f020049;
-        public static final int tick=0x7f02004a;
+        public static final int ic_delete_grey600_36dp=0x7f020046;
+        public static final int ic_drawer=0x7f020047;
+        public static final int ic_launcher=0x7f020048;
+        public static final int ic_noodle=0x7f020049;
+        public static final int ic_settings_white_48dp=0x7f02004a;
+        public static final int no=0x7f02004b;
+        public static final int spite_can=0x7f02004c;
+        public static final int spite_can_noodle=0x7f02004d;
+        public static final int spite_tote=0x7f02004e;
+        public static final int sprite_can=0x7f02004f;
+        public static final int tick=0x7f020050;
     }
     public static final class id {
         public static final int action_bar=0x7f0b0031;
@@ -1464,17 +1470,17 @@ containing a value of this type.
         public static final int action_bar_subtitle=0x7f0b001f;
         public static final int action_bar_title=0x7f0b001e;
         public static final int action_context_bar=0x7f0b0032;
-        public static final int action_export=0x7f0b0078;
+        public static final int action_export=0x7f0b007e;
         public static final int action_menu_divider=0x7f0b0002;
         public static final int action_menu_presenter=0x7f0b0003;
         public static final int action_mode_bar=0x7f0b002e;
         public static final int action_mode_bar_stub=0x7f0b002d;
         public static final int action_mode_close_button=0x7f0b0020;
-        public static final int action_save=0x7f0b007b;
-        public static final int action_schedule_add=0x7f0b0079;
-        public static final int action_settings=0x7f0b0076;
-        public static final int action_stats=0x7f0b007c;
-        public static final int action_team_add=0x7f0b007a;
+        public static final int action_save=0x7f0b0081;
+        public static final int action_schedule_add=0x7f0b007f;
+        public static final int action_settings=0x7f0b007c;
+        public static final int action_stats=0x7f0b0082;
+        public static final int action_team_add=0x7f0b0080;
         public static final int activity_chooser_view_content=0x7f0b0021;
         public static final int always=0x7f0b0016;
         public static final int beginning=0x7f0b0013;
@@ -1485,6 +1491,8 @@ containing a value of this type.
         public static final int buttonAdd=0x7f0b0050;
         public static final int buttonId=0x7f0b005c;
         public static final int buttonOk=0x7f0b0051;
+        public static final int cbox_can=0x7f0b007a;
+        public static final int cbox_noodle=0x7f0b007b;
         public static final int checkBox1=0x7f0b006b;
         public static final int checkBox2=0x7f0b006c;
         public static final int checkbox=0x7f0b0029;
@@ -1540,7 +1548,7 @@ containing a value of this type.
         public static final int rowDesc=0x7f0b0047;
         public static final int rowHeader=0x7f0b0046;
         public static final int scrollView1=0x7f0b0041;
-        public static final int search=0x7f0b0077;
+        public static final int search=0x7f0b007d;
         public static final int searchListView=0x7f0b0043;
         public static final int search_badge=0x7f0b0035;
         public static final int search_bar=0x7f0b0034;
@@ -1576,6 +1584,10 @@ containing a value of this type.
         public static final int textView7=0x7f0b006a;
         public static final int textViewLabel=0x7f0b0053;
         public static final int title=0x7f0b0027;
+        public static final int tote_stacker_box=0x7f0b0079;
+        public static final int totebuttonminus=0x7f0b0078;
+        public static final int totebuttonplus=0x7f0b0077;
+        public static final int totestackadd=0x7f0b0076;
         public static final int up=0x7f0b0008;
         public static final int useLogo=0x7f0b0012;
         public static final int value=0x7f0b0072;
@@ -1630,6 +1642,8 @@ containing a value of this type.
         public static final int ratings=0x7f030029;
         public static final int slider=0x7f03002a;
         public static final int support_simple_spinner_dropdown_item=0x7f03002b;
+        public static final int tote_stacker=0x7f03002c;
+        public static final int tote_stacker_row=0x7f03002d;
     }
     public static final class menu {
         public static final int file_dialog_helper=0x7f0f0000;

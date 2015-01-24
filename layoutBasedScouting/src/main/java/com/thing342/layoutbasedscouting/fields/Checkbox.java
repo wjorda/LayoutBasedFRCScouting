@@ -7,9 +7,9 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.thing342.layoutbasedscouting.Field;
-import com.thing342.layoutbasedscouting.Instantiable.InstantiableBoolean;
 import com.thing342.layoutbasedscouting.R;
 import com.thing342.layoutbasedscouting.ScoutingApplication;
+import com.thing342.layoutbasedscouting.util.Instantiable.InstantiableBoolean;
 
 import org.w3c.dom.Element;
 
@@ -73,5 +73,13 @@ public class Checkbox extends Field<InstantiableBoolean>
         InstantiableBoolean b = new InstantiableBoolean();
         b.value = checkBox.isChecked();
         return b;
+    }
+
+    @Override
+    public InstantiableBoolean parse(String value)
+    {
+        InstantiableBoolean instantiableBoolean = new InstantiableBoolean();
+        instantiableBoolean.value = Boolean.parseBoolean(value);
+        return instantiableBoolean;
     }
 }

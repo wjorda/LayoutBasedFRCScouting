@@ -18,45 +18,25 @@ public class Match
 	public String notes = "";
 	public Rating driveTeamRating = Rating.NA;*/
 
-    public ArrayList<Object> data;
+    public ArrayList<String> data;
 
     public Match(int num, FRCTeam team)
     {
         this.matchNum = num;
         this.team = team;
-        data = new ArrayList<Object>();
+        data = new ArrayList<String>();
     }
 
     public Match(FRCTeam team, String[] record)
     {
         this.team = team;
-        data = new ArrayList<Object>();
+        data = new ArrayList<String>();
         matchNum = Integer.parseInt(record[0]);
 
         for (int i = 1; i < record.length; i++) {
             String datum = record[i];
-
-            if (datum == null) continue;
-
-            Object newEntry = Rating.parse(datum);
-            if (newEntry != null) {
-                data.add(newEntry);
-                continue;
-            }
-
-            if (Parser.integer(datum)) {
-                data.add(Integer.parseInt(datum));
-                continue;
-            }
-
-            if (Parser.bool(datum)) {
-                data.add(Boolean.parseBoolean(datum));
-                continue;
-            }
-
+            //if (datum == null) continue;
             data.add(datum);
-
-
         }
     }
 

@@ -7,9 +7,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.thing342.layoutbasedscouting.Field;
-import com.thing342.layoutbasedscouting.Instantiable;
 import com.thing342.layoutbasedscouting.R;
 import com.thing342.layoutbasedscouting.ScoutingApplication;
+import com.thing342.layoutbasedscouting.util.Instantiable;
 
 import org.w3c.dom.Element;
 
@@ -90,6 +90,14 @@ public class Slider extends Field<Slider.InstantiableDouble>
         InstantiableDouble d = new InstantiableDouble();
         if (seekBar != null) d.value = (seekBar.getProgress() * step) + min;
         return d;
+    }
+
+    @Override
+    public InstantiableDouble parse(String value)
+    {
+        InstantiableDouble instantiableDouble = new InstantiableDouble();
+        instantiableDouble.value = Double.parseDouble(value);
+        return instantiableDouble;
     }
 
     private double scaleValue(double val)

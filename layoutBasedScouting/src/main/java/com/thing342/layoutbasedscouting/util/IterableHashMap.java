@@ -1,4 +1,4 @@
-package com.thing342.layoutbasedscouting;
+package com.thing342.layoutbasedscouting.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;

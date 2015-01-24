@@ -67,6 +67,12 @@ public class Notes extends Field<String>
         return text;
     }
 
+    @Override
+    public String parse(String value)
+    {
+        return value;
+    }
+
     /**
      * @return The text that is displayed if the textbox is left empty.
      */

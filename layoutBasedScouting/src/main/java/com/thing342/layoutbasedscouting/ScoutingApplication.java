@@ -19,6 +19,9 @@ import com.thing342.layoutbasedscouting.fields.Divider;
 import com.thing342.layoutbasedscouting.fields.Notes;
 import com.thing342.layoutbasedscouting.fields.RatingStars;
 import com.thing342.layoutbasedscouting.fields.Slider;
+import com.thing342.layoutbasedscouting.recyclerush.ToteStacker;
+import com.thing342.layoutbasedscouting.util.IterableHashMap;
+import com.thing342.layoutbasedscouting.util.MimeTypes;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -65,6 +68,7 @@ public class ScoutingApplication extends Application
             Notes.class.newInstance();
             RatingStars.class.newInstance();
             Slider.class.newInstance();
+            ToteStacker.class.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -160,7 +164,7 @@ public class ScoutingApplication extends Application
 
                 if (n.getNodeType() == Node.ELEMENT_NODE) e = (Element) n;
                 else continue;
-                
+
                 Log.d("AerialAssault", e.getTagName() + " | " + fieldDictionary.size());
 
                 if (e.getTagName().contains("group")) {
@@ -176,7 +180,7 @@ public class ScoutingApplication extends Application
                     f.setUp(e);
                     groupData.add(f);
                 }
-                
+
                 Log.d("AerialAssist", e.getAttribute("id"));
             }
 
