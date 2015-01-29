@@ -4,20 +4,25 @@ import android.support.annotation.NonNull;
 
 public class MatchGroup implements Comparable<MatchGroup>
 {
+    public static final int NULL = Byte.MIN_VALUE;
+
     public final int num;
-    public final int teams[];
-    private final FRCTeam rTeams[];
+    public final int teams;
+    private final FRCTeam rTeams;
 
-    public MatchGroup(int num, FRCTeam teams[])
+    public MatchGroup(int num, FRCTeam... teams)
     {
-        this.teams = new int[teams.length];
-        this.rTeams = teams;
-
-        for (int i = 0; i < teams.length; i++) {
-            this.teams[i] = teams[i].number;
+        if (teams.length > 1)
+            throw new IllegalArgumentException("MatchGroup no longer supports multiple teams. Please limit to one parameter team.");
+        else if (teams.length == 1) {
+            this.rTeams = teams[0];
+            this.teams = rTeams.number;
+            this.num = num;
+        } else {
+            this.num = NULL;
+            this.teams = NULL;
+            rTeams = null;
         }
-
-        this.num = num;
     }
 
     @Override
@@ -28,20 +33,17 @@ public class MatchGroup implements Comparable<MatchGroup>
 
     public boolean isEdited()
     {
-        for (FRCTeam t : rTeams) {
-            if (t.getMatch(num).isEdited()) return true;
-        }
-
-        return false;
+        return rTeams.isEdited();
     }
 
     public boolean isComplete()
     {
-        for (FRCTeam t : rTeams) {
-            if (!t.getMatch(num).isEdited()) return false;
-        }
+        return rTeams.isEdited();
+    }
 
-        return true;
+    public Match getMatch(int index)
+    {
+        return rTeams.getMatch(num);
     }
 
     @Override

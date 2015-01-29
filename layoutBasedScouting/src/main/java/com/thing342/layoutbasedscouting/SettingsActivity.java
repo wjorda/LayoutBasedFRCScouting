@@ -214,6 +214,7 @@ public class SettingsActivity extends PreferenceActivity
         //matchesFirst.setIcon(R.drawable.ic_action_collection);
         matchesFirst.setKey("matchesFirst");
         matchesFirst.setDefaultValue(true);
+        matchesFirst.setEnabled(false);
         root.addPreference(matchesFirst);
 
         return root;

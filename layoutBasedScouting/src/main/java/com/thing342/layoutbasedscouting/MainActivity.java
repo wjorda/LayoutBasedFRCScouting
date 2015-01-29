@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,15 +69,14 @@ public class MainActivity extends ActionBarActivity
     private void setArrayAdapter()
     {
         SharedPreferences prefs = getSharedPreferences(ScoutingApplication.PREFS, Context.MODE_PRIVATE);
-        boolean matchesFirst = prefs.getBoolean(ScoutingApplication.MATCHESFIST_PREF, true);
+        boolean matchesFirst = true;
         Log.d("AerialAssault", Boolean.toString(matchesFirst));
 
         if (matchesFirst) {
             ArrayList<MatchGroup> matchGroups = app.groups.getValues();
             Collections.sort(matchGroups);
 
-            ArrayAdapter<MatchGroup> arrayAdapter = new ArrayAdapter<MatchGroup>(
-                    this, android.R.layout.simple_list_item_1, matchGroups);
+            ListAdapter arrayAdapter = new MatchListAdapter(matchGroups);
             //MatchAdapter arrayAdapter = new MatchAdapter (this, app.groups);
             listView = (ListView) findViewById(R.id.teamListView);
             TextView emptyText = new TextView(getBaseContext());
@@ -264,22 +264,19 @@ public class MainActivity extends ActionBarActivity
 
         currentPos = pos;
 
-        if (matchesFirst) {
-            ArrayList<MatchGroup> groups = app.groups.getValues();
-            Collections.sort(groups);
-            MatchGroup mGroup = groups.get(pos);
-            FRCTeam[] teams = app.getTeamsWithMatch(mGroup.num);
+        ArrayList<MatchGroup> groups = app.groups.getValues();
+        Collections.sort(groups);
+        MatchGroup mGroup = groups.get(pos);
+        FRCTeam[] teams = app.getTeamsWithMatch(mGroup.num);
 
-            if (teams.length == 1) {
-                FRCTeam thisTeam = teams[0];
-                Log.d("AerialAssault", Integer.toString(pos));
+        if (teams.length == 1) {
+            FRCTeam thisTeam = teams[0];
+            Log.d("AerialAssault", Integer.toString(pos));
 
-                Intent i = new Intent(this, MatchEditorActivity.class);
-                i.putExtra("AERIALASSAULT_TEST_FRCMATCH", mGroup.num);
-                i.putExtra("AERIALASSAULT_TEST_FRCTEAMMATCH", thisTeam.number);
-                startActivity(i);
-            }
-
+            Intent i = new Intent(this, MatchEditorActivity.class);
+            i.putExtra("AERIALASSAULT_TEST_FRCMATCH", mGroup.num);
+            i.putExtra("AERIALASSAULT_TEST_FRCTEAMMATCH", thisTeam.number);
+            startActivity(i);
         }
 
     }

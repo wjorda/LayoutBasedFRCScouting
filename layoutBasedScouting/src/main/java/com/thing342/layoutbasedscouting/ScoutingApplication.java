@@ -50,7 +50,7 @@ public class ScoutingApplication extends Application
             new HashMap<String, Class<? extends Field>>();
     public final IterableHashMap<Integer, FRCTeam> teamsList = new IterableHashMap<Integer, FRCTeam>();
     public final IterableHashMap<Integer, MatchGroup> groups = new IterableHashMap<Integer, MatchGroup>();
-    public final IterableHashMap<String, ArrayList<Field>> groupedData = new IterableHashMap<String, ArrayList<Field>>();
+    public final IterableHashMap<String, FieldGroup> groupedData = new IterableHashMap<String, FieldGroup>();
     private final ArrayList<Field> data = new ArrayList<Field>();
     private View scoreLayout;
 
@@ -151,7 +151,7 @@ public class ScoutingApplication extends Application
         try {
             Document file = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(loc);
             NodeList nodes = file.getChildNodes().item(0).getChildNodes();
-            ArrayList<Field> groupData = new ArrayList<Field>();
+            FieldGroup groupData = new FieldGroup(0);
             boolean flag = true;
             String groupName = "";
             //for(int q = 0; q < nodes.getLength(); q++) Log.d("Nodes", nodes.item(q).getLocalName());
@@ -170,7 +170,7 @@ public class ScoutingApplication extends Application
                 if (e.getTagName().contains("group")) {
                     if (!flag) {
                         groupedData.put(groupName, groupData);
-                        groupData = new ArrayList<Field>();
+                        groupData = new FieldGroup(i);
                     }
                     groupName = e.getAttribute("name");
                     flag = false;
@@ -386,7 +386,7 @@ public class ScoutingApplication extends Application
         for (int i = 0; i < 314; i++) {
             m = new MatchGroup(i, getTeamsWithMatch(i));
             //Log.d("AerialAssault", "New Match Group " + i + " Size " + Integer.toString(m.teams.length));
-            if (m.teams.length > 0) groups.put(i, new MatchGroup(i, getTeamsWithMatch(i)));
+            if (m.teams != MatchGroup.NULL) groups.put(i, new MatchGroup(i, getTeamsWithMatch(i)));
 
         }
     }
@@ -535,67 +535,25 @@ public class ScoutingApplication extends Application
 
     }
 
-    /*private class LayoutImportTask extends AsyncTask<File, File, Object>
+    public class FieldGroup extends ArrayList<Field> implements Comparable<FieldGroup>
     {
+        private final int order;
 
-        private ArrayList<Field> data;
-        private boolean hasRun = false;
+        private FieldGroup(int order)
+        {
+            this.order = order;
+        }
 
         @Override
-        protected Object doInBackground(File... locs)
+        public int compareTo(FieldGroup another)
         {
-            try {
-                Document file = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(locs[0]);
-                NodeList nodes = file.getChildNodes().item(0).getChildNodes();
-                //printNodeNames(nodes);
-
-                Element e;
-                for (int i = 0; i < nodes.getLength(); i++) {
-
-                    if (nodes.item(i).getNodeType() == Node.ELEMENT_NODE)
-                        e = (Element) nodes.item(i);
-                    else {
-
-                        continue;
-                    }
-
-                    ////////Log.d("AerialAssault", e.getTagName());
-                    if (e.getTagName().contains("counter")) {
-                        data.add(new Counter(
-                                Integer.parseInt(e.getAttribute("initValue")),
-                                e.getAttribute("name")));
-                        ////////Log.d("AerialAssault", "I SEE YOU HUMAN");
-                    } else if (e.getTagName().contains("checkbox")) {
-                        data.add(new Checkbox(e.getAttribute("name")));
-                        ////////Log.d("AerialAssault", "I SEE YOU HUMANHUMAN");
-                    } else if (e.getTagName().contains("rating")) {
-                        data.add(new RatingStars(e.getAttribute("name"), Integer.parseInt(e.getAttribute("scale"))));
-                        ////////Log.d("AerialAssault", "I SEE YOU HUMANHUMANHUMAN");
-                    } else if (e.getTagName().contains("notes")) {
-                        data.add(new Notes(e.getAttribute("hint")));
-                        ////////Log.d("AerialAssault", "I SEE YOU VIEWER");
-                    } else if (e.getTagName().contains("divider")) {
-                        data.add(new Divider(e.getAttribute("name")));
-                        ////////Log.d("AerialAssault", "I SEE YOU VIEWER");
-                    }
-
-                    ////////Log.d("AerialAssault", e.getTagName());
-                    hasRun = true;
-                }
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                ////////Log.e("AerialAssault", "Error", e);
-            }
-
-            return null;
+            return getOrder() - another.getOrder();
         }
 
-        protected ArrayList<Field> getData()
+        public int getOrder()
         {
-            if (hasRun) return data;
-            else return null;
+            return order;
         }
-
-    }*/
+    }
 
 }

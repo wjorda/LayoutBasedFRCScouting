@@ -1,6 +1,7 @@
 package com.thing342.layoutbasedscouting.recyclerush;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -43,6 +44,8 @@ public class ToteStacker extends Field<ToteStackInfo> implements View.OnClickLis
         LinearLayout container = (LinearLayout) insertView.findViewById(R.id.tote_stacker_box);
         if (container == null) throw new IllegalArgumentException("No suitable view found!");
         container.removeAllViews();
+
+        Log.d("ToteStack", stack.toString());
 
         for (int i = 0; i < stack.getTotes(); i++) {
             ImageView icon = new ImageView(insertView.getContext());
@@ -112,7 +115,9 @@ public class ToteStacker extends Field<ToteStackInfo> implements View.OnClickLis
     @Override
     public ToteStackInfo getValue()
     {
-        return new ToteStackInfo(stacks.getKeys());
+        ToteStackInfo info = new ToteStackInfo(stacks.getKeys());
+        stacks.clear();
+        return info;
     }
 
     @Override
@@ -165,6 +170,7 @@ public class ToteStacker extends Field<ToteStackInfo> implements View.OnClickLis
             ToteStack t = (ToteStack) buttonView.getTag();
 
             if (buttonView.getId() == R.id.cbox_can) {
+                Log.d("Can", "Can is changed!");
                 t.setCan(isChecked);
 
             } else if (buttonView.getId() == R.id.cbox_noodle) {

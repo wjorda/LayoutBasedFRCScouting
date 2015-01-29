@@ -63,4 +63,14 @@ public class ToteStack
     {
         this.can = can;
     }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < totes; i++) builder.append("T");
+        if (noodle) builder.append("N");
+        else if (can) builder.append("C");
+        return builder.toString();
+    }
 }

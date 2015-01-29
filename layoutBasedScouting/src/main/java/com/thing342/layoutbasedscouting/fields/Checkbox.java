@@ -79,7 +79,7 @@ public class Checkbox extends Field<InstantiableBoolean>
     public InstantiableBoolean parse(String value)
     {
         InstantiableBoolean instantiableBoolean = new InstantiableBoolean();
-        instantiableBoolean.value = Boolean.parseBoolean(value);
+        instantiableBoolean.value = value.contains("t");
         return instantiableBoolean;
     }
 }

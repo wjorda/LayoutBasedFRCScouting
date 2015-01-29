@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.thing342.layoutbasedscouting.Field;
 import com.thing342.layoutbasedscouting.R;
-import com.thing342.layoutbasedscouting.Rating;
 import com.thing342.layoutbasedscouting.ScoutingApplication;
 import com.thing342.layoutbasedscouting.util.Instantiable.InstantiableRating;
 

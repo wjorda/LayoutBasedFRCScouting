@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.thing342.layoutbasedscouting.fields.Rating;
 import com.thing342.layoutbasedscouting.util.Instantiable;
 import com.thing342.layoutbasedscouting.util.IterableHashMap;
 
@@ -67,8 +68,9 @@ public class MatchEditorActivity extends ActionBarActivity
 
         Field f;
         int pos = 0;
-        ArrayList<ArrayList<Field>> datas = app.groupedData.getValues();
+        ArrayList<ScoutingApplication.FieldGroup> datas = app.groupedData.getValues();
         ArrayList<String> groupNames = app.groupedData.getKeys();
+        //Collections.sort(datas);
 
         Log.d("datas size", datas.size() + "");
 
@@ -155,7 +157,7 @@ public class MatchEditorActivity extends ActionBarActivity
                 //Log.d("AerialAssault", "I SEE YOU VIEWER");
             }
 
-            layout.addView(group);
+            layout.addView(group, 0);
         }
 
         /*if (android.os.Build.VERSION.SDK_INT >= 5) {

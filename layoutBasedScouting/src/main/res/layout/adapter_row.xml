@@ -1,42 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal"
-              android:paddingBottom="5dp"
-              android:paddingLeft="5dp">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:card_view="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_margin="8dp">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="10"
-        android:orientation="vertical">
+    <android.support.v7.widget.CardView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        card_view:cardCornerRadius="2dp"
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true">
 
-        <TextView
-            android:id="@+id/rowHeader"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Match Q45"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
-        <TextView
-            android:id="@+id/rowDesc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="CONTENT"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="12sp"
-            android:textStyle="bold"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="0.075"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/rowHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Match Q45"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"/>
 
-    <ImageView
-        android:id="@+id/rowDataCheck"
-        android:layout_width="30dp"
-        android:layout_height="48dp"
-        android:layout_gravity="left|right"
-        android:src="@drawable/data_partial"/>
+                <TextView
+                    android:id="@+id/rowSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Team 2345"
+                    android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"/>
 
-</LinearLayout>
+            </LinearLayout>
+
+            <!--CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/is_complete_box"
+                android:layout_weight="0.925"
+                android:enabled="false"
+                android:checked="false"/-->
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>
+

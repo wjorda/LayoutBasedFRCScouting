@@ -1,5 +1,7 @@
 package com.thing342.layoutbasedscouting.recyclerush;
 
+import android.util.Log;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -22,10 +24,13 @@ public class ToteStackInfo
         flag = false;
         int cans = 0, noodles = 0, stackHeights[] = new int[6];
 
+        for (int i = 0; i < stackHeights.length; i++) stackHeights[i] = 0;
+        
         for (ToteStack t : stackList) {
+            Log.d("Stack", t.toString());
             if (t.hasCan()) cans++;
             if (t.hasNoodle()) noodles++;
-            stackHeights[t.getTotes() - 1]++;
+            if (t.getTotes() > 0) stackHeights[t.getTotes() - 1]++;
         }
 
         StringBuilder s = new StringBuilder();
