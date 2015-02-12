@@ -45,7 +45,7 @@ public class FileDialogPreference extends Preference
                 if (toastText != null)
                     Toast.makeText(source.getContext(), toastText, toastLength).show();
                 listener.onFileSelected(file);
-                //getContext().g.createFromFile(file);
+                //getContext().g.createMatchSchedule(file);
                 //((BaseAdapter) getListView().getAdapter()).notifyDataSetChanged();
             }
 

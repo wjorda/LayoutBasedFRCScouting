@@ -3,7 +3,7 @@
     package="com.thing342.layoutbasedscouting"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:versionCode="2"
+    android:versionCode="3"
     android:versionName="@string/version_name">
 
     <uses-sdk
@@ -39,7 +39,8 @@
             android:label="@string/title_activity_match_editor"
             android:parentActivityName="com.thing342.layoutbasedscouting.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Application">
+            android:theme="@style/Theme.Application"
+            android:windowSoftInputMode="adjustNothing">
         </activity>
         <activity android:name="ar.com.daidalos.afiledialog.FileChooserActivity"/>
         <activity

@@ -11,6 +11,8 @@ import com.thing342.layoutbasedscouting.R;
 import com.thing342.layoutbasedscouting.ScoutingApplication;
 import com.thing342.layoutbasedscouting.util.Instantiable.InstantiableBoolean;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Element;
 
 /**
@@ -19,7 +21,7 @@ import org.w3c.dom.Element;
 public class Checkbox extends Field<InstantiableBoolean>
 {
     private final int resId = R.layout.checkbox;
-    private String name;
+    private String name, id;
     private CheckBox checkBox;
 
     static {
@@ -65,6 +67,8 @@ public class Checkbox extends Field<InstantiableBoolean>
     {
         name = "";
         name = e.getAttribute("name");
+        id = "";
+        id = e.getAttribute("id");
     }
 
     @Override
@@ -79,7 +83,29 @@ public class Checkbox extends Field<InstantiableBoolean>
     public InstantiableBoolean parse(String value)
     {
         InstantiableBoolean instantiableBoolean = new InstantiableBoolean();
-        instantiableBoolean.value = value.contains("t");
+        instantiableBoolean.value = value.contains("1");
         return instantiableBoolean;
+    }
+
+    @Override
+    public InstantiableBoolean parse(JSONObject value)
+    {
+        InstantiableBoolean instantiableBoolean = new InstantiableBoolean();
+        instantiableBoolean.value = value.optBoolean("checkbox", false);
+        return instantiableBoolean;
+    }
+
+    @Override
+    protected JSONObject getJSON(boolean flag) throws JSONException
+    {
+        JSONObject json = new JSONObject();
+        json.put("checkbox", getValue().value);
+        return json;
+    }
+
+    @Override
+    public String getId()
+    {
+        return id;
     }
 }

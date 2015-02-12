@@ -21,14 +21,20 @@ import com.thing342.layoutbasedscouting.fields.RatingStars;
 import com.thing342.layoutbasedscouting.fields.Slider;
 import com.thing342.layoutbasedscouting.recyclerush.ToteStacker;
 import com.thing342.layoutbasedscouting.util.IterableHashMap;
+import com.thing342.layoutbasedscouting.util.JSONReader;
 import com.thing342.layoutbasedscouting.util.MimeTypes;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.team2363.bluealliance.Event;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,11 +54,14 @@ public class ScoutingApplication extends Application
     public static final String MATCHESFIST_PREF = "matchesFirst";
     private static final HashMap<String, Class<? extends Field>> fieldDictionary =
             new HashMap<String, Class<? extends Field>>();
+    private static ScoutingApplication instance;
     public final IterableHashMap<Integer, FRCTeam> teamsList = new IterableHashMap<Integer, FRCTeam>();
     public final IterableHashMap<Integer, MatchGroup> groups = new IterableHashMap<Integer, MatchGroup>();
     public final IterableHashMap<String, FieldGroup> groupedData = new IterableHashMap<String, FieldGroup>();
+    public final ArrayList<String> fieldIds = new ArrayList<String>();
     private final ArrayList<Field> data = new ArrayList<Field>();
     private View scoreLayout;
+    private Event[] events;
 
     ///////////////////--CONSTRUCTORS--/////////////////////////////
 
@@ -90,6 +99,11 @@ public class ScoutingApplication extends Application
             throw new IllegalArgumentException("Multiple fields may not share the same nametag: " + key);
     }
 
+    public static ScoutingApplication getInstance()
+    {
+        return instance;
+    }
+
     ///////////////////--PUBLIC METHODS--///////////////////////
 
     /**
@@ -98,10 +112,12 @@ public class ScoutingApplication extends Application
     @Override
     public void onCreate()
     {
+        instance = this;
         data.clear();
 
         SharedPreferences prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE);
         String xmlFilePath = prefs.getString(XMLPATH_PREF, null);
+        boolean firstLaunch = prefs.getBoolean("firstlaunch", true);
 
         if (xmlFilePath != null) {
             File xPath = new File(xmlFilePath);
@@ -110,6 +126,16 @@ public class ScoutingApplication extends Application
                 changeLayout(xPath);
             }
         }
+        /*if (firstLaunch) {
+            new Thread( new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    events = blueAlliance.eventListRequest(Calendar.getInstance().get(Calendar.YEAR));
+                }
+            }).start();
+        }*/
 
         /*fieldDictionary.put("counter", Counter.class);
         fieldDictionary.put("checkbox", Checkbox.class);
@@ -179,6 +205,7 @@ public class ScoutingApplication extends Application
                     Field f = fieldDictionary.get(e.getTagName()).newInstance();
                     f.setUp(e);
                     groupData.add(f);
+                    fieldIds.add(f.getId());
                 }
 
                 Log.d("AerialAssist", e.getAttribute("id"));
@@ -221,7 +248,7 @@ public class ScoutingApplication extends Application
      * @param file A <code>File</code> referencing a CSV file which will be used to create te match
      *             schedule.
      */
-    public void createFromFile(File file)
+    public void createMatchSchedule(File file)
     {
 
         int teamNum;
@@ -246,12 +273,19 @@ public class ScoutingApplication extends Application
                 }
             }
 
-            saveAll();
+            saveAll(true);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("Exception Caught", e.getMessage(), e);
         }
 
         resetMatchGroups();
+    }
+
+    public void createMatchSchedule(String eventKey)
+    {
+        teamsList.clear();
+
+
     }
 
     /**
@@ -261,7 +295,12 @@ public class ScoutingApplication extends Application
      */
     public void exportAll(String exportName)
     {
-        ExportTask et = new ExportTask();
+        SharedPreferences prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+        boolean jsonExport = prefs.getBoolean("jsonExport", true);
+        ExportTask et;
+        if (jsonExport) et = new JSONExportTask();
+        else et = new ExportTask();
+
         et.execute(exportName);
     }
 
@@ -299,10 +338,49 @@ public class ScoutingApplication extends Application
                 teamsList.put(thisTeam.number, thisTeam);
             }
         } catch (Exception e) {
-            ////////Log.e("AerialAssault", e.getMessage(), e);
-            Toast.makeText(getBaseContext(), e.getMessage() + " Unable to read from external storage.",
-                    Toast.LENGTH_LONG).show();
-            initAll();
+            Log.e("AerialAssault", e.getMessage(), e);
+            //initAll();
+        }
+
+        resetMatchGroups();
+
+    }
+
+    /**
+     * Loads all match data and layout data from storage.
+     */
+    public void resumeAll(boolean json)
+    {
+
+        File fileList[] = getFilesDir().listFiles();
+        if (fileList.length == 0) {
+            //initAll();
+            return;
+        }
+
+        teamsList.clear();
+        FRCTeam thisTeam;
+        JSONReader jReader;
+
+        try {
+            for (File f : fileList) {
+                thisTeam = new FRCTeam();
+                //thisTeam.number = Integer.parseInt(stripExtension(f.getName()));
+                thisTeam.number = Integer.parseInt(f.getName());
+
+                jReader = new JSONReader(f);
+                JSONArray jsonArray = jReader.readArray();
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject match = jsonArray.getJSONObject(i);
+                    thisTeam.matches.put(match.optInt("match_number"), new Match(thisTeam, match));
+                }
+
+                teamsList.put(thisTeam.number, thisTeam);
+            }
+        } catch (Exception e) {
+            Log.e("AerialAssault", e.getMessage(), e);
+            //initAll();
         }
 
         resetMatchGroups();
@@ -316,6 +394,17 @@ public class ScoutingApplication extends Application
     {
 
         SaveTask st = new SaveTask();
+        st.execute();
+        resetMatchGroups();
+    }
+
+    /**
+     * Saves all collected match data to internal memory.
+     */
+    public void saveAll(boolean json)
+    {
+
+        SaveTask st = new JSONSaveTask();
         st.execute();
         resetMatchGroups();
     }
@@ -384,7 +473,9 @@ public class ScoutingApplication extends Application
         MatchGroup m;
 
         for (int i = 0; i < 314; i++) {
-            m = new MatchGroup(i, getTeamsWithMatch(i));
+            FRCTeam[] r = getTeamsWithMatch(i);
+            //Log.d("Teams", Arrays.toString(r));
+            m = new MatchGroup(i, r);
             //Log.d("AerialAssault", "New Match Group " + i + " Size " + Integer.toString(m.teams.length));
             if (m.teams != MatchGroup.NULL) groups.put(i, new MatchGroup(i, getTeamsWithMatch(i)));
 
@@ -417,6 +508,11 @@ public class ScoutingApplication extends Application
 
     ////////////////--NESTED CLASSES--//////////////////////////////
 
+    private interface OnDownloadFinishedListener
+    {
+        public void onDownloadFinished();
+    }
+
     /**
      * An <code>AsyncTask</code> for saving match data to files in the background.
      */
@@ -432,6 +528,9 @@ public class ScoutingApplication extends Application
         protected void onPreExecute()
         {
             teamArrayList = teamsList.getValues();
+            SharedPreferences prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+            DeviceId restoredId = DeviceId.getFromValue(prefs.getString(DEVICEID_PREF, "0"));
+            exportAll(restoredId.filename);
         }
 
         @Override
@@ -457,8 +556,7 @@ public class ScoutingApplication extends Application
 
                 } catch (Exception e) {
                     ////////Log.e("AerialAssault", e.getMessage(), e);
-                    Toast.makeText(getBaseContext(), e.getMessage() + " Unable to write to external storage.",
-                            Toast.LENGTH_LONG).show();
+                    Log.e("Exception", e.getMessage(), e);
                 }
             }
 
@@ -468,9 +566,60 @@ public class ScoutingApplication extends Application
         @Override
         protected void onPostExecute(Object result)
         {
-            SharedPreferences prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE);
-            DeviceId restoredId = DeviceId.getFromValue(prefs.getString(DEVICEID_PREF, "0"));
-            exportAll(restoredId.filename + ".txt");
+        }
+
+    }
+
+    /**
+     * An <code>AsyncTask</code> for saving match data to files in the background.
+     */
+    private class JSONSaveTask extends SaveTask
+    {
+
+        @Override
+        protected Object doInBackground(Object... params)
+        {
+            for (FRCTeam team : teamArrayList) {
+                try {
+                    JSONArray json = new JSONArray();
+                    //FRCTeam team = entry.getValue();
+                    String FILEPATH = getFilesDir().getAbsolutePath() + File.separator + Integer.toString(team.number);// + ".csv";
+                    //CsvWriter csvw = new CsvWriter(FILEPATH);
+                    //csvw.setDelimiter(',');
+                    //csvw.setRecordDelimiter(';');
+
+                    for (Map.Entry<Integer, Match> e : team.matches) {
+                        //csvw.writeRecord(e.getValue().getRecord(false));
+                        json.put(e.getValue().export());
+                        ////////Log.d("AerialAssault", "Match written to " + FILEPATH);
+                    }
+
+                    FileWriter writer = new FileWriter(FILEPATH);
+                    if (!new File(FILEPATH).exists()) new File(FILEPATH).mkdirs();
+                    //Log.d("JSON", json.toString(5));
+                    writer.write(json.toString(5));
+                    writer.flush();
+                    writer.close();
+
+                    //csvw.flush();
+                    //csvw.close();
+                    //writer.flush();
+                    //writer.close();
+
+                } catch (Exception e) {
+                    ////////Log.e("AerialAssault", e.getMessage(), e);
+                    Log.e("Exception", e.getMessage(), e);
+                }
+
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object result)
+        {
         }
 
     }
@@ -489,7 +638,7 @@ public class ScoutingApplication extends Application
                 String exportName = (String) params[0];
                 //File fileList[] = getFilesDir().listFiles();
                 String exportPath = Environment.getExternalStorageDirectory() + File.separator + "Scouting" + File.separator;
-                CsvWriter csvw = new CsvWriter(exportPath + exportName);
+                CsvWriter csvw = new CsvWriter(exportPath + exportName + ".txt");
                 csvw.setDelimiter(',');
                 csvw.setTextQualifier('\"');
 
@@ -535,6 +684,90 @@ public class ScoutingApplication extends Application
 
     }
 
+    /*private class MatchDownloadTask extends AsyncTask<String, Object, org.team2363.bluealliance.Match[]>
+    {
+
+        @Override
+        protected org.team2363.bluealliance.Match[] doInBackground(String... params)
+        {
+            String eventKey = params[0];
+            int year = Integer.parseInt(params[1]);
+            return blueAlliance.eventMatchRequest(year, eventKey);
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+        }
+
+        @Override
+        protected void onPostExecute(org.team2363.bluealliance.Match[] result)
+        {
+            int teamNum;
+            int matchNum;
+
+            SharedPreferences prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+            DeviceId restoredId = DeviceId.getFromValue(prefs.getString(DEVICEID_PREF, "0"));
+            
+            for(org.team2363.bluealliance.Match match : result)
+            {
+                String team = match.getTeam(org.team2363.bluealliance.Match.Position.getInstance(restoredId.name));
+                teamNum = Integer.parseInt(team.replace("frc", ""));
+                matchNum = match.getMatchNumber();
+                if (!teamExists(teamNum))
+                    teamsList.put(teamNum, new FRCTeam(teamNum, "")); //If team doesn't exist, add a new one
+                teamsList.get(teamNum).createMatch(matchNum);
+            }
+        }
+
+    }*/
+
+    private class JSONExportTask extends ExportTask
+    {
+        @Override
+        protected Object doInBackground(Object... params)
+        {
+            try {
+                /*
+                    Step 1: Build JSON Object
+                 */
+                JSONArray array = new JSONArray();
+                for (Map.Entry<Integer, FRCTeam> entry : teamsList) {
+                    FRCTeam team = entry.getValue();
+                    for (Map.Entry<Integer, Match> match : team.matches) {
+                        JSONObject data = match.getValue().export();
+                        if (match.getValue().isEdited())
+                            array.put((Object) match.getValue().export());
+                    }
+                }
+                
+                /*
+                    Step 2: Write to file
+                 */
+                String exportName = (String) params[0];
+                String exportPath = Environment.getExternalStorageDirectory() + File.separator + "Scouting" + File.separator;
+                FileWriter writer = new FileWriter(exportPath + exportName + ".json");
+                if (!new File(exportPath).exists()) new File(exportPath).mkdirs();
+                writer.write(array.toString(5));
+                writer.flush();
+                writer.close();
+
+                String path[] = {exportPath + exportName};
+                String mime[] = {MimeTypes.csv.contentType};
+
+                MediaScannerConnection.scanFile(getApplicationContext(), path, mime, null);
+
+                return exportPath;
+
+            } catch (IOException e) {
+                return null;
+            } catch (JSONException e) {
+                return null;
+            }
+        }
+
+    }
+
     public class FieldGroup extends ArrayList<Field> implements Comparable<FieldGroup>
     {
         private final int order;
@@ -555,5 +788,4 @@ public class ScoutingApplication extends Application
             return order;
         }
     }
-
 }

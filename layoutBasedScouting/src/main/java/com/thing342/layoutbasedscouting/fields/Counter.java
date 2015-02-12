@@ -14,6 +14,8 @@ import com.thing342.layoutbasedscouting.ScoutingApplication;
 import com.thing342.layoutbasedscouting.util.Instantiable;
 import com.thing342.layoutbasedscouting.util.Instantiable.InstantiableInteger;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Element;
 
 public class Counter extends Field<InstantiableInteger>
@@ -27,6 +29,7 @@ public class Counter extends Field<InstantiableInteger>
     private int value = 0;
     private String name;
     private TextView countText;
+    private String id;
 
     public Counter()
     {
@@ -53,6 +56,28 @@ public class Counter extends Field<InstantiableInteger>
         InstantiableInteger instantiableInteger = new InstantiableInteger();
         instantiableInteger.value = Integer.parseInt(value);
         return instantiableInteger;
+    }
+
+    @Override
+    public InstantiableInteger parse(JSONObject value)
+    {
+        InstantiableInteger instantiableInteger = new InstantiableInteger();
+        instantiableInteger.value = value.optInt("counter", 0);
+        return instantiableInteger;
+    }
+
+    @Override
+    protected JSONObject getJSON(boolean flag) throws JSONException
+    {
+        JSONObject json = new JSONObject();
+        json.put("counter", getValue().value);
+        return json;
+    }
+
+    @Override
+    public String getId()
+    {
+        return id;
     }
 
     private void add()
@@ -112,6 +137,8 @@ public class Counter extends Field<InstantiableInteger>
     {
         this.value = Integer.parseInt(e.getAttribute("initValue"));
         this.name = e.getAttribute("name");
+        id = "";
+        id = e.getAttribute("id");
     }
 
 

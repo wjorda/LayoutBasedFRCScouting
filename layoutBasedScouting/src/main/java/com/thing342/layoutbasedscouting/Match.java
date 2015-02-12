@@ -1,8 +1,17 @@
 package com.thing342.layoutbasedscouting;
 
-import java.util.ArrayList;
+import android.util.Log;
 
-public class Match
+import com.thing342.layoutbasedscouting.util.IterableHashMap;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+
+public class Match implements Comparable<Match>
 {
 
     public final int matchNum;
@@ -18,13 +27,15 @@ public class Match
 	public String notes = "";
 	public Rating driveTeamRating = Rating.NA;*/
 
-    public ArrayList<String> data;
+    public ArrayList<String> data = new ArrayList<String>();
+    private IterableHashMap<String, JSONObject> jsonData = new IterableHashMap<String, JSONObject>();
 
     public Match(int num, FRCTeam team)
     {
         this.matchNum = num;
         this.team = team;
         data = new ArrayList<String>();
+
     }
 
     public Match(FRCTeam team, String[] record)
@@ -40,6 +51,20 @@ public class Match
         }
     }
 
+    public Match(FRCTeam team, JSONObject json) throws JSONException
+    {
+        matchNum = json.optInt("match_number", 0);
+        this.team = team;
+
+        Iterator<String> jsonItr = json.keys();
+        while (jsonItr.hasNext()) {
+            String key = jsonItr.next();
+            if (key.contains("match_number")) continue;
+            if (key.contains("team_number")) continue;
+            putData(key, json.getJSONObject(key));
+        }
+    }
+
     public static boolean isEdited(String[] record)
     {
         for (int i = 2; i < record.length; i++) {
@@ -52,13 +77,40 @@ public class Match
     public void setData(Match m)
     {
         this.data = m.data;
-
+        this.jsonData = m.jsonData;
     }
 
     public boolean isEdited()
     {
-        return (data.size() > 0);
+        return (!jsonData.isEmpty());
 
+    }
+
+    public JSONObject export()
+    {
+        JSONObject json = new JSONObject();
+        //Log.d("JSON Data size", jsonData.size() + "");
+        ScoutingApplication app = ScoutingApplication.getInstance();
+        try {
+            json.put("match_number", matchNum);
+            json.put("team_number", team.number);
+
+            for (Map.Entry<String, JSONObject> entry : jsonData) {
+                //Log.d("JSON Object", entry.getValue().toString());
+                json.put(entry.getKey(), entry.getValue());
+            }
+
+        } catch (JSONException e) {
+            Log.e("Exception", e.getMessage(), e);
+        }
+        //Log.d("MATCH", json.toString());
+        return json;
+    }
+
+    public void putData(String id, JSONObject data)
+    {
+        //Log.d("JSON Data size", jsonData.size() + "");
+        jsonData.put(id, data);
     }
 
     public String[] getRecord(boolean export)
@@ -83,6 +135,18 @@ public class Match
     {
         return "Q" + Integer.toString(matchNum);
     }
+
+    public JSONObject getData(String id)
+    {
+        return jsonData.get(id);
+    }
+
+    @Override
+    public int compareTo(Match that)
+    {
+        return this.matchNum - that.matchNum;
+    }
+
 
     private static final class Parser
     {

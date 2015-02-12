@@ -1,6 +1,5 @@
 package com.thing342.layoutbasedscouting;
 
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -46,21 +45,28 @@ public class MatchListAdapter extends BaseAdapter
         View vi;
         if (convertView == null) {
             vi = View.inflate(parent.getContext(), R.layout.adapter_row, null);
-            Log.d("AerialAssault", "convertView is null");
+            ViewHolder r = new ViewHolder();
+            r.header = (TextView) vi.findViewById(R.id.rowHeader);
+            r.footer = (TextView) vi.findViewById(R.id.rowSubtitle);
+            vi.setTag(r);
         } else vi = convertView;
 
         MatchGroup thisMatch = groups[position];
+        ViewHolder r = (ViewHolder) vi.getTag();
 
-        TextView header = (TextView) vi.findViewById(R.id.rowHeader);
-        header.setText(thisMatch.toString());
-
-        TextView footer = (TextView) vi.findViewById(R.id.rowSubtitle);
-        footer.setText("Team " + thisMatch.teams);
+        r.header.setText(thisMatch.toString());
+        r.footer.setText("Team " + thisMatch.teams);
 
         //CheckBox checkBox = (CheckBox) vi.findViewById(R.id.is_complete_box);
         //checkBox.setChecked(thisMatch.isEdited());
 
         return vi;
+    }
+
+    static class ViewHolder
+    {
+        TextView header;
+        TextView footer;
     }
 
 }

@@ -48,7 +48,7 @@ public class MainActivity extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
         app = ((ScoutingApplication) getApplication());
-        app.resumeAll();
+        app.resumeAll(true);
 
         setTheme();
 
@@ -68,7 +68,6 @@ public class MainActivity extends ActionBarActivity
 
     private void setArrayAdapter()
     {
-        SharedPreferences prefs = getSharedPreferences(ScoutingApplication.PREFS, Context.MODE_PRIVATE);
         boolean matchesFirst = true;
         Log.d("AerialAssault", Boolean.toString(matchesFirst));
 
@@ -79,6 +78,7 @@ public class MainActivity extends ActionBarActivity
             ListAdapter arrayAdapter = new MatchListAdapter(matchGroups);
             //MatchAdapter arrayAdapter = new MatchAdapter (this, app.groups);
             listView = (ListView) findViewById(R.id.teamListView);
+            listView.setScrollingCacheEnabled(false);
             TextView emptyText = new TextView(getBaseContext());
             emptyText.setText("No matches set.");
             emptyText.setTextAppearance(getBaseContext(),
@@ -250,7 +250,7 @@ public class MainActivity extends ActionBarActivity
                         Toast.makeText(getBaseContext(), Integer.toString(Integer.parseInt(field.getText().toString())), Toast.LENGTH_SHORT).show();
                         app.addTeam(Integer.parseInt(field.getText().toString()));
                         ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
-                        app.saveAll();
+                        app.saveAll(true);
                         //app.resumeAll();
                     }
                 })

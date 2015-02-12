@@ -114,6 +114,7 @@ public class SettingsActivity extends PreferenceActivity
 
     /////////////////--PRIVATE METHODS--//////////////////
 
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private PreferenceScreen makePreferences()
     {
         PreferenceScreen root = getPreferenceManager().createPreferenceScreen(this);
@@ -158,7 +159,7 @@ public class SettingsActivity extends PreferenceActivity
             @Override
             public void onFileSelected(File file)
             {
-                ((ScoutingApplication) getApplication()).createFromFile(file);
+                ((ScoutingApplication) getApplication()).createMatchSchedule(file);
 
             }
         });
@@ -206,6 +207,15 @@ public class SettingsActivity extends PreferenceActivity
             }
         });
         root.addPreference(resetAll);
+
+        /*SwitchPreference jsonExportToggle = new SwitchPreference(this);
+        jsonExportToggle.setTitle("Export Format");
+        jsonExportToggle.setSummaryOn("Currently exporting data using JSON.");
+        jsonExportToggle.setSummaryOff("Currently exporting data using CSV");
+        jsonExportToggle.setKey("jsonExport");
+        jsonExportToggle.setDefaultValue(true);
+        jsonExportToggle.setEnabled(false);
+        root.addPreference(jsonExportToggle);*/
 
         CheckBoxPreference matchesFirst = new CheckBoxPreference(this);
         matchesFirst.setTitle("Display Matches First");

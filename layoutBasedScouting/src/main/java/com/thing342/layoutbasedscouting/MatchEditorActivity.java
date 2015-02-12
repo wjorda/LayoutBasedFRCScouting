@@ -3,7 +3,6 @@ package com.thing342.layoutbasedscouting;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -16,6 +15,8 @@ import android.widget.Toast;
 import com.thing342.layoutbasedscouting.fields.Rating;
 import com.thing342.layoutbasedscouting.util.Instantiable;
 import com.thing342.layoutbasedscouting.util.IterableHashMap;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 //import android.app.ActionBar;
@@ -49,7 +50,8 @@ public class MatchEditorActivity extends ActionBarActivity
         setContentView(R.layout.activity_match_editor);
         //setupSlidingMenu();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         Bundle b = getIntent().getExtras();
         //mMatch = b.getParcelable("AERIALASSAULT_TEST_FRCTEAMMATCH");
@@ -93,10 +95,15 @@ public class MatchEditorActivity extends ActionBarActivity
                 if (f.getType() == null) {
                     thisView = f.getView(this, null);
                 } else {
-                    if (mMatch.data != null && mMatch.data.size() > 0)
-                        newEntry = f.parse(mMatch.data.get(pos));
+                    if (mMatch.isEdited()) {
+                        try {
+                            Log.d("Data", mMatch.getData(f.getId()).toString(5));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        newEntry = f.parse(mMatch.getData(f.getId()));
 
-                    else try {
+                    } else try {
                         newEntry = f.getType().newInstance();
 
                     } catch (InstantiationException e) { //if default constructor DNE
@@ -198,9 +205,9 @@ public class MatchEditorActivity extends ActionBarActivity
                 return true;
             /*case R.id.action_settings:
                 openSettings();
-                return true;*/
-            case R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);*/
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -229,15 +236,16 @@ public class MatchEditorActivity extends ActionBarActivity
                 }
 
                 int pos = (Integer) v.getTag();
+                mMatch.putData(fieldLookup.get(pos).getId(), fieldLookup.get(pos).get());
                 data.set(pos, fieldLookup.get(pos).getValue());
             }
         }
 
-        ArrayList<String> strings = new ArrayList<>();
+        ArrayList<String> strings = new ArrayList<String>();
         for (Object o : data) strings.add(o.toString());
 
-        ((ScoutingApplication) getApplication()).teamsList.get(team).matches.get(match).data = strings; //direct Reference to mMatch
-        ((ScoutingApplication) getApplication()).saveAll();
+        ScoutingApplication.getInstance().teamsList.get(team).matches.get(match).data = strings; //direct Reference to mMatch
+        ScoutingApplication.getInstance().saveAll(true);
 
         Toast.makeText(getBaseContext(), "Match Saved!", Toast.LENGTH_SHORT).show();
 

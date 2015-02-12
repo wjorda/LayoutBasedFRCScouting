@@ -11,6 +11,8 @@ import com.thing342.layoutbasedscouting.R;
 import com.thing342.layoutbasedscouting.ScoutingApplication;
 import com.thing342.layoutbasedscouting.util.Instantiable.InstantiableRating;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Element;
 
 public class RatingStars extends Field<InstantiableRating>
@@ -20,6 +22,7 @@ public class RatingStars extends Field<InstantiableRating>
     private String name;
     private int stars;
     private RatingBar ratingBar;
+    private String id = "";
 
     public RatingStars()
     {
@@ -59,6 +62,7 @@ public class RatingStars extends Field<InstantiableRating>
     {
         name = e.getAttribute("name");
         stars = Integer.parseInt(e.getAttribute("scale"));
+        id = e.getAttribute("id");
     }
 
     @Override
@@ -75,6 +79,28 @@ public class RatingStars extends Field<InstantiableRating>
         InstantiableRating instantiableRating = new InstantiableRating();
         instantiableRating.value = Rating.parse(value);
         return instantiableRating;
+    }
+
+    @Override
+    public InstantiableRating parse(JSONObject value)
+    {
+        InstantiableRating instantiableRating = new InstantiableRating();
+        instantiableRating.value = Rating.parse(value.optString("rating", "s_1"));
+        return instantiableRating;
+    }
+
+    @Override
+    protected JSONObject getJSON(boolean flag) throws JSONException
+    {
+        JSONObject json = new JSONObject();
+        json.put("rating", getValue().value);
+        return json;
+    }
+
+    @Override
+    public String getId()
+    {
+        return id;
     }
 
 }

@@ -1,7 +1,5 @@
 package com.thing342.layoutbasedscouting.recyclerush;
 
-import android.util.Log;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -22,25 +20,21 @@ public class ToteStackInfo
     public ToteStackInfo(List<ToteStack> stackList)
     {
         flag = false;
-        int cans = 0, noodles = 0, stackHeights[] = new int[6];
+        int[][] stacks = new int[6][3];
 
-        for (int i = 0; i < stackHeights.length; i++) stackHeights[i] = 0;
-        
-        for (ToteStack t : stackList) {
-            Log.d("Stack", t.toString());
-            if (t.hasCan()) cans++;
-            if (t.hasNoodle()) noodles++;
-            if (t.getTotes() > 0) stackHeights[t.getTotes() - 1]++;
+        for (int[] stack : stacks) for (int i = 0; i < stack.length; i++) stack[i] = 0;
+
+        for (ToteStack stack : stackList) {
+            stacks[stack.getTotes() - 1][0]++;
+            if (stack.hasCan()) stacks[stack.getTotes() - 1][1]++;
+            if (stack.hasNoodle()) stacks[stack.getTotes() - 1][2]++;
         }
 
-        StringBuilder s = new StringBuilder();
-        s.append('[');
-        s.append(cans).append(' ');
-        s.append(noodles).append(' ');
+        StringBuilder sb = new StringBuilder("[");
+        for (int[] stack : stacks)
+            for (int i : stack) sb.append(i + " ");
 
-        for (int i : stackHeights) s.append(i).append(' ');
-        s.append(']');
-        info = s.toString();
+        sb.deleteCharAt(sb.length()).append("]");
     }
 
     public ToteStackInfo(String parse)
@@ -55,25 +49,23 @@ public class ToteStackInfo
         if (!flag) {
             String text = info.replace("[", "").replace("]", "");
             Scanner scan = new Scanner(text);
-            int cans = scan.nextInt();
-            int noodles = scan.nextInt();
 
-            for (int size = 1; scan.hasNextInt(); size++) {
-                int num = scan.nextInt();
-                for (int i = 0; i < num; i++) stacks.add(new ToteStack(size, false, false));
-            }
-
-            for (int i = stacks.size() - 1; i >= 0; i--) {
-                ToteStack ts = stacks.get(i);
-                if (cans > 0) {
-                    ts.setCan(true);
-                    cans--;
+            for (int height = 1; scan.hasNext(); height++) {
+                int num = scan.nextInt(), cans = scan.nextInt(), noodles = scan.nextInt();
+                for (int i = 0; i < num; i++) {
+                    ToteStack t = new ToteStack(height, false, false);
+                    if (cans > 0) {
+                        t.setCan(true);
+                        cans--;
+                    }
                     if (noodles > 0) {
-                        ts.setNoodle(true);
+                        t.setNoodle(true);
                         noodles--;
                     }
+                    stacks.add(t);
                 }
             }
+
         }
 
         return stacks;

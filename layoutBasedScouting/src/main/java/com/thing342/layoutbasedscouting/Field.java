@@ -1,8 +1,11 @@
 package com.thing342.layoutbasedscouting;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Element;
 
 /**
@@ -55,6 +58,17 @@ public abstract class Field<T>
         this.name = name;
     }
 
+    public JSONObject get()
+    {
+        try {
+            JSONObject j = getJSON(true);
+            return j;
+        } catch (JSONException j) {
+            Log.e("Exception", j.getMessage(), j);
+            return null;
+        }
+    }
+
     /**
      * Abstract method for retrieving the <code>View</code> displayed by this field.
      *
@@ -69,4 +83,10 @@ public abstract class Field<T>
     public abstract T getValue();
 
     public abstract T parse(String value);
+
+    public abstract T parse(JSONObject value);
+
+    protected abstract JSONObject getJSON(boolean flag) throws JSONException;
+
+    public abstract String getId();
 }

@@ -11,6 +11,8 @@ import com.thing342.layoutbasedscouting.R;
 import com.thing342.layoutbasedscouting.ScoutingApplication;
 import com.thing342.layoutbasedscouting.util.Instantiable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Element;
 
 /**
@@ -28,6 +30,8 @@ public class Slider extends Field<Slider.InstantiableDouble>
     static {
         ScoutingApplication.addField("slider", Slider.class);
     }
+
+    private String id = "";
 
     public Slider()
     {
@@ -82,6 +86,7 @@ public class Slider extends Field<Slider.InstantiableDouble>
         max = Double.parseDouble(e.getAttribute("max"));
         step = Double.parseDouble(e.getAttribute("step"));
         value = Double.parseDouble(e.getAttribute("initValue"));
+        id = e.getAttribute("id");
     }
 
     @Override
@@ -98,6 +103,28 @@ public class Slider extends Field<Slider.InstantiableDouble>
         InstantiableDouble instantiableDouble = new InstantiableDouble();
         instantiableDouble.value = Double.parseDouble(value);
         return instantiableDouble;
+    }
+
+    @Override
+    public InstantiableDouble parse(JSONObject value)
+    {
+        InstantiableDouble instantiableDouble = new InstantiableDouble();
+        instantiableDouble.value = value.optDouble("slider", 0.0);
+        return instantiableDouble;
+    }
+
+    @Override
+    protected JSONObject getJSON(boolean flag) throws JSONException
+    {
+        JSONObject json = new JSONObject();
+        json.put("slider", getValue().value);
+        return json;
+    }
+
+    @Override
+    public String getId()
+    {
+        return id;
     }
 
     private double scaleValue(double val)

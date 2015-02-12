@@ -9,6 +9,8 @@ import com.thing342.layoutbasedscouting.Field;
 import com.thing342.layoutbasedscouting.R;
 import com.thing342.layoutbasedscouting.ScoutingApplication;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Element;
 
 /**
@@ -70,6 +72,24 @@ public class Divider extends Field<String>
     public String parse(String value)
     {
         return null;
+    }
+
+    @Override
+    public String parse(JSONObject value)
+    {
+        return "";
+    }
+
+    @Override
+    protected JSONObject getJSON(boolean flag) throws JSONException
+    {
+        return new JSONObject();
+    }
+
+    @Override
+    public String getId()
+    {
+        return "";
     }
 
 }

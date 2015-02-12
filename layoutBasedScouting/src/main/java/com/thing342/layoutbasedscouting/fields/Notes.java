@@ -9,6 +9,8 @@ import com.thing342.layoutbasedscouting.Field;
 import com.thing342.layoutbasedscouting.R;
 import com.thing342.layoutbasedscouting.ScoutingApplication;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Element;
 
 /**
@@ -24,6 +26,8 @@ public class Notes extends Field<String>
     static {
         ScoutingApplication.addField("notes", Notes.class);
     }
+
+    private String id = "";
 
 
     public Notes()
@@ -54,6 +58,7 @@ public class Notes extends Field<String>
     public void setUp(Element e)
     {
         hint = e.getAttribute("hint");
+        id = e.getAttribute("id");
     }
 
     @Override
@@ -71,6 +76,26 @@ public class Notes extends Field<String>
     public String parse(String value)
     {
         return value;
+    }
+
+    @Override
+    public String parse(JSONObject value)
+    {
+        return value.optString("notes", "");
+    }
+
+    @Override
+    protected JSONObject getJSON(boolean flag) throws JSONException
+    {
+        JSONObject object = new JSONObject();
+        object.put("notes", getValue());
+        return object;
+    }
+
+    @Override
+    public String getId()
+    {
+        return id;
     }
 
     /**

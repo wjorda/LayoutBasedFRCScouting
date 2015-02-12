@@ -15,8 +15,12 @@ import com.thing342.layoutbasedscouting.R;
 import com.thing342.layoutbasedscouting.ScoutingApplication;
 import com.thing342.layoutbasedscouting.util.IterableHashMap;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Element;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -29,10 +33,13 @@ public class ToteStacker extends Field<ToteStackInfo> implements View.OnClickLis
     private final static int resId = R.layout.tote_stacker;
     private final IterableHashMap<ToteStack, View> stacks = new IterableHashMap<ToteStack, View>();
     private LinearLayout container;
+    private LinkedList<ToteStack> stacksToBeAdded = new LinkedList<ToteStack>();
 
     static {
         ScoutingApplication.addField("toteStacker", ToteStacker.class);
     }
+
+    private String id = "";
 
     public ToteStacker()
     {
@@ -44,8 +51,6 @@ public class ToteStacker extends Field<ToteStackInfo> implements View.OnClickLis
         LinearLayout container = (LinearLayout) insertView.findViewById(R.id.tote_stacker_box);
         if (container == null) throw new IllegalArgumentException("No suitable view found!");
         container.removeAllViews();
-
-        Log.d("ToteStack", stack.toString());
 
         for (int i = 0; i < stack.getTotes(); i++) {
             ImageView icon = new ImageView(insertView.getContext());
@@ -80,13 +85,16 @@ public class ToteStacker extends Field<ToteStackInfo> implements View.OnClickLis
         List<ToteStack> list = initValue.getStacks();
         for (ToteStack stack : list) addStack(stack);
 
+        for (ToteStack stack : stacksToBeAdded) addStack(stack);
+        stacksToBeAdded.clear();
+
         return container;
     }
 
     @Override
     public void setUp(Element e)
     {
-
+        id = e.getAttribute("id");
     }
 
     @Override
@@ -127,6 +135,42 @@ public class ToteStacker extends Field<ToteStackInfo> implements View.OnClickLis
 
     }
 
+    @Override
+    public ToteStackInfo parse(JSONObject value)
+    {
+        JSONArray array = value.optJSONArray("stacks");
+        if (array == null) return new ToteStackInfo();
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject stack = array.optJSONObject(i);
+            addStack(new ToteStack(stack.optInt("height", 0),
+                    stack.optBoolean("can", false), stack.optBoolean("noodle", false)));
+        }
+        return getValue();
+    }
+
+    @Override
+    protected JSONObject getJSON(boolean flag) throws JSONException
+    {
+        JSONArray jsonArray = new JSONArray();
+        Log.d("Tote stack size", stacks.getKeys().size() + "");
+        for (ToteStack t : stacks.getKeys()) {
+            JSONObject j = t.toJSON();
+            Log.d("Stack", j.toString());
+            jsonArray.put(j);
+        }
+
+        JSONObject json = new JSONObject();
+        json.put("stacks", jsonArray);
+        json.put("text", getValue().toString());
+        return json;
+    }
+
+    @Override
+    public String getId()
+    {
+        return id;
+    }
+
     private void removeStack(ToteStack stack)
     {
         container.removeView(stacks.get(stack));
@@ -136,35 +180,43 @@ public class ToteStacker extends Field<ToteStackInfo> implements View.OnClickLis
     private void addStack()
     {
         addStack(new ToteStack());
-
     }
 
     private void addStack(ToteStack stack)
     {
-        LayoutInflater inflater = LayoutInflater.from(container.getContext());
-        View stackRow = inflater.inflate(R.layout.tote_stacker_row, null);
+        if (container != null) {
+            LayoutInflater inflater = LayoutInflater.from(container.getContext());
+            View stackRow = inflater.inflate(R.layout.tote_stacker_row, null);
 
-        Button addTo = (Button) stackRow.findViewById(R.id.totebuttonplus);
-        Button removeFrom = (Button) stackRow.findViewById(R.id.totebuttonminus);
-        addTo.setTag(stack);
-        removeFrom.setTag(stack);
-        addTo.setOnClickListener(this);
-        removeFrom.setOnClickListener(this);
+            Button addTo = (Button) stackRow.findViewById(R.id.totebuttonplus);
+            Button removeFrom = (Button) stackRow.findViewById(R.id.totebuttonminus);
+            addTo.setTag(stack);
+            removeFrom.setTag(stack);
+            addTo.setOnClickListener(this);
+            removeFrom.setOnClickListener(this);
 
-        CheckBox isNoodle = (CheckBox) stackRow.findViewById(R.id.cbox_noodle);
-        CheckBox isCan = (CheckBox) stackRow.findViewById(R.id.cbox_can);
-        isNoodle.setTag(stack);
-        isCan.setTag(stack);
-        isNoodle.setOnCheckedChangeListener(this);
+            CheckBox isNoodle = (CheckBox) stackRow.findViewById(R.id.cbox_noodle);
+            CheckBox isCan = (CheckBox) stackRow.findViewById(R.id.cbox_can);
+            isNoodle.setTag(stack);
+            isCan.setTag(stack);
+            isNoodle.setOnCheckedChangeListener(this);
+            isCan.setOnCheckedChangeListener(this);
 
-        stacks.put(stack, stackRow);
-        container.addView(stackRow);
-        drawStackIcons(stackRow, stack);
+            stacks.put(stack, stackRow);
+            container.addView(stackRow);
+            drawStackIcons(stackRow, stack);
+        } else {
+            stacksToBeAdded.add(stack);
+        }
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
     {
+        Log.d("Button", buttonView.getId() + "");
+        Log.d("Can", R.id.cbox_can + "");
+        Log.d("Noodle", R.id.cbox_noodle + "");
+        
         if (buttonView.getTag() instanceof ToteStack) {
 
             ToteStack t = (ToteStack) buttonView.getTag();
@@ -175,7 +227,6 @@ public class ToteStacker extends Field<ToteStackInfo> implements View.OnClickLis
 
             } else if (buttonView.getId() == R.id.cbox_noodle) {
                 t.setNoodle(isChecked);
-
             }
 
             drawStackIcons(stacks.get(t), t);

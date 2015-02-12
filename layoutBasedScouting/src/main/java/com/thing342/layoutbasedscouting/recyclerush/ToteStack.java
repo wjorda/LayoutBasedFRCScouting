@@ -1,5 +1,8 @@
 package com.thing342.layoutbasedscouting.recyclerush;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by wes on 1/12/15.
  */
@@ -72,5 +75,14 @@ public class ToteStack
         if (noodle) builder.append("N");
         else if (can) builder.append("C");
         return builder.toString();
+    }
+
+    public JSONObject toJSON() throws JSONException
+    {
+        JSONObject json = new JSONObject();
+        json.put("height", totes);
+        json.put("can", can);
+        json.put("noodle", noodle);
+        return json;
     }
 }
